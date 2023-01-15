@@ -1,5 +1,6 @@
 package codereview.simpleorder.support;
 
+import codereview.simpleorder.domain.item.Clothes;
 import codereview.simpleorder.repository.command.ClothesRepository;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -9,6 +10,8 @@ import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;

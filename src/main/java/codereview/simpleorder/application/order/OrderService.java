@@ -1,4 +1,4 @@
-package codereview.simpleorder.application;
+package codereview.simpleorder.application.order;
 
 import codereview.simpleorder.domain.item.Clothes;
 import codereview.simpleorder.domain.order.Order;
@@ -30,7 +30,7 @@ public class OrderService {
 
         List<OrderLine> orderLines = createOrder(orderLineRequests);
 
-        Order order = new Order(orderLines);
+        Order order = Order.create(orderLines);
 
         Order savedOrder = orderRepository.save(order);
 

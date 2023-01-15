@@ -1,8 +1,12 @@
 package codereview.simpleorder.domain.order;
 
 import jakarta.persistence.*;
+import jakarta.servlet.http.PushBuilder;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderLine {
 
     @Id
@@ -35,5 +39,9 @@ public class OrderLine {
         this.size = size;
         this.orderPrice = orderPrice;
         this.orderQuantity = orderQuantity;
+    }
+
+    public int orderLineAmount() {
+        return orderPrice * orderQuantity;
     }
 }
