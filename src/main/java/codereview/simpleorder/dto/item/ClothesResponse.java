@@ -14,11 +14,13 @@ public class ClothesResponse {
     private String name;
     private String size;
     private int price;
+    private int availableQuantity;
 
     public ClothesResponse(Clothes clothes) {
         this.id = clothes.getId();
         this.name = clothes.getName();
         this.size = clothes.getSize();
         this.price = clothes.getPrice();
+        this.availableQuantity = clothes.getAvailableQuantity();
     }
 }

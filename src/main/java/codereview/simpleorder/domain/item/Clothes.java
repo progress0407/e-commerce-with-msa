@@ -12,19 +12,25 @@ public class Clothes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "clothes_id")
     private Long id;
 
     @Column(nullable = false, length = 100, unique = true)
     private String name;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String size;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private int price;
 
-    public Clothes(String name, String size) {
+    @Column(nullable = false)
+    private int availableQuantity;
+
+    public Clothes(String name, String size, int price, int availableQuantity) {
         this.name = name;
         this.size = size;
+        this.price = price;
+        this.availableQuantity = availableQuantity;
     }
 }

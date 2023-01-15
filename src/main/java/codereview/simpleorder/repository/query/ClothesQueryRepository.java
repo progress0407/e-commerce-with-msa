@@ -19,6 +19,7 @@ public class ClothesQueryRepository {
     public List<ClothesResponse> findAll() {
 
         String query = "select new codereview.simpleorder.dto.item.ClothesResponse(c) from Clothes c";
+
         return em.createQuery(query, ClothesResponse.class)
                 .getResultList();
     }

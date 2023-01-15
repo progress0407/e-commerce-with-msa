@@ -40,6 +40,9 @@ dependencies {
 
 	// E2E test
 	testImplementation 'io.rest-assured:rest-assured'
+
+	// prettier binding parameter
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter'
 }
 
 tasks.named('test') {

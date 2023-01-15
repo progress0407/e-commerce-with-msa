@@ -1,0 +1,12 @@
+[
+  {
+    "itemId": 1,
+    "size": "100L",
+    "quantity": 1000
+  },
+  {
+    "itemId": 2,
+    "size": "95M",
+    "quantity": 2000
+  }
+]
