@@ -1,5 +1,6 @@
 package codereview.simpleorder.dto.item;
 
+import codereview.simpleorder.domain.item.Clothes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,5 +12,13 @@ public class ClothesResponse {
 
     private Long id;
     private String name;
+    private String size;
     private int price;
+
+    public ClothesResponse(Clothes clothes) {
+        this.id = clothes.getId();
+        this.name = clothes.getName();
+        this.size = clothes.getSize();
+        this.price = clothes.getPrice();
+    }
 }

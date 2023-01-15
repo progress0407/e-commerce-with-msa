@@ -10,5 +10,5 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClothesResponses {
-    private List<ClothesResponse> clothesResponses;
+    private List<ClothesResponse> clothes;
 }

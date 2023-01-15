@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JsonResponse {
-    private Double id;
+    private Long id;
     private String name;
 }
