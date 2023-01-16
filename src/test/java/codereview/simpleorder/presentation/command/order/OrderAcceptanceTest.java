@@ -1,7 +1,7 @@
 package codereview.simpleorder.presentation.command.order;
 
 import codereview.simpleorder.domain.item.Item;
-import codereview.simpleorder.dto.order.CreateOrderLineRequest;
+import codereview.simpleorder.dto.order.OrderLineRequest;
 import codereview.simpleorder.dto.order.CreateOrderRequest;
 import codereview.simpleorder.support.AbstractAcceptanceTest;
 import codereview.simpleorder.support.JsonFileConverter;
@@ -18,13 +18,15 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 class OrderAcceptanceTest extends AbstractAcceptanceTest {
 
+    // TODO 요청도 E2E 로
     @Test
     void order는_주문을_하고_주문_ID를_반환한다() {
+
         // given
         List<Item> initData = JsonFileConverter.fromJsonFile("/init-clothes-data.json", Item.class);
         itemRepository.saveAll(initData);
 
-        List<CreateOrderLineRequest> orderLineRequests = JsonFileConverter.fromJsonFile("/create-order-request.json", CreateOrderLineRequest.class);
+        List<OrderLineRequest> orderLineRequests = JsonFileConverter.fromJsonFile("/create-order-request.json", OrderLineRequest.class);
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(orderLineRequests);
 
         // when

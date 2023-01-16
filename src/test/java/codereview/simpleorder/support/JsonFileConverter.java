@@ -16,6 +16,7 @@ public class JsonFileConverter {
     }
 
     public static <T> List<T> fromJsonFile(String path, Class<T> clazz) {
+
         try {
             return innerFromJsonFile(path, clazz);
         } catch (IOException e) {
@@ -24,11 +25,13 @@ public class JsonFileConverter {
     }
 
     private static <T> List<T> innerFromJsonFile(String path, Class<T> clazz) throws IOException {
+
         BufferedReader bufferedReader = new BufferedReader(new FileReader(new ClassPathResource(path).getFile()));
         return JsonFileConverter.gson.fromJson(bufferedReader, createTypeToken(clazz));
     }
 
     private static <T> Type createTypeToken(Class<T> clazz) {
+
         return TypeToken.getParameterized(List.class, clazz).getType();
     }
 }

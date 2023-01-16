@@ -11,5 +11,5 @@ import java.util.List;
 @Getter
 public class CreateOrderRequest {
 
-    private List<CreateOrderLineRequest> createOrderLineRequests;
+    private List<OrderLineRequest> orderLineRequests;
 }

@@ -1,6 +1,7 @@
 package codereview.simpleorder.support;
 
 import codereview.simpleorder.repository.command.ItemRepository;
+import codereview.simpleorder.repository.command.OrderRepository;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -21,12 +22,20 @@ public abstract class AbstractAcceptanceTest {
     @Autowired
     protected ItemRepository itemRepository;
 
+    @Autowired
+    protected OrderRepository orderRepository;
+
     @BeforeEach
     void setUp() {
+
         RestAssured.port = port;
+
+        itemRepository.deleteAll();
+        orderRepository.deleteAll();
     }
 
     protected ExtractableResponse<Response> get(String uri) {
+
         return RestAssured.given().log().all()
                 .accept(APPLICATION_JSON_VALUE)
                 .when()
@@ -35,6 +44,7 @@ public abstract class AbstractAcceptanceTest {
     }
 
     protected <T> ExtractableResponse<Response> post(String uri, T requestBody) {
+
         return RestAssured.given().log().all()
                 .accept(APPLICATION_JSON_VALUE)
                 .contentType(APPLICATION_JSON_VALUE)

@@ -1,9 +1,7 @@
 package codereview.simpleorder.domain.order;
 
 import jakarta.persistence.*;
-import jakarta.servlet.http.PushBuilder;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -21,7 +19,7 @@ public class OrderLine {
     @ManyToOne(fetch = FetchType.LAZY)
     private Order order;
 
-    @Column(nullable = false, length = 100, unique = true)
+    @Column(nullable = false, length = 100)
     private Long itemId;
 
     @Column(nullable = false)

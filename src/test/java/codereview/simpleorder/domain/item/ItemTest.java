@@ -13,6 +13,7 @@ class ItemTest {
 
         @Test
         void 재고가_충분하면_재고를_차감한다() {
+
             // given
             Item item = new Item("블랙 스웨터", "100L", 55_000, 5);
 
@@ -25,6 +26,7 @@ class ItemTest {
 
         @Test
         void 재고가_충분하지_않으면_예외를_반환한다() {
+
             // given
             Item item = new Item("블랙 스웨터", "100L", 55_000, 5);
 

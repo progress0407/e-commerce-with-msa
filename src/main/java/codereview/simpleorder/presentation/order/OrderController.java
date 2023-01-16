@@ -1,4 +1,4 @@
-package codereview.simpleorder.presentation;
+package codereview.simpleorder.presentation.order;
 
 import codereview.simpleorder.application.order.OrderService;
 import codereview.simpleorder.dto.order.CreateOrderRequest;

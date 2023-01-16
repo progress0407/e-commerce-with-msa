@@ -10,10 +10,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TestUtils {
 
     public static <T> Executable assertEquality(T actual, T expected) {
+
         return () -> assertThat(actual).isEqualTo(expected);
     }
 
     public static <T> Executable assertNotNull(T actual) {
+
         return () -> assertThat(actual).isNotNull();
     }
 }

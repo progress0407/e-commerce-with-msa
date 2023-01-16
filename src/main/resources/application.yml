@@ -3,10 +3,12 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        default_batch_fetch_size: 10
+        default_batch_fetch_size: 100
     show-sql: true
 logging.level:
   org.hibernate:
     SQL: debug
     type: trace
     type.descriptor.sql: trace
+    org.springframework.orm.jpa: DEBUG
+    org.springframework.transaction: DEBUG

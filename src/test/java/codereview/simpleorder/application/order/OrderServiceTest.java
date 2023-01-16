@@ -3,22 +3,17 @@ package codereview.simpleorder.application.order;
 import codereview.simpleorder.domain.item.Item;
 import codereview.simpleorder.domain.order.Order;
 import codereview.simpleorder.domain.order.OrderLine;
-import codereview.simpleorder.dto.order.CreateOrderLineRequest;
+import codereview.simpleorder.dto.order.OrderLineRequest;
 import codereview.simpleorder.dto.order.CreateOrderRequest;
 import codereview.simpleorder.repository.command.ItemRepository;
 import codereview.simpleorder.repository.command.OrderLineRepository;
 import codereview.simpleorder.repository.command.OrderRepository;
-import codereview.simpleorder.support.TestUtils;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static codereview.simpleorder.support.TestUtils.assertEquality;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -38,8 +33,15 @@ class OrderServiceTest {
     @Autowired
     OrderLineRepository orderLineRepository;
 
+    @BeforeEach
+    void setUp() {
+        itemRepository.deleteAll();
+        orderRepository.deleteAll();
+    }
+
     @Test
-    void order() throws InterruptedException {
+    void 주문이_정상적으로_되면_재고수량이_차감된다() {
+
         // given
         Item 블랙_스웨터 = itemRepository.save(new Item("블랙 스웨터", "100L", 55_000, 10));
         Item 스니키_청바지 = itemRepository.save(new Item("스니키 청바지", "95M", 35_000, 10));
@@ -48,8 +50,8 @@ class OrderServiceTest {
         Long 스니키_청바지_ID = 스니키_청바지.getId();
 
         var orderLineRequests =
-                List.of(new CreateOrderLineRequest(블랙_스웨터_ID, "100L", 5),
-                        new CreateOrderLineRequest(스니키_청바지_ID, "100L", 8));
+                List.of(new OrderLineRequest(블랙_스웨터_ID, 5),
+                        new OrderLineRequest(스니키_청바지_ID, 8));
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(orderLineRequests);
 
         // when

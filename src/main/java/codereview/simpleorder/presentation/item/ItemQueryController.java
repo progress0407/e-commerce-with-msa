@@ -1,4 +1,4 @@
-package codereview.simpleorder.presentation;
+package codereview.simpleorder.presentation.item;
 
 import codereview.simpleorder.dto.item.ItemResponse;
 import codereview.simpleorder.dto.item.ItemResponses;
