@@ -2,12 +2,8 @@
 
 ## 기능 요약
 
-- 상품
-  - 등록
-  - 리스트 조회
-
-- 주문
-  - 등록
+- 상품: 등록, 리스트 조회
+- 주문: 등록
 
 ## 고려한 점
 
@@ -46,3 +42,7 @@
 
 - ItemNotFoundException 등에 대해 생략했습니다.
 - IllegalArgumentException 등 Built in Exception 으로 대체했습니다.
+
+## 기타
+
+- OSIV 종료
