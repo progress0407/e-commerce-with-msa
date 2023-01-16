@@ -3,10 +3,13 @@ package codereview.simpleorder.domain.order;
 import jakarta.persistence.*;
 import jakarta.servlet.http.PushBuilder;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(exclude = "order")
 public class OrderLine {
 
     @Id
@@ -39,6 +42,10 @@ public class OrderLine {
         this.size = size;
         this.orderPrice = orderPrice;
         this.orderQuantity = orderQuantity;
+    }
+
+    public void mapOrder(Order order) {
+        this.order = order;
     }
 
     public int orderLineAmount() {

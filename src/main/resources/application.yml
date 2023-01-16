@@ -4,9 +4,9 @@ spring:
       hibernate:
         format_sql: true
         default_batch_fetch_size: 10
-#    show-sql: true
+    show-sql: true
 logging.level:
   org.hibernate:
     SQL: debug
     type: trace
-#    type.descriptor: trace
+    type.descriptor.sql: trace

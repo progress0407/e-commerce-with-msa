@@ -1,11 +1,11 @@
 package codereview.simpleorder.application.order;
 
-import codereview.simpleorder.domain.item.Clothes;
+import codereview.simpleorder.domain.item.Item;
 import codereview.simpleorder.domain.order.Order;
 import codereview.simpleorder.domain.order.OrderLine;
-import codereview.simpleorder.dto.item.CreateOrderLineRequest;
-import codereview.simpleorder.dto.item.CreateOrderRequest;
-import codereview.simpleorder.repository.command.ClothesRepository;
+import codereview.simpleorder.dto.order.CreateOrderLineRequest;
+import codereview.simpleorder.dto.order.CreateOrderRequest;
+import codereview.simpleorder.repository.command.ItemRepository;
 import codereview.simpleorder.repository.command.OrderLineRepository;
 import codereview.simpleorder.repository.command.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -22,27 +24,51 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderLineRepository orderLineRepository;
-    private final ClothesRepository clothesRepository;
+    private final ItemRepository itemRepository;
 
-    public Long order(CreateOrderRequest request) {
+    @Transactional
+    public Long order(CreateOrderRequest orderRequest) {
 
-        List<CreateOrderLineRequest> orderLineRequests = request.getCreateOrderLineRequests();
-
-        List<OrderLine> orderLines = createOrder(orderLineRequests);
-
-        Order order = Order.create(orderLines);
-
+        List<CreateOrderLineRequest> orderLineRequests = orderRequest.getCreateOrderLineRequests();
+        decreaseItemQuantity(orderLineRequests);
+        List<OrderLine> orderLines = createOrderLines(orderLineRequests);
+        Order order = Order.createOrder(orderLines);
         Order savedOrder = orderRepository.save(order);
 
         return savedOrder.getId();
     }
 
-    private List<OrderLine> createOrder(List<CreateOrderLineRequest> createOrderLineRequests) {
+    private void decreaseItemQuantity(List<CreateOrderLineRequest> orderLineRequests) {
+
+        List<Long> itemIds = extractItemIds(orderLineRequests);
+        List<Item> items = itemRepository.findByIdIn(itemIds);
+
+        for (Item item : items) {
+            int orderQuantity = findAndConvertToOrderQuantity(orderLineRequests, item);
+            item.decreaseQuantity(orderQuantity);
+        }
+    }
+
+    private static int findAndConvertToOrderQuantity(List<CreateOrderLineRequest> orderLineRequests, Item item) {
+        return orderLineRequests.stream()
+                .filter(request -> request.getItemId().equals(item.getId()))
+                .mapToInt(CreateOrderLineRequest::getQuantity)
+                .findAny()
+                .orElseThrow(IllegalArgumentException::new);
+    }
+
+    private static List<Long> extractItemIds(List<CreateOrderLineRequest> orderLineRequests) {
+        return orderLineRequests.stream()
+                .map(CreateOrderLineRequest::getItemId)
+                .collect(toList());
+    }
+
+    private List<OrderLine> createOrderLines(List<CreateOrderLineRequest> orderLineRequests) {
         List<OrderLine> orderLines = new ArrayList<>();
-        for (var orderLineRequest : createOrderLineRequests) {
-            Clothes clothes = clothesRepository.findById(orderLineRequest.getItemId())
+        for (var orderLineRequest : orderLineRequests) {
+            Item item = itemRepository.findById(orderLineRequest.getItemId())
                     .orElseThrow(IllegalArgumentException::new);
-            OrderLine orderLine = orderLineRequest.toEntity(clothes);
+            OrderLine orderLine = orderLineRequest.toEntity(item);
             orderLines.add(orderLine);
         }
         return orderLines;

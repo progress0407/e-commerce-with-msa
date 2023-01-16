@@ -1,17 +1,13 @@
 package codereview.simpleorder.support;
 
-import codereview.simpleorder.domain.item.Clothes;
-import codereview.simpleorder.repository.command.ClothesRepository;
+import codereview.simpleorder.repository.command.ItemRepository;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -23,7 +19,7 @@ public abstract class AbstractAcceptanceTest {
     protected int port;
 
     @Autowired
-    protected ClothesRepository clothesRepository;
+    protected ItemRepository itemRepository;
 
     @BeforeEach
     void setUp() {
@@ -46,13 +42,5 @@ public abstract class AbstractAcceptanceTest {
                 .when()
                 .post(uri)
                 .then().log().all().extract();
-    }
-
-    protected <T> Executable assertEquality(T actual, T expected) {
-        return () -> assertThat(actual).isEqualTo(expected);
-    }
-
-    protected <T> Executable assertNotNull(T actual) {
-        return () -> assertThat(actual).isNotNull();
     }
 }

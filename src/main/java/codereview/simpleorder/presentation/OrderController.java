@@ -1,7 +1,7 @@
-package codereview.simpleorder.presentation.command.order;
+package codereview.simpleorder.presentation;
 
 import codereview.simpleorder.application.order.OrderService;
-import codereview.simpleorder.dto.item.CreateOrderRequest;
+import codereview.simpleorder.dto.order.CreateOrderRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +16,9 @@ public class OrderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Long order(@RequestBody CreateOrderRequest request) {
-        return orderService.order(request);
+
+        Long savedOrderId = orderService.order(request);
+
+        return savedOrderId;
     }
 }

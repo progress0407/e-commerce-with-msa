@@ -1,29 +1,31 @@
 package codereview.simpleorder.presentation.query;
 
-import codereview.simpleorder.domain.item.Clothes;
-import codereview.simpleorder.dto.item.ClothesResponse;
-import codereview.simpleorder.dto.item.ClothesResponses;
+import codereview.simpleorder.domain.item.Item;
+import codereview.simpleorder.dto.item.ItemResponse;
+import codereview.simpleorder.dto.item.ItemResponses;
 import codereview.simpleorder.support.AbstractAcceptanceTest;
 import codereview.simpleorder.support.JsonFileConverter;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static codereview.simpleorder.support.TestUtils.assertEquality;
+import static codereview.simpleorder.support.TestUtils.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-class ClothesQueryAcceptanceTest extends AbstractAcceptanceTest {
+class ItemQueryAcceptanceTest extends AbstractAcceptanceTest {
 
 
     @Test
     void clothes_조회는_리스트를_반환한다() {
         // given
-        List<Clothes> initData = JsonFileConverter.fromJsonFile("/init-clothes-data.json", Clothes.class);
-        clothesRepository.saveAll(initData);
+        List<Item> initData = JsonFileConverter.fromJsonFile("/init-clothes-data.json", Item.class);
+        itemRepository.saveAll(initData);
 
         // when
-        ClothesResponses 조회한_리스트 = get("/items").as(ClothesResponses.class);
-        ClothesResponse 양털_스웨터 = findOneBy(조회한_리스트, "양털 스웨터");
-        ClothesResponse 기모_블랙진 = findOneBy(조회한_리스트, "기모 블랙진");
+        ItemResponses 조회한_리스트 = get("/items").as(ItemResponses.class);
+        ItemResponse 양털_스웨터 = findOneBy(조회한_리스트, "양털 스웨터");
+        ItemResponse 기모_블랙진 = findOneBy(조회한_리스트, "기모 블랙진");
 
         // then
         assertAll(
@@ -42,9 +44,9 @@ class ClothesQueryAcceptanceTest extends AbstractAcceptanceTest {
     }
 
 
-    private static ClothesResponse findOneBy(ClothesResponses clothesResponses, String name) {
-        return clothesResponses.getClothes().stream()
-                .filter(clothesResponse -> clothesResponse.getName().equals(name))
+    private static ItemResponse findOneBy(ItemResponses itemResponses, String name) {
+        return itemResponses.getClothes().stream()
+                .filter(itemResponse -> itemResponse.getName().equals(name))
                 .findAny()
                 .get();
     }
