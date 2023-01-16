@@ -1,6 +1,7 @@
 package codereview.simpleorder.presentation.command.order;
 
 import codereview.simpleorder.domain.item.Item;
+import codereview.simpleorder.dto.item.CreateItemRequest;
 import codereview.simpleorder.dto.order.OrderLineRequest;
 import codereview.simpleorder.dto.order.CreateOrderRequest;
 import codereview.simpleorder.support.AbstractAcceptanceTest;
@@ -18,25 +19,31 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 class OrderAcceptanceTest extends AbstractAcceptanceTest {
 
-    // TODO 요청도 E2E 로
     @Test
-    void order는_주문을_하고_주문_ID를_반환한다() {
+    void 주문을_하면_주문ID를_반환한다() {
 
         // given
-        List<Item> initData = JsonFileConverter.fromJsonFile("/init-clothes-data.json", Item.class);
-        itemRepository.saveAll(initData);
+        List<CreateItemRequest> itemRequests = itemRequests();
+        for (var request : itemRequests) {
+            post("/items", request);
+        }
 
-        List<OrderLineRequest> orderLineRequests = JsonFileConverter.fromJsonFile("/create-order-request.json", OrderLineRequest.class);
-        CreateOrderRequest createOrderRequest = new CreateOrderRequest(orderLineRequests);
+        CreateOrderRequest createOrderRequest = createOrderRequest();
 
         // when
-        ExtractableResponse<Response> response = post("/order", createOrderRequest);
-        Long savedId = response.as(Long.class);
+        ExtractableResponse<Response> response = post("/orders", createOrderRequest);
+        Long savedId = extractId(response);
 
         // then
         assertAll(
                 assertEquality(response.statusCode(), HttpStatus.CREATED.value()),
                 assertNotNull(savedId)
         );
+    }
+
+    CreateOrderRequest createOrderRequest() {
+
+        List<OrderLineRequest> orderLineRequests = JsonFileConverter.fromJsonFile("/create-order-request.json", OrderLineRequest.class);
+        return new CreateOrderRequest(orderLineRequests);
     }
 }

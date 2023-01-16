@@ -1,5 +1,6 @@
 package codereview.simpleorder.support;
 
+import codereview.simpleorder.dto.item.CreateItemRequest;
 import codereview.simpleorder.repository.command.ItemRepository;
 import codereview.simpleorder.repository.command.OrderRepository;
 import io.restassured.RestAssured;
@@ -9,6 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -52,5 +55,14 @@ public abstract class AbstractAcceptanceTest {
                 .when()
                 .post(uri)
                 .then().log().all().extract();
+    }
+
+    protected static Long extractId(ExtractableResponse<Response> response) {
+        return response.as(Long.class);
+    }
+
+    protected static List<CreateItemRequest> itemRequests() {
+
+        return JsonFileConverter.fromJsonFile("/init-item.json", CreateItemRequest.class);
     }
 }

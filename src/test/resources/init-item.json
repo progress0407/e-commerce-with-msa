@@ -1,13 +1,11 @@
 [
   {
-    "id": 1,
     "name": "양털 스웨터",
     "size": "100L",
     "price": 20000,
     "availableQuantity": 1000
   },
   {
-    "id": 2,
     "name": "기모 블랙진",
     "size": "95M",
     "price": 55000,
