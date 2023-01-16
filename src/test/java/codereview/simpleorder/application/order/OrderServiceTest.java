@@ -3,41 +3,17 @@ package codereview.simpleorder.application.order;
 import codereview.simpleorder.domain.item.Item;
 import codereview.simpleorder.domain.order.Order;
 import codereview.simpleorder.domain.order.OrderLine;
-import codereview.simpleorder.dto.order.OrderLineRequest;
 import codereview.simpleorder.dto.order.CreateOrderRequest;
-import codereview.simpleorder.repository.command.ItemRepository;
-import codereview.simpleorder.repository.command.OrderLineRepository;
-import codereview.simpleorder.repository.command.OrderRepository;
-import org.junit.jupiter.api.BeforeEach;
+import codereview.simpleorder.dto.order.OrderLineRequest;
+import codereview.simpleorder.support.AbstractServiceTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 import static codereview.simpleorder.support.TestUtils.assertEquality;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@SpringBootTest
-class OrderServiceTest {
-
-    @Autowired
-    OrderService orderService;
-
-    @Autowired
-    ItemRepository itemRepository;
-
-    @Autowired
-    OrderRepository orderRepository;
-
-    @Autowired
-    OrderLineRepository orderLineRepository;
-
-    @BeforeEach
-    void setUp() {
-        itemRepository.deleteAll();
-        orderRepository.deleteAll();
-    }
+class OrderServiceTest extends AbstractServiceTest {
 
     @Test
     void 주문이_정상적으로_되면_재고수량이_차감된다() {

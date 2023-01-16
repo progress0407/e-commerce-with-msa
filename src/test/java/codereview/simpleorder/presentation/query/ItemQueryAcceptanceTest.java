@@ -1,11 +1,9 @@
 package codereview.simpleorder.presentation.query;
 
-import codereview.simpleorder.domain.item.Item;
 import codereview.simpleorder.dto.item.CreateItemRequest;
 import codereview.simpleorder.dto.item.ItemResponse;
 import codereview.simpleorder.dto.item.ItemResponses;
 import codereview.simpleorder.support.AbstractAcceptanceTest;
-import codereview.simpleorder.support.JsonFileConverter;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
