@@ -29,6 +29,11 @@
     - 따라서 영속성 전이, 고아 객체 제거 기능을 가지고 있습니다.
   - 다만 온전히 DDD의 Aggregate에 대한 구현은 하지 못했습니다.
     - 예) OrderService가 Order 뿐만 아니라 Item에 관여
+
+### 작지만 성능에 대해 생각했습니다.
+- OSIV를 종료했습니다.
+- 1+N 최적화를 했습니다.
+  - by `global batch size`
  
 ## 생략한 것
 
@@ -42,7 +47,3 @@
 
 - ItemNotFoundException 등에 대해 생략했습니다.
 - IllegalArgumentException 등 Built in Exception 으로 대체했습니다.
-
-## 기타
-
-- OSIV 종료
