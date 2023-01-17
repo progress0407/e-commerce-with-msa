@@ -35,7 +35,6 @@ class OrderServiceConcurrencyTest extends AbstractServiceTest {
         // when
         for (int i = 0; i < 총_요청횟수; i++) {
             threadPool.execute(order(latch, createOrderRequest));
-            System.out.println("trialsNumber = " + 총_요청횟수);
         }
 
         latch.await();
