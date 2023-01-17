@@ -1,8 +1,8 @@
-package codereview.simpleorder.application.order;
+package codereview.simpleorder.application;
 
 import codereview.simpleorder.domain.item.Item;
 import codereview.simpleorder.domain.order.Order;
-import codereview.simpleorder.domain.order.OrderLine;
+import codereview.simpleorder.domain.order.OrderItem;
 import codereview.simpleorder.dto.order.CreateOrderRequest;
 import codereview.simpleorder.dto.order.OrderLineRequest;
 import codereview.simpleorder.repository.command.ItemRepository;
@@ -30,8 +30,8 @@ public class OrderService {
         List<Long> itemIds = extractItemIds(orderLineRequests);
         List<Item> items = itemRepository.findByIdIn(itemIds);
         decreaseItemQuantity(items, orderLineRequests);
-        List<OrderLine> orderLines = createOrderLines(items, orderLineRequests);
-        Order order = Order.createOrder(orderLines);
+        List<OrderItem> orderItems = createOrderLines(items, orderLineRequests);
+        Order order = Order.createOrder(orderItems);
         Order savedOrder = orderRepository.save(order);
 
         return savedOrder.getId();
@@ -61,18 +61,18 @@ public class OrderService {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
-    private List<OrderLine> createOrderLines(List<Item> items, List<OrderLineRequest> orderLineRequests) {
+    private List<OrderItem> createOrderLines(List<Item> items, List<OrderLineRequest> orderLineRequests) {
 
         return orderLineRequests.stream()
                 .map(request -> createOrderLine(items, request))
                 .collect(toList());
     }
 
-    private OrderLine createOrderLine(List<Item> items, OrderLineRequest request) {
+    private OrderItem createOrderLine(List<Item> items, OrderLineRequest request) {
 
         Item item = findItem(items, request);
 
-        return new OrderLine(item.getId(), item.getName(), item.getSize(), item.getPrice(), request.getQuantity());
+        return new OrderItem(item.getId(), item.getName(), item.getSize(), item.getPrice(), request.getQuantity());
     }
 
     private static Item findItem(List<Item> items, OrderLineRequest orderLineRequest) {

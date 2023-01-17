@@ -8,11 +8,11 @@ import lombok.ToString;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = "order")
-public class OrderLine {
+public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_line_id")
+    @Column(name = "order_item_id")
     private Long id;
 
     @JoinColumn(name = "order_id")
@@ -29,17 +29,17 @@ public class OrderLine {
     private String size;
 
     @Column(nullable = false)
-    private int orderPrice;
+    private int orderItemAmount;
 
     @Column(nullable = false)
-    private int orderQuantity;
+    private int orderItemQuantity;
 
-    public OrderLine(Long itemId, String itemName, String size, int orderPrice, int orderQuantity) {
+    public OrderItem(Long itemId, String itemName, String size, int orderItemAmount, int orderItemQuantity) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.size = size;
-        this.orderPrice = orderPrice;
-        this.orderQuantity = orderQuantity;
+        this.orderItemAmount = orderItemAmount;
+        this.orderItemQuantity = orderItemQuantity;
     }
 
     public void mapOrder(Order order) {
@@ -47,6 +47,6 @@ public class OrderLine {
     }
 
     public int orderLineAmount() {
-        return orderPrice * orderQuantity;
+        return orderItemAmount * orderItemQuantity;
     }
 }

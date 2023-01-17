@@ -1,4 +1,4 @@
-package codereview.simpleorder.application.item;
+package codereview.simpleorder.application;
 
 import codereview.simpleorder.domain.item.Item;
 import codereview.simpleorder.dto.item.CreateItemRequest;

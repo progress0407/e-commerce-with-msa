@@ -22,34 +22,34 @@ public class Order {
     private Long id;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderLine> orderLines = new ArrayList<>();
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     @Column(nullable = false)
     private int totalOrderAmount;
 
-    public static Order createOrder(List<OrderLine> orderLines) {
+    public static Order createOrder(List<OrderItem> orderItems) {
 
-        return new Order(orderLines);
+        return new Order(orderItems);
     }
 
-    protected Order(List<OrderLine> orderLines) {
+    protected Order(List<OrderItem> orderItems) {
 
-        this.orderLines = orderLines;
-        mapOrder(orderLines);
-        this.totalOrderAmount = calculateTotalOrderAmount(orderLines);
+        this.orderItems = orderItems;
+        mapOrder(orderItems);
+        this.totalOrderAmount = calculateTotalOrderAmount(orderItems);
     }
 
-    private int calculateTotalOrderAmount(List<OrderLine> orderLines) {
+    private int calculateTotalOrderAmount(List<OrderItem> orderItems) {
 
-        return orderLines.stream()
-                .mapToInt(OrderLine::orderLineAmount)
+        return orderItems.stream()
+                .mapToInt(OrderItem::orderLineAmount)
                 .sum();
     }
 
-    private void mapOrder(List<OrderLine> orderLines) {
+    private void mapOrder(List<OrderItem> orderItems) {
 
-        for (OrderLine orderLine : orderLines) {
-            orderLine.mapOrder(this);
+        for (OrderItem orderItem : orderItems) {
+            orderItem.mapOrder(this);
         }
     }
 }

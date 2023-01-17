@@ -2,7 +2,7 @@ package codereview.simpleorder.application.order;
 
 import codereview.simpleorder.domain.item.Item;
 import codereview.simpleorder.domain.order.Order;
-import codereview.simpleorder.domain.order.OrderLine;
+import codereview.simpleorder.domain.order.OrderItem;
 import codereview.simpleorder.dto.order.CreateOrderRequest;
 import codereview.simpleorder.dto.order.OrderLineRequest;
 import codereview.simpleorder.support.AbstractServiceTest;
@@ -37,7 +37,7 @@ class OrderServiceTest extends AbstractServiceTest {
         int 블랙_스웨터_재고수량 = itemRepository.findById(블랙_스웨터_ID).get().getAvailableQuantity();
         int 스니키_청바지_재고수량 = itemRepository.findById(스니키_청바지_ID).get().getAvailableQuantity();
         List<Order> 주문들 = orderRepository.findAll();
-        List<OrderLine> 주문항목들 = orderLineRepository.findAll();
+        List<OrderItem> 주문항목들 = orderLineRepository.findAll();
 
         assertAll(
                 assertEquality(블랙_스웨터_재고수량, 10 - 5),

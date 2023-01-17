@@ -19,7 +19,9 @@ public class ItemQueryController {
 
     @GetMapping
     public ItemResponses findClothes() {
+
         List<ItemResponse> items = itemQueryRepository.findAll();
+
         return new ItemResponses(items);
     }
 }

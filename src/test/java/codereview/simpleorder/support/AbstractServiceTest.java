@@ -1,6 +1,6 @@
 package codereview.simpleorder.support;
 
-import codereview.simpleorder.application.order.OrderService;
+import codereview.simpleorder.application.OrderService;
 import codereview.simpleorder.repository.command.ItemRepository;
 import codereview.simpleorder.repository.command.OrderLineRepository;
 import codereview.simpleorder.repository.command.OrderRepository;

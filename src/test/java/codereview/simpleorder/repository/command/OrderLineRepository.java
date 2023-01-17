@@ -1,8 +1,8 @@
 package codereview.simpleorder.repository.command;
 
-import codereview.simpleorder.domain.order.OrderLine;
+import codereview.simpleorder.domain.order.OrderItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface OrderLineRepository extends JpaRepository<OrderLine, Long> {
+public interface OrderLineRepository extends JpaRepository<OrderItem, Long> {
 }
 

@@ -1,6 +1,6 @@
 package codereview.simpleorder.presentation.order;
 
-import codereview.simpleorder.application.order.OrderService;
+import codereview.simpleorder.application.OrderService;
 import codereview.simpleorder.dto.order.CreateOrderRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -12,8 +12,8 @@ class OrderTest {
     void create_메서드는_각_주문항목의_총합계를_계산한다() {
 
         // given
-        OrderLine 블랙_스웨터 = new OrderLine(1L, "블랙 스웨터", "100L", 40_000, 1);
-        OrderLine 베이지_니트 = new OrderLine(2L, "베이지 니트", "95M", 30_000, 2);
+        OrderItem 블랙_스웨터 = new OrderItem(1L, "블랙 스웨터", "100L", 40_000, 1);
+        OrderItem 베이지_니트 = new OrderItem(2L, "베이지 니트", "95M", 30_000, 2);
 
         // when
         Order order = Order.createOrder(List.of(블랙_스웨터, 베이지_니트));
