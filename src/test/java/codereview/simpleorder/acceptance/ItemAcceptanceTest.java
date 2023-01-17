@@ -1,4 +1,4 @@
-package codereview.simpleorder.presentation.item;
+package codereview.simpleorder.acceptance;
 
 import codereview.simpleorder.dto.item.CreateItemRequest;
 import codereview.simpleorder.support.AbstractAcceptanceTest;
