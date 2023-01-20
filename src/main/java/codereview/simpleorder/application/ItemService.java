@@ -1,8 +1,8 @@
 package codereview.simpleorder.application;
 
-import codereview.simpleorder.domain.item.Item;
-import codereview.simpleorder.dto.item.CreateItemRequest;
-import codereview.simpleorder.repository.command.ItemRepository;
+import codereview.simpleorder.domain.Item;
+import codereview.simpleorder.dto.request.CreateItemRequest;
+import codereview.simpleorder.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,13 +17,14 @@ public class ItemService {
     @Transactional
     public Long registerItem(CreateItemRequest request) {
 
-        Item item = createImte(request);
+        Item item = createItem(request);
         Item savedItem = itemRepository.save(item);
 
         return savedItem.getId();
     }
 
-    private static Item createImte(CreateItemRequest request) {
+    private static Item createItem(CreateItemRequest request) {
+
         return new Item(request.getName(), request.getSize(), request.getPrice(), request.getAvailableQuantity());
     }
 }

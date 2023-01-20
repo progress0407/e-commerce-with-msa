@@ -1,8 +1,8 @@
 package codereview.simpleorder.application.order;
 
-import codereview.simpleorder.domain.item.Item;
-import codereview.simpleorder.dto.order.CreateOrderRequest;
-import codereview.simpleorder.dto.order.OrderLineRequest;
+import codereview.simpleorder.domain.Item;
+import codereview.simpleorder.dto.request.CreateOrderRequest;
+import codereview.simpleorder.dto.request.OrderLineRequest;
 import codereview.simpleorder.support.AbstractServiceTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -49,6 +49,7 @@ class OrderServiceConcurrencyTest extends AbstractServiceTest {
     }
 
     private Runnable order(CountDownLatch latch, CreateOrderRequest createOrderRequest) {
+
         return () -> {
             latch.countDown();
             try {

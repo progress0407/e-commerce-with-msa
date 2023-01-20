@@ -1,6 +1,6 @@
-package codereview.simpleorder.dto.item;
+package codereview.simpleorder.dto.response;
 
-import codereview.simpleorder.domain.item.Item;
+import codereview.simpleorder.domain.Item;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

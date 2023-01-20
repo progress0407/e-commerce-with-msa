@@ -1,8 +1,8 @@
-package codereview.simpleorder.presentation.item;
+package codereview.simpleorder.presentation;
 
-import codereview.simpleorder.dto.item.ItemResponse;
-import codereview.simpleorder.dto.item.ItemResponses;
-import codereview.simpleorder.repository.query.ItemQueryRepository;
+import codereview.simpleorder.dto.response.ItemResponse;
+import codereview.simpleorder.dto.response.ItemResponses;
+import codereview.simpleorder.repository.ItemQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

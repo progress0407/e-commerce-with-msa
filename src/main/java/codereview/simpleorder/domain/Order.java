@@ -1,4 +1,4 @@
-package codereview.simpleorder.domain.order;
+package codereview.simpleorder.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

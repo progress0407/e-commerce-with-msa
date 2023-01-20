@@ -1,6 +1,6 @@
-package codereview.simpleorder.repository.command;
+package codereview.simpleorder.repository;
 
-import codereview.simpleorder.domain.item.Item;
+import codereview.simpleorder.domain.Item;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;

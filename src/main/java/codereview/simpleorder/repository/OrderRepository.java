@@ -1,6 +1,6 @@
-package codereview.simpleorder.repository.command;
+package codereview.simpleorder.repository;
 
-import codereview.simpleorder.domain.order.Order;
+import codereview.simpleorder.domain.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {

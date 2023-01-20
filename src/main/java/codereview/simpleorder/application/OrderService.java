@@ -1,12 +1,12 @@
 package codereview.simpleorder.application;
 
-import codereview.simpleorder.domain.item.Item;
-import codereview.simpleorder.domain.order.Order;
-import codereview.simpleorder.domain.order.OrderItem;
-import codereview.simpleorder.dto.order.CreateOrderRequest;
-import codereview.simpleorder.dto.order.OrderLineRequest;
-import codereview.simpleorder.repository.command.ItemRepository;
-import codereview.simpleorder.repository.command.OrderRepository;
+import codereview.simpleorder.domain.Item;
+import codereview.simpleorder.domain.Order;
+import codereview.simpleorder.domain.OrderItem;
+import codereview.simpleorder.dto.request.CreateOrderRequest;
+import codereview.simpleorder.dto.request.OrderLineRequest;
+import codereview.simpleorder.repository.ItemRepository;
+import codereview.simpleorder.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +29,7 @@ public class OrderService {
         List<OrderLineRequest> orderLineRequests = orderRequest.getOrderLineRequests();
         List<Long> itemIds = extractItemIds(orderLineRequests);
         List<Item> items = itemRepository.findByIdIn(itemIds);
-        decreaseItemQuantity(items, orderLineRequests);
+        validateAndDecreaseItemQuantity(items, orderLineRequests);
         List<OrderItem> orderItems = createOrderLines(items, orderLineRequests);
         Order order = Order.createOrder(orderItems);
         Order savedOrder = orderRepository.save(order);
@@ -44,7 +44,7 @@ public class OrderService {
                 .collect(toList());
     }
 
-    private void decreaseItemQuantity(List<Item> items, List<OrderLineRequest> orderLineRequests) {
+    private void validateAndDecreaseItemQuantity(List<Item> items, List<OrderLineRequest> orderLineRequests) {
 
         for (Item item : items) {
             int orderQuantity = findOrderQuantity(item, orderLineRequests);

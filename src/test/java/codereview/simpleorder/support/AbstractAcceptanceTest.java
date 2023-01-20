@@ -1,8 +1,8 @@
 package codereview.simpleorder.support;
 
-import codereview.simpleorder.dto.item.CreateItemRequest;
-import codereview.simpleorder.repository.command.ItemRepository;
-import codereview.simpleorder.repository.command.OrderRepository;
+import codereview.simpleorder.dto.request.CreateItemRequest;
+import codereview.simpleorder.repository.ItemRepository;
+import codereview.simpleorder.repository.OrderRepository;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -57,6 +57,7 @@ public abstract class AbstractAcceptanceTest {
     }
 
     protected static Long extractId(ExtractableResponse<Response> response) {
+
         return response.as(Long.class);
     }
 

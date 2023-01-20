@@ -1,4 +1,4 @@
-package codereview.simpleorder.domain.item;
+package codereview.simpleorder.domain;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

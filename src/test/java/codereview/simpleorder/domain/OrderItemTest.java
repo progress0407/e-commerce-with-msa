@@ -1,5 +1,6 @@
-package codereview.simpleorder.domain.order;
+package codereview.simpleorder.domain;
 
+import codereview.simpleorder.domain.OrderItem;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

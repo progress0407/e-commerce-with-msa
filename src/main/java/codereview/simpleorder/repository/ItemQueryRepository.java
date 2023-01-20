@@ -1,6 +1,6 @@
-package codereview.simpleorder.repository.query;
+package codereview.simpleorder.repository;
 
-import codereview.simpleorder.dto.item.ItemResponse;
+import codereview.simpleorder.dto.response.ItemResponse;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
