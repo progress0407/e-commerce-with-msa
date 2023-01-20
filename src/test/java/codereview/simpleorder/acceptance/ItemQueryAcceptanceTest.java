@@ -19,10 +19,10 @@ class ItemQueryAcceptanceTest extends AbstractAcceptanceTest {
 
 
     @Test
-    void clothes_조회는_리스트를_반환한다() {
+    void item_조회는_리스트를_반환한다() {
 
         // given
-        List<CreateItemRequest> itemRequests = itemRequests();
+        List<CreateItemRequest> itemRequests = createItemRequests();
         for (var request : itemRequests) {
             post("/items", request);
         }

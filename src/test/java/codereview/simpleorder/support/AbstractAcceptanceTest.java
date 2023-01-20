@@ -61,7 +61,7 @@ public abstract class AbstractAcceptanceTest {
         return response.as(Long.class);
     }
 
-    protected static List<CreateItemRequest> itemRequests() {
+    protected static List<CreateItemRequest> createItemRequests() {
 
         return JsonFileConverter.fromJsonFile("/init-item.json", CreateItemRequest.class);
     }

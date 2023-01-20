@@ -70,12 +70,12 @@ public class OrderService {
 
     private OrderItem createOrderLine(List<Item> items, OrderLineRequest request) {
 
-        Item item = findItem(items, request);
+        Item item = findItemFromDto(items, request);
 
         return new OrderItem(item.getId(), item.getName(), item.getSize(), item.getPrice(), request.getQuantity());
     }
 
-    private static Item findItem(List<Item> items, OrderLineRequest orderLineRequest) {
+    private static Item findItemFromDto(List<Item> items, OrderLineRequest orderLineRequest) {
 
         return items.stream()
                 .filter(it -> it.getId().equals(orderLineRequest.getItemId()))

@@ -15,7 +15,7 @@ public class ItemQueryRepository {
 
     public List<ItemResponse> findAll() {
 
-        String query = "select new codereview.simpleorder.dto.item.ItemResponse(c) from Item c";
+        String query = "select new codereview.simpleorder.dto.response.ItemResponse(c) from Item c";
 
         return em.createQuery(query, ItemResponse.class)
                 .getResultList();

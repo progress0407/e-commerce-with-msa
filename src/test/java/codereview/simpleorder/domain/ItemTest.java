@@ -33,7 +33,7 @@ class ItemTest {
             // when & then
             assertThatThrownBy(
                     () -> item.decreaseQuantity(7)
-            ).isInstanceOf(IllegalArgumentException.class);
+            ).isInstanceOf(IllegalStateException.class);
         }
     }
 }

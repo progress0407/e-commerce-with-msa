@@ -17,7 +17,7 @@ class ItemAcceptanceTest extends AbstractAcceptanceTest {
     void 상품등록을_하면_상품ID를_반환한다() {
 
         // given
-        CreateItemRequest itemRequest = itemRequests().get(0);
+        CreateItemRequest itemRequest = createItemRequests().get(0);
 
         // when
         ExtractableResponse<Response> response = post("/items", itemRequest);
