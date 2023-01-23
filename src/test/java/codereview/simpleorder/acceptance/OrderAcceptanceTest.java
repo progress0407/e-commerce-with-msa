@@ -1,8 +1,8 @@
 package codereview.simpleorder.acceptance;
 
-import codereview.simpleorder.dto.request.CreateItemRequest;
-import codereview.simpleorder.dto.request.CreateOrderRequest;
-import codereview.simpleorder.dto.request.OrderLineRequest;
+import codereview.simpleorder.item.dto.CreateItemRequest;
+import codereview.simpleorder.order.dto.CreateOrderRequest;
+import codereview.simpleorder.order.dto.OrderLineRequest;
 import codereview.simpleorder.support.AbstractAcceptanceTest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

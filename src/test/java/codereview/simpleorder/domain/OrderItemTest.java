@@ -1,6 +1,6 @@
 package codereview.simpleorder.domain;
 
-import codereview.simpleorder.domain.OrderItem;
+import codereview.simpleorder.order.domain.OrderItem;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,7 +14,7 @@ class OrderItemTest {
         OrderItem orderItem = new OrderItem(1L, "블랙 스웨터", "100L", 10_000, 5);
 
         // when
-        int orderLineAmount = orderItem.orderLineAmount();
+        int orderLineAmount = orderItem.orderItemAmount();
 
         // then
         assertThat(orderLineAmount).isEqualTo(50_000);

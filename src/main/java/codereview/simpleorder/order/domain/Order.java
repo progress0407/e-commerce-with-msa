@@ -1,10 +1,13 @@
-package codereview.simpleorder.domain;
+package codereview.simpleorder.order.domain;
 
+import codereview.simpleorder.etc.OrderCreatedEvent;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.domain.AbstractAggregateRoot;
+import org.springframework.data.domain.DomainEvents;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(exclude = "orderLines")
-public class Order {
+public class Order extends AbstractAggregateRoot<Order> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,12 +40,13 @@ public class Order {
         this.orderItems = orderItems;
         mapOrder(orderItems);
         this.totalOrderAmount = calculateTotalOrderAmount(orderItems);
+        registerEvent(new OrderCreatedEvent(orderItems));
     }
 
     private int calculateTotalOrderAmount(List<OrderItem> orderItems) {
 
         return orderItems.stream()
-                .mapToInt(OrderItem::orderLineAmount)
+                .mapToInt(OrderItem::orderItemAmount)
                 .sum();
     }
 

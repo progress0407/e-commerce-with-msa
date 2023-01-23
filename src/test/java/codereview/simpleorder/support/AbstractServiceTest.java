@@ -1,14 +1,14 @@
 package codereview.simpleorder.support;
 
-import codereview.simpleorder.application.OrderService;
-import codereview.simpleorder.repository.ItemRepository;
+import codereview.simpleorder.order.application.OrderService;
+import codereview.simpleorder.item.repository.ItemRepository;
 import codereview.simpleorder.repository.command.OrderLineRepository;
-import codereview.simpleorder.repository.OrderRepository;
+import codereview.simpleorder.order.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public abstract class AbstractServiceTest {
 
     @Autowired
@@ -28,6 +28,4 @@ public abstract class AbstractServiceTest {
         itemRepository.deleteAll();
         orderRepository.deleteAll();
     }
-
-
 }

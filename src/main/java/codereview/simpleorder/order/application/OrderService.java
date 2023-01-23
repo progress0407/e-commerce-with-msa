@@ -1,12 +1,13 @@
-package codereview.simpleorder.application;
+package codereview.simpleorder.order.application;
 
-import codereview.simpleorder.domain.Item;
-import codereview.simpleorder.domain.Order;
-import codereview.simpleorder.domain.OrderItem;
-import codereview.simpleorder.dto.request.CreateOrderRequest;
-import codereview.simpleorder.dto.request.OrderLineRequest;
-import codereview.simpleorder.repository.ItemRepository;
-import codereview.simpleorder.repository.OrderRepository;
+import codereview.simpleorder.item.domain.Item;
+import codereview.simpleorder.order.dto.CreateOrderRequest;
+import codereview.simpleorder.order.dto.ItemResponse;
+import codereview.simpleorder.order.dto.OrderLineRequest;
+import codereview.simpleorder.order.domain.Order;
+import codereview.simpleorder.order.domain.OrderItem;
+import codereview.simpleorder.order.repository.OrderRepository;
+import codereview.simpleorder.order.rest.ItemFeignClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,20 +22,29 @@ import static java.util.stream.Collectors.toList;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final ItemRepository itemRepository;
+    private final ItemFeignClient itemHttpClient;
 
     @Transactional
     public Long order(CreateOrderRequest orderRequest) {
 
         List<OrderLineRequest> orderLineRequests = orderRequest.getOrderLineRequests();
         List<Long> itemIds = extractItemIds(orderLineRequests);
-        List<Item> items = itemRepository.findByIdIn(itemIds);
-        validateAndDecreaseItemQuantity(items, orderLineRequests);
-        List<OrderItem> orderItems = createOrderLines(items, orderLineRequests);
+
+        List<ItemResponse> itemResponses = itemHttpClient.requestItems(itemIds).getItems();
+
+//        validateAndDecreaseItemQuantity(items, orderLineRequests); -> Item에서 하기
+
+        List<OrderItem> orderItems = createOrderLines(itemResponses, orderLineRequests); // itemResponses
         Order order = Order.createOrder(orderItems);
         Order savedOrder = orderRepository.save(order);
 
         return savedOrder.getId();
+    }
+
+    @Transactional
+    public void test() {
+
+        itemHttpClient.requestItems(List.of(1L, 2L, 3L));
     }
 
     private static List<Long> extractItemIds(List<OrderLineRequest> orderLineRequests) {
@@ -61,23 +71,28 @@ public class OrderService {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
-    private List<OrderItem> createOrderLines(List<Item> items, List<OrderLineRequest> orderLineRequests) {
+    private List<OrderItem> createOrderLines(List<ItemResponse> itemResponses, List<OrderLineRequest> orderLineRequests) {
 
         return orderLineRequests.stream()
-                .map(request -> createOrderLine(items, request))
+                .map(request -> createOrderLine(itemResponses, request))
                 .collect(toList());
     }
 
-    private OrderItem createOrderLine(List<Item> items, OrderLineRequest request) {
+    private OrderItem createOrderLine(List<ItemResponse> itemResponses, OrderLineRequest orderLineRequest) {
 
-        Item item = findItemFromDto(items, request);
+        ItemResponse itemResponse = findItemFromDto(itemResponses, orderLineRequest);
 
-        return new OrderItem(item.getId(), item.getName(), item.getSize(), item.getPrice(), request.getQuantity());
+        return new OrderItem(
+                itemResponse.getId(),
+                itemResponse.getName(),
+                itemResponse.getSize(),
+                itemResponse.getPrice(),
+                orderLineRequest.getQuantity());
     }
 
-    private static Item findItemFromDto(List<Item> items, OrderLineRequest orderLineRequest) {
+    private static ItemResponse findItemFromDto(List<ItemResponse> itemResponses, OrderLineRequest orderLineRequest) {
 
-        return items.stream()
+        return itemResponses.stream()
                 .filter(it -> it.getId().equals(orderLineRequest.getItemId()))
                 .findAny()
                 .get();

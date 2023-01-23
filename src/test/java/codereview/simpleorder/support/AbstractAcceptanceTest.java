@@ -1,8 +1,8 @@
 package codereview.simpleorder.support;
 
-import codereview.simpleorder.dto.request.CreateItemRequest;
-import codereview.simpleorder.repository.ItemRepository;
-import codereview.simpleorder.repository.OrderRepository;
+import codereview.simpleorder.item.dto.CreateItemRequest;
+import codereview.simpleorder.item.repository.ItemRepository;
+import codereview.simpleorder.order.repository.OrderRepository;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

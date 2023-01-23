@@ -1,7 +1,7 @@
 package codereview.simpleorder.domain;
 
-import codereview.simpleorder.domain.Order;
-import codereview.simpleorder.domain.OrderItem;
+import codereview.simpleorder.order.domain.Order;
+import codereview.simpleorder.order.domain.OrderItem;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

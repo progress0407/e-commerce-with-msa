@@ -1,10 +1,10 @@
 package codereview.simpleorder.application.order;
 
-import codereview.simpleorder.domain.Item;
-import codereview.simpleorder.domain.Order;
-import codereview.simpleorder.domain.OrderItem;
-import codereview.simpleorder.dto.request.CreateOrderRequest;
-import codereview.simpleorder.dto.request.OrderLineRequest;
+import codereview.simpleorder.item.domain.Item;
+import codereview.simpleorder.order.domain.Order;
+import codereview.simpleorder.order.domain.OrderItem;
+import codereview.simpleorder.order.dto.CreateOrderRequest;
+import codereview.simpleorder.order.dto.OrderLineRequest;
 import codereview.simpleorder.support.AbstractServiceTest;
 import org.junit.jupiter.api.Test;
 

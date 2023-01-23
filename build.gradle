@@ -43,8 +43,15 @@ dependencies {
 
 	// prettier binding parameter
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter'
+
+	// Feign Client
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.0'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+ext {
+	set('springCloudVersion', "2022.0.x")
 }
