@@ -1,4 +1,4 @@
-package codereview.simpleorder.dto.response;
+package codereview.simpleorder.item.dto.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,5 +10,5 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ItemResponses {
-    private List<ItemResponse> clothes;
+    private List<ItemResponse> items;
 }

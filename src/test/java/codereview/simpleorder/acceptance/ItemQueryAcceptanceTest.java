@@ -1,8 +1,8 @@
 package codereview.simpleorder.acceptance;
 
-import codereview.simpleorder.dto.request.CreateItemRequest;
-import codereview.simpleorder.dto.response.ItemResponse;
-import codereview.simpleorder.dto.response.ItemResponses;
+import codereview.simpleorder.item.dto.web.CreateItemRequest;
+import codereview.simpleorder.item.dto.web.ItemResponse;
+import codereview.simpleorder.item.dto.web.ItemResponses;
 import codereview.simpleorder.support.AbstractAcceptanceTest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -53,7 +53,7 @@ class ItemQueryAcceptanceTest extends AbstractAcceptanceTest {
 
     private static ItemResponse findOneBy(ItemResponses itemResponses, String name) {
 
-        return itemResponses.getClothes().stream()
+        return itemResponses.getItems().stream()
                 .filter(itemResponse -> itemResponse.getName().equals(name))
                 .findAny()
                 .get();

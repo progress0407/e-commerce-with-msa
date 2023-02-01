@@ -1,5 +1,6 @@
 package codereview.simpleorder.domain;
 
+import codereview.simpleorder.item.domain.Item;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 

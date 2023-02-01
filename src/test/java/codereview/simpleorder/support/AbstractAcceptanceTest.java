@@ -1,25 +1,24 @@
 package codereview.simpleorder.support;
 
-import codereview.simpleorder.dto.request.CreateItemRequest;
-import codereview.simpleorder.repository.ItemRepository;
-import codereview.simpleorder.repository.OrderRepository;
+import codereview.simpleorder.item.dto.web.CreateItemRequest;
+import codereview.simpleorder.item.repository.ItemRepository;
+import codereview.simpleorder.order.repository.OrderRepository;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public abstract class AbstractAcceptanceTest {
 
-    @LocalServerPort
-    protected int port;
+//    @LocalServerPort
+//    protected int port;
 
     @Autowired
     protected ItemRepository itemRepository;
@@ -30,7 +29,7 @@ public abstract class AbstractAcceptanceTest {
     @BeforeEach
     void setUp() {
 
-        RestAssured.port = port;
+//        RestAssured.port = port;
 
         itemRepository.deleteAll();
         orderRepository.deleteAll();

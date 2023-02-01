@@ -1,12 +1,14 @@
-package codereview.simpleorder.domain;
+package codereview.simpleorder.order.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @ToString(exclude = "order")
 public class OrderItem {
 
@@ -29,16 +31,16 @@ public class OrderItem {
     private String size;
 
     @Column(nullable = false)
-    private int orderItemAmount;
+    private int orderItemPrice;
 
     @Column(nullable = false)
     private int orderItemQuantity;
 
-    public OrderItem(Long itemId, String itemName, String size, int orderItemAmount, int orderItemQuantity) {
+    public OrderItem(Long itemId, String itemName, String size, int orderItemPrice, int orderItemQuantity) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.size = size;
-        this.orderItemAmount = orderItemAmount;
+        this.orderItemPrice = orderItemPrice;
         this.orderItemQuantity = orderItemQuantity;
     }
 
@@ -46,7 +48,7 @@ public class OrderItem {
         this.order = order;
     }
 
-    public int orderLineAmount() {
-        return orderItemAmount * orderItemQuantity;
+    public int orderItemAmount() {
+        return orderItemPrice * orderItemQuantity;
     }
 }

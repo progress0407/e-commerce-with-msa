@@ -1,13 +1,13 @@
-package codereview.simpleorder.dto.request;
+package codereview.simpleorder.order.dto.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-public class CreateItemRequest {
+public class ItemResponse {
 
     private Long id;
     private String name;
