@@ -1,12 +1,10 @@
 package codereview.simpleorder.item.application;
 
-import codereview.simpleorder.etc.OrderCreatedEvent;
 import codereview.simpleorder.item.domain.Item;
-import codereview.simpleorder.item.dto.CreateItemRequest;
-import codereview.simpleorder.item.dto.ItemResponse;
+import codereview.simpleorder.item.dto.web.CreateItemRequest;
+import codereview.simpleorder.item.dto.web.ItemResponse;
 import codereview.simpleorder.item.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,16 +28,14 @@ public class ItemService {
         return savedItem.getId();
     }
 
-    @EventListener
-    public void decreaseItems(OrderCreatedEvent event) {
+    public void decreaseItems(Map<Long, Integer> itemIdToDecreaseQuantity) {
 
-        Map<Long, Integer> itemIdToDecreaseQuantity = event.values();
         Set<Long> itemIds = itemIdToDecreaseQuantity.keySet();
         List<Item> findItems = itemRepository.findByIdIn(itemIds);
-        decreaseItemQuantity(itemIdToDecreaseQuantity, findItems);
+        validateAndDecreaseItemQuantity(itemIdToDecreaseQuantity, findItems);
     }
 
-    private static void decreaseItemQuantity(Map<Long, Integer> itemIdToDecreaseQuantity, List<Item> findItems) {
+    private static void validateAndDecreaseItemQuantity(Map<Long, Integer> itemIdToDecreaseQuantity, List<Item> findItems) {
 
         for (Item item : findItems) {
             int decreaseQuantity = itemIdToDecreaseQuantity.get(item.getId());

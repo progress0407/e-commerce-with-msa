@@ -1,10 +1,9 @@
-package codereview.simpleorder.etc;
+package codereview.simpleorder.order.dto.event;
 
 import codereview.simpleorder.order.domain.OrderItem;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toMap;
 

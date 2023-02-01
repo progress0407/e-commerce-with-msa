@@ -33,6 +33,7 @@ public class Item {
     private Long version;
 
     public Item(String name, String size, int price, int availableQuantity) {
+
         this.name = name;
         this.size = size;
         this.price = price;
@@ -40,11 +41,13 @@ public class Item {
     }
 
     public void decreaseQuantity(int orderQuantity) {
+
         validateCanDecrease(orderQuantity);
         this.availableQuantity -= orderQuantity;
     }
 
     private void validateCanDecrease(int orderQuantity) {
+
         if (availableQuantity - orderQuantity < 0) {
             throw new IllegalStateException("주문수량에 비해 상품의 재고수량이 충분하지 않습니다.");
         }

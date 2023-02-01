@@ -1,9 +1,9 @@
 package codereview.simpleorder.item.ui;
 
 import codereview.simpleorder.item.application.ItemService;
-import codereview.simpleorder.item.dto.CreateItemRequest;
-import codereview.simpleorder.item.dto.ItemResponse;
-import codereview.simpleorder.item.dto.ItemResponses;
+import codereview.simpleorder.item.dto.web.CreateItemRequest;
+import codereview.simpleorder.item.dto.web.ItemResponse;
+import codereview.simpleorder.item.dto.web.ItemResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

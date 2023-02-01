@@ -1,4 +1,4 @@
-package codereview.simpleorder.item.dto;
+package codereview.simpleorder.order.dto.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

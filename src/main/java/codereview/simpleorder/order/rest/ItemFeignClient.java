@@ -1,6 +1,6 @@
 package codereview.simpleorder.order.rest;
 
-import codereview.simpleorder.order.dto.ItemResponses;
+import codereview.simpleorder.order.dto.web.ItemResponses;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

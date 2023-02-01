@@ -1,11 +1,10 @@
 package codereview.simpleorder.order.application;
 
-import codereview.simpleorder.item.domain.Item;
-import codereview.simpleorder.order.dto.CreateOrderRequest;
-import codereview.simpleorder.order.dto.ItemResponse;
-import codereview.simpleorder.order.dto.OrderLineRequest;
 import codereview.simpleorder.order.domain.Order;
 import codereview.simpleorder.order.domain.OrderItem;
+import codereview.simpleorder.order.dto.web.CreateOrderRequest;
+import codereview.simpleorder.order.dto.web.ItemResponse;
+import codereview.simpleorder.order.dto.web.OrderLineRequest;
 import codereview.simpleorder.order.repository.OrderRepository;
 import codereview.simpleorder.order.rest.ItemFeignClient;
 import lombok.RequiredArgsConstructor;
@@ -32,19 +31,11 @@ public class OrderService {
 
         List<ItemResponse> itemResponses = itemHttpClient.requestItems(itemIds).getItems();
 
-//        validateAndDecreaseItemQuantity(items, orderLineRequests); -> Item에서 하기
-
-        List<OrderItem> orderItems = createOrderLines(itemResponses, orderLineRequests); // itemResponses
+        List<OrderItem> orderItems = createOrderLines(itemResponses, orderLineRequests);
         Order order = Order.createOrder(orderItems);
         Order savedOrder = orderRepository.save(order);
 
         return savedOrder.getId();
-    }
-
-    @Transactional
-    public void test() {
-
-        itemHttpClient.requestItems(List.of(1L, 2L, 3L));
     }
 
     private static List<Long> extractItemIds(List<OrderLineRequest> orderLineRequests) {
@@ -52,23 +43,6 @@ public class OrderService {
         return orderLineRequests.stream()
                 .map(OrderLineRequest::getItemId)
                 .collect(toList());
-    }
-
-    private void validateAndDecreaseItemQuantity(List<Item> items, List<OrderLineRequest> orderLineRequests) {
-
-        for (Item item : items) {
-            int orderQuantity = findOrderQuantity(item, orderLineRequests);
-            item.decreaseQuantity(orderQuantity);
-        }
-    }
-
-    private static int findOrderQuantity(Item item, List<OrderLineRequest> orderLineRequests) {
-
-        return orderLineRequests.stream()
-                .filter(request -> request.getItemId().equals(item.getId()))
-                .mapToInt(OrderLineRequest::getQuantity)
-                .findAny()
-                .orElseThrow(IllegalArgumentException::new);
     }
 
     private List<OrderItem> createOrderLines(List<ItemResponse> itemResponses, List<OrderLineRequest> orderLineRequests) {
@@ -80,7 +54,7 @@ public class OrderService {
 
     private OrderItem createOrderLine(List<ItemResponse> itemResponses, OrderLineRequest orderLineRequest) {
 
-        ItemResponse itemResponse = findItemFromDto(itemResponses, orderLineRequest);
+        ItemResponse itemResponse = findItemDtoFromOrderLineRequest(itemResponses, orderLineRequest);
 
         return new OrderItem(
                 itemResponse.getId(),
@@ -90,11 +64,11 @@ public class OrderService {
                 orderLineRequest.getQuantity());
     }
 
-    private static ItemResponse findItemFromDto(List<ItemResponse> itemResponses, OrderLineRequest orderLineRequest) {
+    private static ItemResponse findItemDtoFromOrderLineRequest(List<ItemResponse> itemResponses, OrderLineRequest orderLineRequest) {
 
         return itemResponses.stream()
                 .filter(it -> it.getId().equals(orderLineRequest.getItemId()))
                 .findAny()
-                .get();
+                .orElseThrow(() -> new IllegalArgumentException("주문 항목 요청에 해당하는 상품이 없습니다."));
     }
 }

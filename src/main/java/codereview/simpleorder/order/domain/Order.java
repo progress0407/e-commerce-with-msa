@@ -1,13 +1,12 @@
 package codereview.simpleorder.order.domain;
 
-import codereview.simpleorder.etc.OrderCreatedEvent;
+import codereview.simpleorder.order.dto.event.OrderCreatedEvent;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.domain.AbstractAggregateRoot;
-import org.springframework.data.domain.DomainEvents;
 
 import java.util.ArrayList;
 import java.util.List;
