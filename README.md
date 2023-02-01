@@ -21,6 +21,7 @@
 - 자원과 행위에 대해 생각하면서 API스펙을 작성했습니다.
 
 ### **DDD**를 적용하고자 노력했습니다.
+
   - 트랜잭션 `스크립트 방식보다는` 도메인에 주도권이 있는 설계를 하고자 하였습니다.
   - Order의 경우 OrderLine에 대해 온전히 관리합니다.
     - 따라서 영속성 전이, 고아 객체 제거 기능을 가지고 있습니다.
@@ -34,6 +35,7 @@
   - <img src="https://user-images.githubusercontent.com/66164361/216045147-4c15d80a-ebfa-4030-85ae-f64f440e0dcd.png" alt="drawing" width="600"/>
 
 ### 작지만 성능에 대해 생각했습니다.
+
 - `OSIV`를 종료했습니다.
 - `1+N` 최적화를 했습니다.
   - by `global batch size`
