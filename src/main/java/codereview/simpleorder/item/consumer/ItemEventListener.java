@@ -5,6 +5,7 @@ import codereview.simpleorder.item.dto.event.OrderCreatedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.Map;
 
@@ -14,7 +15,7 @@ public class ItemEventListener {
 
     private final ItemService itemService;
 
-    @EventListener
+    @TransactionalEventListener
     public void captureEvent(OrderCreatedEvent event) {
 
         Map<Long, Integer> itemIdToDecreaseQuantity = event.values();

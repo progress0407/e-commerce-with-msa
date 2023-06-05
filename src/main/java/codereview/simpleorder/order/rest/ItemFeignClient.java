@@ -12,9 +12,9 @@ import java.util.List;
  * https://www.baeldung.com/spring-boot-running-port
  */
 
-@FeignClient(value = "itemCall", url = "localhost:8080/items")
+@FeignClient(value = "itemCall", url = "localhost:8080")
 public interface ItemFeignClient {
 
-    @GetMapping
+    @GetMapping("/items")
     ItemResponses requestItems(@RequestParam("ids") List<Long> ids);
 }
