@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "orders")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString(exclude = "orderLines")
+@ToString(exclude = "orderItems")
 public class Order extends AbstractAggregateRoot<Order> {
 
     @Id
