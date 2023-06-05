@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CreateItemRequest {
 
-    private Long id;
     private String name;
     private String size;
     private int price;

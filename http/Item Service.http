@@ -1,0 +1,24 @@
+### 상품 등록: 블랙 스웨터
+POST http://localhost:8080/items
+Content-Type: application/json
+
+{
+  "name": "블랙 스웨터",
+  "size": "100L",
+  "price": 55000,
+  "availableQuantity": 10
+}
+
+### 상품 등록: 스니키 청바지
+POST http://localhost:8080/items
+Content-Type: application/json
+
+{
+  "name": "스니키 청바지",
+  "size": "95M",
+  "price": 35000,
+  "availableQuantity": 10
+}
+
+### 상품 리스트 조회
+GET http://localhost:8080/items

@@ -28,26 +28,6 @@ public class ItemService {
         return savedItem.getId();
     }
 
-    public void decreaseItems(Map<Long, Integer> itemIdToDecreaseQuantity) {
-
-        Set<Long> itemIds = itemIdToDecreaseQuantity.keySet();
-        List<Item> findItems = itemRepository.findByIdIn(itemIds);
-        validateAndDecreaseItemQuantity(itemIdToDecreaseQuantity, findItems);
-    }
-
-    private static void validateAndDecreaseItemQuantity(Map<Long, Integer> itemIdToDecreaseQuantity, List<Item> findItems) {
-
-        for (Item item : findItems) {
-            int decreaseQuantity = itemIdToDecreaseQuantity.get(item.getId());
-            item.decreaseQuantity(decreaseQuantity);
-        }
-    }
-
-    private static Item createItem(CreateItemRequest request) {
-
-        return new Item(request.getName(), request.getSize(), request.getPrice(), request.getAvailableQuantity());
-    }
-
     public List<ItemResponse> findItems(List<Long> itemIds) {
 
         if (itemIds == null || itemIds.isEmpty()) {
@@ -60,5 +40,26 @@ public class ItemService {
         return itemRepository.findByIdIn(itemIds).stream()
                 .map(ItemResponse::new)
                 .toList();
+    }
+
+    @Transactional
+    public void decreaseItems(Map<Long, Integer> itemIdToDecreaseQuantity) {
+
+        Set<Long> itemIds = itemIdToDecreaseQuantity.keySet();
+        List<Item> findItems = itemRepository.findByIdIn(itemIds); // problem !
+        validateAndDecreaseItemQuantity(itemIdToDecreaseQuantity, findItems);
+    }
+
+    private static Item createItem(CreateItemRequest request) {
+
+        return new Item(request.getName(), request.getSize(), request.getPrice(), request.getAvailableQuantity());
+    }
+
+    private static void validateAndDecreaseItemQuantity(Map<Long, Integer> itemIdToDecreaseQuantity, List<Item> findItems) {
+
+        for (Item item : findItems) {
+            int decreaseQuantity = itemIdToDecreaseQuantity.get(item.getId());
+            item.decreaseQuantity(decreaseQuantity);
+        }
     }
 }

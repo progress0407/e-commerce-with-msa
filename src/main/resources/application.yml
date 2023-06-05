@@ -11,4 +11,4 @@ logging.level:
     type: trace
     type.descriptor.sql: trace
     org.springframework.orm.jpa: DEBUG
-    org.springframework.transaction: DEBUG
+    org.springframework.transaction.interceptor: DEBUG

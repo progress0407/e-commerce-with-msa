@@ -1,0 +1,16 @@
+### 주문하기
+POST http://localhost:8080/orders
+Content-Type: application/json
+
+{
+  "orderLineRequests": [
+    {
+      "itemId": 1,
+      "quantity": 8
+    },
+    {
+      "itemId": 2,
+      "quantity": 8
+    }
+  ]
+}
