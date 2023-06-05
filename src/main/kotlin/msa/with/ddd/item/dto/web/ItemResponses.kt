@@ -1,14 +1,5 @@
-package codereview.simpleorder.item.dto.web;
+package msa.with.ddd.item.dto.web
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import java.util.List;
-
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public class ItemResponses {
-    private List<ItemResponse> items;
-}
+data class ItemResponses(
+    val items: List<ItemResponse>? = null
+)

@@ -21,4 +21,4 @@ Content-Type: application/json
 }
 
 ### 상품 리스트 조회
-GET http://localhost:8080/items
+~GET http://localhost:8080/items

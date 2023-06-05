@@ -1,14 +1,5 @@
-package codereview.simpleorder.order.dto.web;
+package msa.with.ddd.order.dto.web
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonCreator
 
-import java.util.List;
-
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public class ItemResponses {
-    private List<ItemResponse> items;
-}
+data class ItemResponses @JsonCreator constructor(val items: List<ItemResponse>)

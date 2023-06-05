@@ -1,15 +1,14 @@
-package codereview.simpleorder;
+package msa.with.ddd
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.boot.SpringApplication
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.cloud.openfeign.EnableFeignClients
 
 @SpringBootApplication
 @EnableFeignClients
-public class SimpleOrderApplication {
+class SimpleOrderApplication
 
-	public static void main(String[] args) {
+fun main(args: Array<String>) {
 
-		SpringApplication.run(SimpleOrderApplication.class, args);
-	}
+    SpringApplication.run(SimpleOrderApplication::class.java, *args)
 }

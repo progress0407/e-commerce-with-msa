@@ -1,7 +1,6 @@
-package codereview.simpleorder.order.repository;
+package msa.with.ddd.order.repository
 
-import codereview.simpleorder.order.domain.Order;
-import org.springframework.data.jpa.repository.JpaRepository;
+import msa.with.ddd.order.domain.Order
+import org.springframework.data.jpa.repository.JpaRepository
 
-public interface OrderRepository extends JpaRepository<Order, Long> {
-}
+interface OrderRepository : JpaRepository<Order, Long>

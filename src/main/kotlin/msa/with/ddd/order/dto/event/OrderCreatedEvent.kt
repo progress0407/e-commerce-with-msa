@@ -1,29 +1,20 @@
-package codereview.simpleorder.order.dto.event;
+package msa.with.ddd.order.dto.event
 
-import codereview.simpleorder.order.domain.OrderItem;
+import msa.with.ddd.order.domain.OrderItem
+import java.util.stream.Collectors.toMap
 
-import java.util.List;
-import java.util.Map;
+class OrderCreatedEvent(orderItems: List<OrderItem>) {
 
-import static java.util.stream.Collectors.toMap;
+    private val itemIdToDecreaseQuantity: Map<Long, Int> = createInnerDto(orderItems)
 
-public class OrderCreatedEvent {
-
-    private final Map<Long, Integer> itemIdToDecreaseQuantity;
-
-    public OrderCreatedEvent(List<OrderItem> orderItems) {
-
-        this.itemIdToDecreaseQuantity = createInnerDto(orderItems);
+    fun values(): Map<Long, Int> {
+        return itemIdToDecreaseQuantity
     }
 
-    private static Map<Long, Integer> createInnerDto(List<OrderItem> orderItems) {
-
-        return orderItems.stream()
-                .collect(toMap(OrderItem::getItemId, OrderItem::getOrderItemQuantity));
-    }
-
-    public Map<Long, Integer> values() {
-
-        return itemIdToDecreaseQuantity;
+    companion object {
+        private fun createInnerDto(orderItems: List<OrderItem>): Map<Long, Int> {
+            return orderItems.stream()
+                .collect(toMap({ it.itemId }, { it.orderItemQuantity }))
+        }
     }
 }

@@ -1,14 +1,13 @@
-package codereview.simpleorder.order.dto.web;
+package msa.with.ddd.order.dto.web
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor
+import lombok.Getter
+import lombok.NoArgsConstructor
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class OrderLineRequest {
-
-    private Long itemId;
-    private int quantity;
-}
+data class OrderLineRequest(
+    val itemId: Long,
+    val quantity: Int = 0
+)

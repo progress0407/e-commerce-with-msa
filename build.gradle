@@ -1,11 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	id 'org.springframework.boot' version '3.0.7'
-	id 'io.spring.dependency-management' version '1.1.0'
-	id 'org.jetbrains.kotlin.jvm' version '1.7.22'
-	id 'org.jetbrains.kotlin.plugin.spring' version '1.7.22'
-	id 'org.jetbrains.kotlin.plugin.jpa' version '1.7.22'
+    id 'org.springframework.boot' version '3.0.7'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.7.22'
+    id 'org.jetbrains.kotlin.plugin.spring' version '1.7.22'
+    id 'org.jetbrains.kotlin.plugin.jpa' version '1.7.22'
 }
 
 group = 'msa-with-ddd'
@@ -13,56 +13,59 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	// spring
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // spring
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	// data
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	runtimeOnly 'com.h2database:h2'
+    // data
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    runtimeOnly 'com.h2database:h2'
 
-	// lombok for production
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
+    // lombok for production
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
-	// lombok for test
-	testCompileOnly 'org.projectlombok:lombok:1.18.12'
-	testAnnotationProcessor('org.projectlombok:lombok')
+    // lombok for test
+    testCompileOnly 'org.projectlombok:lombok:1.18.12'
+    testAnnotationProcessor('org.projectlombok:lombok')
 
-	// gson
-	implementation 'com.google.code.gson:gson:2.10'
+    // gson
+    implementation 'com.google.code.gson:gson:2.10'
 
-	// E2E test
-	testImplementation 'io.rest-assured:rest-assured'
+    // E2E test
+    testImplementation 'io.rest-assured:rest-assured'
 
-	// prettier binding parameter
+    // prettier binding parameter
 //	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter'
 
-	// Feign Client
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.0'
+    // Feign Client
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.0'
+
+    // Kotlin Reflect
+    implementation 'org.jetbrains.kotlin:kotlin-reflect'
 }
 
 tasks.withType(KotlinCompile).configureEach {
-	kotlinOptions {
-		freeCompilerArgs = ['-Xjsr305=strict']
-		jvmTarget = JavaVersion.VERSION_17.toString()
-	}
+    kotlinOptions {
+        freeCompilerArgs = ['-Xjsr305=strict']
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 ext {
-	set('springCloudVersion', "2022.0.x")
+    set('springCloudVersion', "2022.0.x")
 }

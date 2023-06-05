@@ -1,36 +1,28 @@
-package codereview.simpleorder.item.ui;
+package msa.with.ddd.item.ui
 
-import codereview.simpleorder.item.application.ItemService;
-import codereview.simpleorder.item.dto.web.CreateItemRequest;
-import codereview.simpleorder.item.dto.web.ItemResponse;
-import codereview.simpleorder.item.dto.web.ItemResponses;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import msa.with.ddd.item.application.ItemService
+import msa.with.ddd.item.dto.web.CreateItemRequest
+import msa.with.ddd.item.dto.web.ItemResponses
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.*
 
-import java.util.List;
+@RequestMapping("/items")
 
 @RestController
-@RequiredArgsConstructor
-@RequestMapping("/items")
-public class ItemController {
-
-    private final ItemService itemService;
+class ItemController(private val itemService: ItemService) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Long registerItem(@RequestBody CreateItemRequest request) {
+    fun registerItem(@RequestBody request: CreateItemRequest): Long {
 
-        Long savedItemId = itemService.registerItem(request);
-
-        return savedItemId;
+        return itemService.registerItem(request)
     }
 
     @GetMapping
-    public ItemResponses findItems(@RequestParam(value = "ids", required = false) List<Long> itemIds) {
+    fun findItems(@RequestParam(value = "ids", required = false) itemIds: List<Long>?): ItemResponses {
 
-        List<ItemResponse> items = itemService.findItems(itemIds);
+        val items = itemService.findItems(itemIds)
 
-        return new ItemResponses(items);
+        return ItemResponses(items)
     }
 }

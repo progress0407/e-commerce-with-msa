@@ -1,24 +1,17 @@
-package codereview.simpleorder.item.consumer;
+package msa.with.ddd.item.consumer
 
-import codereview.simpleorder.item.application.ItemService;
-import codereview.simpleorder.order.dto.event.OrderCreatedEvent;
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
-
-import java.util.Map;
+import msa.with.ddd.item.application.ItemService
+import msa.with.ddd.order.dto.event.OrderCreatedEvent
+import org.springframework.context.event.EventListener
+import org.springframework.stereotype.Component
 
 @Component
-@RequiredArgsConstructor
-public class ItemEventListener {
+class ItemEventListener(private val itemService: ItemService) {
 
-    private final ItemService itemService;
-
-//    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMPLETION)
+    //    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMPLETION)
     @EventListener
-    public void captureEvent(OrderCreatedEvent event) {
-
-        Map<Long, Integer> itemIdToDecreaseQuantity = event.values();
-        itemService.decreaseItems(itemIdToDecreaseQuantity);
+    fun captureEvent(event: OrderCreatedEvent) {
+        val itemIdToDecreaseQuantity = event.values()
+        itemService.decreaseItems(itemIdToDecreaseQuantity)
     }
 }
