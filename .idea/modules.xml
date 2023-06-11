@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/eureka/e-commerce.eureka.main.iml" filepath="$PROJECT_DIR$/.idea/modules/eureka/e-commerce.eureka.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/item/e-commerce.item.main.iml" filepath="$PROJECT_DIR$/.idea/modules/item/e-commerce.item.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/legacy/e-commerce.legacy.main.iml" filepath="$PROJECT_DIR$/.idea/modules/legacy/e-commerce.legacy.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/e-commerce.main.iml" filepath="$PROJECT_DIR$/.idea/modules/e-commerce.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/order/e-commerce.order.main.iml" filepath="$PROJECT_DIR$/.idea/modules/order/e-commerce.order.main.iml" />
     </modules>

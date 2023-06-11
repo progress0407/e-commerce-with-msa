@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$/../../../eureka/src/main">
+      <sourceFolder url="file://$MODULE_DIR$/../../../eureka/src/main/kotlin" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../eureka/src/main/resources" type="java-resource" />
+    </content>
+  </component>
+</module>
