@@ -22,6 +22,8 @@ class OrderItem(
     @field:Column(nullable = false) val orderItemQuantity: Int
 ) {
 
+    constructor() : this(0L, "", "", 0, 0)
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_item_id")

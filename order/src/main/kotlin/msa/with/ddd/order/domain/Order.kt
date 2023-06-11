@@ -1,19 +1,19 @@
 package msa.with.ddd.order.domain
 
-import msa.with.ddd.order.dto.event.OrderCreatedEvent
 import jakarta.persistence.*
 import lombok.AccessLevel
 import lombok.Getter
 import lombok.NoArgsConstructor
 import lombok.ToString
-import org.springframework.data.domain.AbstractAggregateRoot
 
 @Entity
 @Table(name = "orders")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(exclude = ["orderItems"])
-open class Order protected constructor(orderItems: List<OrderItem>) : AbstractAggregateRoot<Order>() {
+open class Order protected constructor(orderItems: List<OrderItem>) {
+
+    protected constructor() : this(mutableListOf())
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +30,6 @@ open class Order protected constructor(orderItems: List<OrderItem>) : AbstractAg
         this.orderItems = orderItems
         mapOrder(orderItems)
         totalOrderAmount = calculateTotalOrderAmount(orderItems)
-        registerEvent(msa.with.ddd.order.dto.event.OrderCreatedEvent(orderItems))
     }
 
     private fun calculateTotalOrderAmount(orderItems: List<OrderItem>): Int {
