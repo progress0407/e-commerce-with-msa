@@ -1,1 +1,5 @@
 rootProject.name = 'e-commerce'
+include 'item'
+include 'order'
+include 'legacy'
+
