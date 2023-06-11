@@ -1,4 +1,4 @@
-package msa.with.ddd.item.dto.web
+package msa.with.ddd.item.web
 
 data class ItemResponses(
     val items: List<ItemResponse>? = null
