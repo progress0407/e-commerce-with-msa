@@ -34,36 +34,17 @@ subprojects {
     apply plugin: 'org.jetbrains.kotlin.plugin.spring'
 
     dependencies {
-        // spring
-        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        // Kotlin
+        implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+        implementation 'org.jetbrains.kotlin:kotlin-reflect'
+        implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
 
-        // data
-        implementation 'org.springframework.boot:spring-boot-starter-web'
-        runtimeOnly 'com.h2database:h2'
+        // kotlin logging
+        implementation 'io.github.microutils:kotlin-logging:3.0.5'
 
-        // lombok for production
+        // Lombok
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
-
-        // lombok for test
-        testCompileOnly 'org.projectlombok:lombok:1.18.12'
-        testAnnotationProcessor('org.projectlombok:lombok')
-
-        // gson
-        implementation 'com.google.code.gson:gson:2.10'
-
-        // E2E test
-        testImplementation 'io.rest-assured:rest-assured'
-
-        // prettier binding parameter
-	    // implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter'
-
-        // Feign Client
-        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.0'
-
-        // Kotlin Reflect
-        implementation 'org.jetbrains.kotlin:kotlin-reflect'
     }
 
     ext {

@@ -8,10 +8,10 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.26/8f8cf0372abf564913e9796623aac4c8ea44025a/lombok-1.18.26.jar" />
         </processorPath>
         <module name="e-commerce.order.main" />
+        <module name="e-commerce.eureka.main" />
         <module name="e-commerce.item.main" />
         <module name="e-commerce.legacy.main" />
         <module name="e-commerce.order.test" />
-        <module name="e-commerce.legacy.test" />
         <module name="e-commerce.item.test" />
       </profile>
     </annotationProcessing>

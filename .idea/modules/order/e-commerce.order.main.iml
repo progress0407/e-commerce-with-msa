@@ -3,6 +3,7 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$/../../../order/src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../../order/src/main/kotlin" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../order/src/main/resources" type="java-resource" />
     </content>
   </component>
 </module>
