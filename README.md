@@ -1,12 +1,20 @@
 # E-Commerce-with-MSA-and-DDD
 
-# 주문 API 애플리케이션
+## 작업 시나리오
 
-## 기능 요약
+[기존 DDD 프로젝트](https://github.com/progress0407/code-review-simple-orders)를 MSA 프로젝트로 전환
 
-- 회원: 등록, 리스트 조회
-- 상품: 등록, 리스트 조회
-- 주문: 등록
+- [x] 기존 프로젝트 Git Subtree 임포트
+- [x] Java -> Kotlin 변경
+- [x] Library 버전 최신화
+- [x] 멀티 모듈로 전환
+- [x] Eureka Module 개발
+- [x] API Gateway Module 개발
+- [ ] 공통 Module 추출
+- [ ] RabbitMQ 연동 후 주문 상품 이벤트 pub-sub 개발
+- [ ] RabbitMQ -> Kafka로 전환
+- [ ] [User Module](https://github.com/progress0407/intergrated-study/tree/main/0.%20study/1.%20alone/%5BMSA%5D%20Spring%20Cloud%20MicroService/leedowon-msa-project/user-service) 옮겨오기
+- [ ] 쿠폰 Module 개발
 
 ## 고려한 점
 
