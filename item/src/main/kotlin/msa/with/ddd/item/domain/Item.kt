@@ -31,6 +31,12 @@ class Item(
     @Version
     val version: Long? = null
 
+    // default constructor for using JPA
+    constructor() : this("", "", 0, 0)
+
+    // Size가 존재하지 않는 경우
+    constructor(name: String, price: Int, availableQuantity: Int) : this(name, "-", price, availableQuantity)
+
     fun decreaseQuantity(orderQuantity: Int) {
         validateCanDecrease(orderQuantity)
         availableQuantity -= orderQuantity
