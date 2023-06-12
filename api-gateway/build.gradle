@@ -1,0 +1,7 @@
+dependencies {
+    // Router
+    implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+
+    // Service Registry Client
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+}

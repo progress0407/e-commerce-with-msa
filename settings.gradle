@@ -3,4 +3,5 @@ include 'item'
 include 'order'
 include 'legacy'
 include 'eureka'
+include 'api-gateway'
 
