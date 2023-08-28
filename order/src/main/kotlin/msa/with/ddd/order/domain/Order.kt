@@ -45,7 +45,6 @@ open class Order protected constructor(orderItems: List<OrderItem>) {
     }
 
     companion object {
-
         @JvmStatic
         fun createOrder(orderItems: List<OrderItem>): Order = Order(orderItems)
     }

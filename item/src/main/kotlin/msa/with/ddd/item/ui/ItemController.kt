@@ -12,16 +12,13 @@ class ItemController(private val itemService: ItemService) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun registerItem(@RequestBody request: ItemCreateRequest): Long {
-
+    fun add(@RequestBody request: ItemCreateRequest): Long {
         return itemService.registerItem(request)
     }
 
     @GetMapping
-    fun findItems(@RequestParam(value = "ids", required = false) itemIds: List<Long>?): ItemResponses {
-
+    fun list(@RequestParam(value = "ids", required = false) itemIds: List<Long>?): ItemResponses {
         val items = itemService.findItems(itemIds)
-
         return ItemResponses(items)
     }
 }

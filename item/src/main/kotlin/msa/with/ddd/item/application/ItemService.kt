@@ -19,7 +19,6 @@ class ItemService(private val itemRepository: ItemRepository) {
     }
 
     fun findItems(itemIds: List<Long>?): List<ItemResponse> {
-
         return if (itemIds.isNullOrEmpty()) {
             itemRepository.findAll()
                 .map { item -> ItemResponse(item) }
@@ -42,7 +41,6 @@ class ItemService(private val itemRepository: ItemRepository) {
         Item(request.name, request.size, request.price, request.availableQuantity)
 
     private fun validateAndDecreaseItemQuantity(itemIdToDecreaseQuantity: Map<Long, Int>, findItems: List<Item>) {
-
         for (item in findItems) {
             val decreaseQuantity = itemIdToDecreaseQuantity[item.id]!!
             item.decreaseQuantity(decreaseQuantity)
