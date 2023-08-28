@@ -2,7 +2,7 @@ package msa.with.ddd.item.application
 
 import msa.with.ddd.item.domain.Item
 import msa.with.ddd.item.repository.ItemRepository
-import msa.with.ddd.item.web.CreateItemRequest
+import msa.with.ddd.item.web.ItemCreateRequest
 import msa.with.ddd.item.web.ItemResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional
 class ItemService(private val itemRepository: ItemRepository) {
 
     @Transactional
-    fun registerItem(request: CreateItemRequest): Long {
+    fun registerItem(request: ItemCreateRequest): Long {
         val item = createItem(request)
         val savedItem = itemRepository.save(item)
         return savedItem.id!!
@@ -38,7 +38,7 @@ class ItemService(private val itemRepository: ItemRepository) {
         validateAndDecreaseItemQuantity(itemIdToDecreaseQuantity, findItems)
     }
 
-    private fun createItem(request: CreateItemRequest) =
+    private fun createItem(request: ItemCreateRequest) =
         Item(request.name, request.size, request.price, request.availableQuantity)
 
     private fun validateAndDecreaseItemQuantity(itemIdToDecreaseQuantity: Map<Long, Int>, findItems: List<Item>) {
