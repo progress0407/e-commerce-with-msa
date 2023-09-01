@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class RouteConfig(private val loggingFilter: LoggingFilter) {
 
-    @Bean
+//    @Bean
     fun routes(builder: RouteLocatorBuilder, loggingFilter: LoggingFilter): RouteLocator {
         return builder.routes()
             .route { simpleRouteBuildable(it, "item-service") }
@@ -23,7 +23,9 @@ class RouteConfig(private val loggingFilter: LoggingFilter) {
         predicate.path("/$url/**")
             .filters { filter ->
                 filter.removeRequestHeader("Cookie")
-                    .rewritePath("/$url/(?<segment>.*)", "/\${segment}")
+                    // - RewritePath=/user-service/(?<segment>.*),/$\{segment}
+//                    .rewritePath("/$url/(?<segment>.*)", "/\${segment}")
+                    .rewritePath("/$url/(?<path>.*)", "/\${path}")
                     .filter(loggingFilter)
             }
             .uri("lb://${url.uppercase()}")

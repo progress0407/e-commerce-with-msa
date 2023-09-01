@@ -1,6 +1,18 @@
 
 ### 상품 리스트 조회
+GET http://localhost:8000/item-service
+
+
+### 상품 리스트 조회
 GET http://localhost:8000/item-service/items
+
+
+### 상품 리스트 조회
+GET http://localhost:8000/items
+
+
+### 상품 리스트 조회
+GET http://localhost:8000/foo
 
 
 ### 상품 등록: 블랙 스웨터
