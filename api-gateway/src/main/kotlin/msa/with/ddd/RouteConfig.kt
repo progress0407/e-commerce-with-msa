@@ -11,22 +11,20 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class RouteConfig(private val loggingFilter: LoggingFilter) {
 
-//    @Bean
+    @Bean
     fun routes(builder: RouteLocatorBuilder, loggingFilter: LoggingFilter): RouteLocator {
         return builder.routes()
-            .route { simpleRouteBuildable(it, "item-service") }
-            .route { simpleRouteBuildable(it, "order-service") }
+            .route { it.simpleRouteBuildable("ITEM-SERVICE", "/items") }
+            .route { it.simpleRouteBuildable("ORDER-SERVICE", "/orders") }
             .build()
     }
 
-    private fun simpleRouteBuildable(predicate: PredicateSpec, url: String): Buildable<Route> =
-        predicate.path("/$url/**")
+    private fun PredicateSpec.simpleRouteBuildable(serviceName: String, url: String): Buildable<Route> =
+        this.path("$url/**")
             .filters { filter ->
                 filter.removeRequestHeader("Cookie")
-                    // - RewritePath=/user-service/(?<segment>.*),/$\{segment}
-//                    .rewritePath("/$url/(?<segment>.*)", "/\${segment}")
-                    .rewritePath("/$url/(?<path>.*)", "/\${path}")
+//                    .rewritePath("/$url/(?<path>.*)", "/\${path}")
                     .filter(loggingFilter)
             }
-            .uri("lb://${url.uppercase()}")
+            .uri("lb://${serviceName}")
 }
