@@ -10,30 +10,3 @@ eureka:
 
 spring:
   application.name: api-gateway
-  cloud:
-    gateway:
-      routes:
-        - id: item-service
-          uri: lb://ITEM-SERVICE
-          predicates:
-            - Path=/item-service/**
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/item-service/(?<segment>.*),/$\{segment}
-            - name: LoggingFilter
-              args:
-                baseMessage: "Spring Cloud Gateway GlobalFilter"
-                preLogger: true
-                postLogger: true
-        - id: order-service
-          uri: lb://ORDER-SERVICE
-          predicates:
-            - Path=/order-service/**
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/order-service/(?<segment>.*),/$\{segment}
-            - name: LoggingFilter
-              args:
-                baseMessage: "Spring Cloud Gateway GlobalFilter"
-                preLogger: true
-                postLogger: true

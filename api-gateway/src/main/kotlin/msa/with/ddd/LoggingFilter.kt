@@ -1,43 +1,39 @@
 package msa.with.ddd
 
-import msa.with.ddd.LoggingFilter.Config
+import mu.KLogger
+import mu.KotlinLogging
 import org.slf4j.LoggerFactory
 import org.springframework.cloud.gateway.filter.GatewayFilter
-import org.springframework.cloud.gateway.filter.OrderedGatewayFilter
-import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory
+import org.springframework.cloud.gateway.filter.GatewayFilterChain
 import org.springframework.core.Ordered
 import org.springframework.stereotype.Component
+import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 
-@Component
-class LoggingFilter : AbstractGatewayFilterFactory<Config>(Config::class.java) {
+class LoggingFilter(
+    private val preLogger: Boolean = true,
+    private val postLogger: Boolean = true,
+    private val baseMessage: String = "Logging Filter baseMessage"
+) : GatewayFilter, Ordered {
 
-    val log = LoggerFactory.getLogger(LoggingFilter::class.java)!!
+    private val log = KotlinLogging.logger { }
 
-    override fun apply(config: Config?): GatewayFilter =
-        OrderedGatewayFilter({ exchange, chain ->
-            if (config == null) {
-                throw NullPointerException("config should not be null")
-            }
+    override fun filter(exchange: ServerWebExchange, chain: GatewayFilterChain): Mono<Void> {
+        log.info("Logging Filter baseMessage: {}", baseMessage)
 
-            log.info("Logging Filter baseMessage: {}", config.baseMessage)
+        if (preLogger) {
+            log.info("Logging Filter Start: request id -> {}", exchange.request.id)
+        }
 
-            if (config.preLogger) {
-                log.info("Logging Filter Start: request id -> {}", exchange.request.id)
-            }
+        return chain.filter(exchange).then(
+            Mono.fromRunnable {
+                if (postLogger) {
+                    log.info("Logging Filter End: response status -> {}", exchange.response.statusCode)
+                }
+            })
+    }
 
-            chain
-                .filter(exchange)
-                .then(Mono.fromRunnable {
-                    if (config.postLogger) {
-                        log.info("Logging Filter End: request id -> {}", exchange.response.statusCode)
-                    }
-                })
-        }, Ordered.LOWEST_PRECEDENCE)
-
-    class Config {
-        lateinit var baseMessage: String
-        var preLogger: Boolean = false
-        var postLogger: Boolean = false
+    override fun getOrder(): Int {
+        return Ordered.LOWEST_PRECEDENCE
     }
 }
