@@ -40,9 +40,7 @@ class OrderService(
     }
 
     private fun createOrderLine(itemResponses: List<ItemResponse>, orderLineRequest: OrderLineRequest): OrderItem {
-
         val itemResponse = findItemDtoFromOrderLineRequest(itemResponses, orderLineRequest)
-
         return OrderItem(
             itemResponse.id,
             itemResponse.name,

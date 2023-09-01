@@ -1,5 +1,9 @@
+### 주문 리스트 조회
+GET http://localhost:8000/order-service/orders
+
+
 ### 주문하기
-POST http://localhost:8080/orders
+POST http://localhost:8000/order-service/orders
 Content-Type: application/json
 
 {

@@ -1,5 +1,10 @@
+
+### 상품 리스트 조회
+GET http://localhost:8000/item-service/items
+
+
 ### 상품 등록: 블랙 스웨터
-POST http://localhost:8080/items
+POST http://localhost:8000/item-service/items
 Content-Type: application/json
 
 {
@@ -9,8 +14,9 @@ Content-Type: application/json
   "availableQuantity": 10
 }
 
+
 ### 상품 등록: 스니키 청바지
-POST http://localhost:8080/items
+POST http://localhost:8000/item-service/items
 Content-Type: application/json
 
 {
@@ -20,5 +26,3 @@ Content-Type: application/json
   "availableQuantity": 10
 }
 
-### 상품 리스트 조회
-~GET http://localhost:8080/items

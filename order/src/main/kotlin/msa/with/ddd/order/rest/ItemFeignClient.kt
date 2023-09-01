@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam
  * TODO 테스트 하기 용이하게 변경하기
  * https://www.baeldung.com/spring-boot-running-port
  */
-@FeignClient(value = "itemCall", url = "localhost:8080")
+@FeignClient(value = "item-service-call", url = "localhost:8000")
 interface ItemFeignClient {
 
-    @GetMapping("/items")
+    @GetMapping("/item-service/items")
     fun requestItems(@RequestParam("ids") ids: List<Long>): ItemResponses
 }
