@@ -21,9 +21,9 @@ class OrderService(
 
     @Transactional
     fun order(orderRequest: CreateOrderRequest): Long {
-        val orderLineRequests: List<OrderLineRequest> = orderRequest.orderLineRequests
+        val orderLineRequests = orderRequest.orderLineRequests
         val itemIds = extractItemIds(orderLineRequests)
-        val itemResponses: List<ItemResponse> = itemHttpClient.requestItems(itemIds).items
+        val itemResponses = itemHttpClient.requestItems(itemIds).items
         val orderItems = createOrderLines(itemResponses, orderLineRequests)
         val order = Order.createOrder(orderItems)
         val savedOrder = orderRepository.save(order)
