@@ -2,8 +2,8 @@ package msa.with.ddd.item.application
 
 import msa.with.ddd.item.domain.Item
 import msa.with.ddd.item.repository.ItemRepository
-import msa.with.ddd.item.web.ItemCreateRequest
-import msa.with.ddd.item.web.ItemResponse
+import msa.with.ddd.item.dto.item.ItemCreateRequest
+import msa.with.ddd.item.dto.item.ItemResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

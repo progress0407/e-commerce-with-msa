@@ -1,0 +1,560 @@
+GET http://localhost:8000/items
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-02T153009.200.json
+
+###
+
+POST http://localhost:8000/orders
+Content-Type: application/json
+Content-Length: 136
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "orderLineRequests": [
+    {
+      "itemId": 1,
+      "quantity": 10
+    },
+    {
+      "itemId": 2,
+      "quantity": 1
+    }
+  ]
+}
+
+<> 2023-09-02T152921.201.json
+
+###
+
+POST http://localhost:8000/orders
+Content-Type: application/json
+Content-Length: 136
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "orderLineRequests": [
+    {
+      "itemId": 1,
+      "quantity": 10
+    },
+    {
+      "itemId": 2,
+      "quantity": 1
+    }
+  ]
+}
+
+<> 2023-09-02T152751.500.json
+
+###
+
+POST http://localhost:8000/orders
+Content-Type: application/json
+Content-Length: 136
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "orderLineRequests": [
+    {
+      "itemId": 1,
+      "quantity": 10
+    },
+    {
+      "itemId": 2,
+      "quantity": 1
+    }
+  ]
+}
+
+<> 2023-09-02T152430.500.json
+
+###
+
+GET http://localhost:8000/orders
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-02T152428.200.json
+
+###
+
+GET http://localhost:8000/item-service
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-02T152425.404.json
+
+###
+
+POST http://localhost:8000/orders
+Content-Type: application/json
+Content-Length: 136
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "orderLineRequests": [
+    {
+      "itemId": 1,
+      "quantity": 10
+    },
+    {
+      "itemId": 2,
+      "quantity": 1
+    }
+  ]
+}
+
+<> 2023-09-02T152143.500.json
+
+###
+
+GET http://localhost:8000/orders
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-02T152140.200.json
+
+###
+
+POST http://localhost:8000/orders
+Content-Type: application/json
+Content-Length: 136
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "orderLineRequests": [
+    {
+      "itemId": 1,
+      "quantity": 10
+    },
+    {
+      "itemId": 2,
+      "quantity": 1
+    }
+  ]
+}
+
+<> 2023-09-02T152016.500.json
+
+###
+
+GET http://localhost:8000/orders
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-02T152014.200.json
+
+###
+
+POST http://localhost:8000/order-service/orders
+Content-Type: application/json
+Content-Length: 136
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "orderLineRequests": [
+    {
+      "itemId": 1,
+      "quantity": 10
+    },
+    {
+      "itemId": 2,
+      "quantity": 1
+    }
+  ]
+}
+
+<> 2023-09-02T152004.404.json
+
+###
+
+GET http://localhost:8000/items
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-02T151919.200.json
+
+###
+
+GET http://localhost:8000/item-service/items
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-02T151916.404.json
+
+###
+
+GET http://localhost:8000/items
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-02T151914.200.json
+
+###
+
+GET http://localhost:8000/items
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-02T151901.503.json
+
+###
+
+GET http://localhost:8000/item-service
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-02T151900.404.json
+
+###
+
+GET http://localhost:8000/order-service/orders
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T142156.404.json
+
+###
+
+GET http://localhost:8000/items
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T142149.404.json
+
+###
+
+GET http://localhost:8000/item-service
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T142147.404.json
+
+###
+
+GET http://localhost:8000/item-service
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T142145.404.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T141641.200.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T141632.200.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T141535.200.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T141449.200.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T134332.200.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T134220.200.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T134006.200.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T133915.200.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T133806.200.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T133325.200.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T133301.200.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T132251.200.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T131953.404.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T131903.404.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T131018.404.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T130955.404.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T130950.404.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T130918.404.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T130910.404.json
+
+###
+
+POST http://localhost:8000/actuator/refresh
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T130716.404.json
+
+###
+
+GET http://localhost:8000/foo
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T125228.404.json
+
+###
+
+GET http://localhost:8000/item-service/items
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T123118.200.json
+
+###
+
+GET http://localhost:8000/items
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T123115.404.json
+
+###
+
+GET http://localhost:8000/item-service/items
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T122946.200.json
+
+###
+
+GET http://localhost:8000/item-service
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T122945.404.json
+
+###
+
+GET http://localhost:8000/items
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T122939.404.json
+
+###
+
+GET http://localhost:8000/items
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T122938.404.json
+
+###
+
+GET http://localhost:8000/items
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T122936.404.json
+
+###
+
+GET http://localhost:8000/item-service/items
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T122934.200.json
+
+###
+
+GET http://localhost:8000/item-service/items
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-01T122932.200.json
+
+###
+

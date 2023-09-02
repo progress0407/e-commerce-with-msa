@@ -1,21 +1,21 @@
 
 ### 주문 리스트 조회
-GET http://localhost:8000/order-service/orders
+GET http://localhost:8000/orders
 
 
 ### 주문하기
-POST http://localhost:8000/order-service/orders
+POST http://localhost:8000/orders
 Content-Type: application/json
 
 {
   "orderLineRequests": [
     {
       "itemId": 1,
-      "quantity": 8
+      "quantity": 10
     },
     {
       "itemId": 2,
-      "quantity": 8
+      "quantity": 1
     }
   ]
 }

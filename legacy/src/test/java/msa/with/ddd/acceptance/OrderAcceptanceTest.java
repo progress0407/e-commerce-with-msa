@@ -1,6 +1,6 @@
 package msa.with.ddd.acceptance;
 
-import msa.with.ddd.item.dto.web.CreateItemRequest;
+import msa.with.ddd.item.dto.item.CreateItemRequest;
 import msa.with.ddd.order.dto.web.CreateOrderRequest;
 import msa.with.ddd.order.dto.web.OrderLineRequest;
 import msa.with.ddd.support.AbstractAcceptanceTest;

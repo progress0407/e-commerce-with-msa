@@ -1,7 +1,6 @@
 rootProject.name = 'e-commerce'
-include 'item'
-include 'order'
-include 'legacy'
-include 'eureka'
-include 'api-gateway'
-
+include 'eureka',
+        'api-gateway',
+        'item',
+        'order',
+        'legacy'

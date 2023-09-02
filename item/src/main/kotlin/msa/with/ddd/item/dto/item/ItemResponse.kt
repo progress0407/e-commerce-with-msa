@@ -1,4 +1,4 @@
-package msa.with.ddd.item.web
+package msa.with.ddd.item.dto.item
 
 import msa.with.ddd.item.domain.Item
 

@@ -3,7 +3,7 @@ package msa.with.ddd.support;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import msa.with.ddd.item.dto.web.CreateItemRequest;
+import msa.with.ddd.item.dto.item.CreateItemRequest;
 import msa.with.ddd.item.repository.ItemRepository;
 import msa.with.ddd.order.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;

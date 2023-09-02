@@ -8,6 +8,7 @@ import msa.with.ddd.order.dto.web.OrderLineRequest
 import msa.with.ddd.order.repository.OrderRepository
 import msa.with.ddd.order.rest.ItemFeignClient
 import lombok.RequiredArgsConstructor
+import msa.with.ddd.order.message.RabbitMqEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -16,7 +17,8 @@ import org.springframework.transaction.annotation.Transactional
 @RequiredArgsConstructor
 class OrderService(
     private val orderRepository: OrderRepository,
-    private val itemHttpClient: ItemFeignClient
+    private val itemHttpClient: ItemFeignClient,
+    private val rabbitMqEventPublisher: RabbitMqEventPublisher
 ) {
 
     @Transactional
@@ -27,6 +29,7 @@ class OrderService(
         val orderItems = createOrderLines(itemResponses, orderLineRequests)
         val order = Order.createOrder(orderItems)
         val savedOrder = orderRepository.save(order)
+        rabbitMqEventPublisher.sendMessage("hello")
         return savedOrder.id!!
     }
 

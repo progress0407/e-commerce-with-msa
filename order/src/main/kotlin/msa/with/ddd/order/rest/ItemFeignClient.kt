@@ -12,6 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam
 @FeignClient(value = "item-service-call", url = "localhost:8000")
 interface ItemFeignClient {
 
-    @GetMapping("/item-service/items")
+    @GetMapping("/items")
     fun requestItems(@RequestParam("ids") ids: List<Long>): ItemResponses
 }

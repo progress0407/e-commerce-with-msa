@@ -1,6 +1,6 @@
 package msa.with.ddd.acceptance;
 
-import msa.with.ddd.item.dto.web.CreateItemRequest;
+import msa.with.ddd.item.dto.item.CreateItemRequest;
 import msa.with.ddd.support.AbstractAcceptanceTest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
