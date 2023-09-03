@@ -7,6 +7,6 @@ import org.springframework.stereotype.Component
 class RabbitMqEventPublisher(private val rabbitTemplate: RabbitTemplate) {
 
     fun sendMessage(message: String) {
-        rabbitTemplate.convertAndSend("", message)
+        rabbitTemplate.convertAndSend("item.decrease.stock", message)
     }
 }

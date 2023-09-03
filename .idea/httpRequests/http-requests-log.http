@@ -1,3 +1,132 @@
+GET http://localhost:8000/item-service/items
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-03T230645.404.json
+
+###
+
+GET http://localhost:8000/items
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-03T230641.500.json
+
+###
+
+GET http://localhost:8000/items
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-03T230637.500.json
+
+###
+
+GET http://localhost:8000/item-service
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-03T230635.404.json
+
+###
+
+GET http://localhost:8000/items
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-03T230632.500.json
+
+###
+
+POST http://localhost:8000/orders
+Content-Type: application/json
+Content-Length: 136
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "orderLineRequests": [
+    {
+      "itemId": 1,
+      "quantity": 10
+    },
+    {
+      "itemId": 2,
+      "quantity": 1
+    }
+  ]
+}
+
+<> 2023-09-02T154246.201.json
+
+###
+
+GET http://localhost:8000/orders
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-02T154243.200.json
+
+###
+
+GET http://localhost:8000/orders
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-02T154217.503.json
+
+###
+
+GET http://localhost:8000/orders
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-02T154216.503.json
+
+###
+
+GET http://localhost:8000/orders
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-09-02T154214.503.json
+
+###
+
+POST http://localhost:8000/orders
+Content-Type: application/json
+Content-Length: 136
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "orderLineRequests": [
+    {
+      "itemId": 1,
+      "quantity": 10
+    },
+    {
+      "itemId": 2,
+      "quantity": 1
+    }
+  ]
+}
+
+<> 2023-09-02T154207.503.json
+
+###
+
 GET http://localhost:8000/items
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
@@ -455,106 +584,6 @@ User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
 <> 2023-09-01T130910.404.json
-
-###
-
-POST http://localhost:8000/actuator/refresh
-Content-Length: 0
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-01T130716.404.json
-
-###
-
-GET http://localhost:8000/foo
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-01T125228.404.json
-
-###
-
-GET http://localhost:8000/item-service/items
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-01T123118.200.json
-
-###
-
-GET http://localhost:8000/items
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-01T123115.404.json
-
-###
-
-GET http://localhost:8000/item-service/items
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-01T122946.200.json
-
-###
-
-GET http://localhost:8000/item-service
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-01T122945.404.json
-
-###
-
-GET http://localhost:8000/items
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-01T122939.404.json
-
-###
-
-GET http://localhost:8000/items
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-01T122938.404.json
-
-###
-
-GET http://localhost:8000/items
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-01T122936.404.json
-
-###
-
-GET http://localhost:8000/item-service/items
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-01T122934.200.json
-
-###
-
-GET http://localhost:8000/item-service/items
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-01T122932.200.json
 
 ###
 

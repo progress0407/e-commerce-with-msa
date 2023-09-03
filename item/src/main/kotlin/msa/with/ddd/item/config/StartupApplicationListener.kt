@@ -22,14 +22,11 @@ class StartupApplicationListener(
     private val log = KotlinLogging.logger { }
 
     override fun onApplicationEvent(event: ContextRefreshedEvent) {
-
         checkConnection()
-
         initItems()
     }
 
     private fun checkConnection() {
-
         val connection: Connection? = getConnection()
         if (connection === null) {
             log.error { "[DB Connection Fail] ${this.javaClass.simpleName}" }
