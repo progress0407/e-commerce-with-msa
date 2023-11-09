@@ -1,20 +1,26 @@
-server:
-  port: 8000
+server.port: 8000
 
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka
 
 spring:
   application.name: api-gateway
+  main.web-application-type: reactive
+
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    leaseRenewalIntervalInSeconds: 1
+
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+    registry-fetch-interval-seconds: 1
+
 
 management:
   endpoints:
     web:
       exposure:
         include: refresh, beans, health, info
-
-constant.test.value: "test-a"
