@@ -1,8 +1,8 @@
-package msa.with.ddd.item.ui
+package msa.with.ddd.item.presentation
 
-import msa.with.ddd.item.application.ItemService
-import msa.with.ddd.item.dto.item.ItemCreateRequest
-import msa.with.ddd.item.dto.item.ItemResponses
+import msa.with.ddd.item.domain.service.ItemService
+import msa.with.ddd.item.presentation.dto.ItemCreateRequest
+import msa.with.ddd.item.presentation.dto.ItemResponses
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 

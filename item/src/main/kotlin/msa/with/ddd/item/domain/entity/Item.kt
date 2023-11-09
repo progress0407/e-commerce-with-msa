@@ -1,4 +1,4 @@
-package msa.with.ddd.item.domain
+package msa.with.ddd.item.domain.entity
 
 import jakarta.persistence.*
 import lombok.AccessLevel

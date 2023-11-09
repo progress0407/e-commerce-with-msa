@@ -1,6 +1,6 @@
-package msa.with.ddd.item.dto.item
+package msa.with.ddd.item.presentation.dto
 
-import msa.with.ddd.item.domain.Item
+import msa.with.ddd.item.domain.entity.Item
 
 class ItemResponse(item: Item) {
 

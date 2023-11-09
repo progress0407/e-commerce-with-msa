@@ -1,4 +1,4 @@
-package msa.with.ddd.item.ui
+package msa.with.ddd.item.presentation
 
 import org.springframework.web.bind.annotation.*
 

@@ -1,7 +1,7 @@
 package msa.with.ddd.item.config
 
 import lombok.extern.slf4j.Slf4j
-import msa.with.ddd.item.domain.Item
+import msa.with.ddd.item.domain.entity.Item
 import msa.with.ddd.item.repository.ItemRepository
 import mu.KotlinLogging
 import org.springframework.context.ApplicationListener

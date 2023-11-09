@@ -1,4 +1,4 @@
-package msa.with.ddd.item.dto.order
+package msa.with.ddd.item.consumer.dto
 
 
 class OrderCreatedEvent {

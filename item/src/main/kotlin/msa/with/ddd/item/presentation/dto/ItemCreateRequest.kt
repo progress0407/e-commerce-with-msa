@@ -1,4 +1,4 @@
-package msa.with.ddd.item.dto.item
+package msa.with.ddd.item.presentation.dto
 
 data class ItemCreateRequest(
     val name: String = "",

@@ -1,9 +1,8 @@
 package msa.with.ddd.item.domain
 
+import msa.with.ddd.item.domain.entity.Item
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 
 class ItemTest {
 
