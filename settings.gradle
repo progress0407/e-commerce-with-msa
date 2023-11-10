@@ -3,4 +3,5 @@ include 'eureka',
         'api-gateway',
         'item',
         'order',
-        'legacy'
+        'legacy',
+        'common'
