@@ -1,31 +1,20 @@
 dependencies {
-    // spring
+    // Spring
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
     // Service Registry Client
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-
-    // data
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // H2
     runtimeOnly 'com.h2database:h2'
-
-    // lombok for test
-    testCompileOnly 'org.projectlombok:lombok:1.18.12'
-    testAnnotationProcessor('org.projectlombok:lombok')
-
-    // gson
+    // Gson
     implementation 'com.google.code.gson:gson:2.10'
-
     // E2E test
     testImplementation 'io.rest-assured:rest-assured'
-
     // prettier binding parameter
     // implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter'
-
     // Feign Client
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.0'
-
     // AMQP
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
 }

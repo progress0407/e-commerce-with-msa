@@ -53,14 +53,13 @@ subprojects {
         implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
         implementation 'org.jetbrains.kotlin:kotlin-reflect'
         implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
-
-        // kotlin logging
+        // Kotlin logging
         implementation 'io.github.microutils:kotlin-logging:3.0.5'
-
         // Lombok
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
-
+        testCompileOnly 'org.projectlombok:lombok'
+        testAnnotationProcessor 'org.projectlombok:lombok'
         // Actuator
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
     }
