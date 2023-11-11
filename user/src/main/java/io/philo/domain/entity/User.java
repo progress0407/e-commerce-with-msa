@@ -2,18 +2,16 @@ package io.philo.domain.entity;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+import io.philo.support.PasswordEncoder;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
-import lombok.val;
 
 @Entity
 @Table(name = "users")
@@ -37,12 +35,16 @@ public class User {
   private String address;
 
   @Column(nullable = false)
-  private String password;
+  private String encodedPassword;
 
-  public User(String email, String name, String address, String password) {
+  public User(String email, String name, String address, String rawPassword) {
     this.email = email;
     this.name = name;
     this.address = address;
-    this.password = password;
+    this.encodedPassword = PasswordEncoder.encodePassword(rawPassword);
+  }
+
+  public boolean isSamePassword(String rawPassword) {
+    return PasswordEncoder.isSamePassword(rawPassword, encodedPassword);
   }
 }

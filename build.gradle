@@ -53,6 +53,8 @@ subprojects {
         implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
         implementation 'org.jetbrains.kotlin:kotlin-reflect'
         implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+        testImplementation 'io.kotest:kotest-runner-junit5:5.8.0'
+        testImplementation 'io.kotest:kotest-assertions-core:5.8.0'
         // Kotlin logging
         implementation 'io.github.microutils:kotlin-logging:3.0.5'
         // Lombok
@@ -103,6 +105,8 @@ project(':api-gateway') {
 project(':user') {
     apply from: rootProject.file('module-dependencies/micro-service.gradle')
     dependencies {
+        // Spring Security core for BCrypt
+        implementation 'org.springframework.security:spring-security-core'
         implementation project(':common')
     }
 }

@@ -31,7 +31,7 @@ public class UserService {
 
   private static boolean isRightCredential(String inputEmail, User user) {
     if (user.getEmail().equals(inputEmail)) {
-      if (user.getPassword().equals(inputEmail)) {
+      if (user.getEncodedPassword().equals(inputEmail)) {
         return true;
       }
       return false;
