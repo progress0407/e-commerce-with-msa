@@ -1,4 +1,4 @@
-package io.philo.presentation.dto;
+package io.philo.presentation.dto.create;
 
 public record UserCreateRequest(
     String email,

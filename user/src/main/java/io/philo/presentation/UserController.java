@@ -1,8 +1,9 @@
 package io.philo.presentation;
 
 import io.philo.domain.service.UserService;
-import io.philo.presentation.dto.UserCreateRequest;
-import io.philo.presentation.dto.UserCreateResponse;
+import io.philo.presentation.dto.create.UserCreateRequest;
+import io.philo.presentation.dto.create.UserCreateResponse;
+import io.philo.presentation.dto.login.UserLoginRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ public class UserController {
   @PostMapping
   public UserCreateResponse create(UserCreateRequest request) {
 
-    Long userId = userService.createUser(
+    long userId = userService.createUser(
         request.email(),
         request.name(),
         request.address(),
@@ -26,5 +27,10 @@ public class UserController {
     );
 
     return new UserCreateResponse(userId);
+  }
+
+  @PostMapping("/login")
+  public void login(UserLoginRequest request) {
+    userService.login(request.email(), request.password());
   }
 }
