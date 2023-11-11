@@ -24,7 +24,7 @@ public class UserService {
   }
 
   private static void validateCredential(String inputEmail, User user) {
-    if (isRightCredential(inputEmail, user)) {
+    if (!isRightCredential(inputEmail, user)) {
       throw new UnauthorizedException("유효한 로그인 정보가 아닙니다.");
     }
   }
