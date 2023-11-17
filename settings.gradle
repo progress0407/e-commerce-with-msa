@@ -4,5 +4,6 @@ include 'eureka',
         'user',
         'item',
         'order',
-        'legacy',
-        'common'
+        'coupon',
+        'common',
+        'legacy'
