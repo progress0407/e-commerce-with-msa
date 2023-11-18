@@ -24,3 +24,6 @@ management:
     web:
       exposure:
         include: refresh, beans, health, info
+
+constant:
+  test.value: something-001

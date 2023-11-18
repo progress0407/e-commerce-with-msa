@@ -1,7 +1,9 @@
 rootProject.name = 'e-commerce'
 include 'eureka',
         'api-gateway',
+        'user',
         'item',
         'order',
-        'legacy',
-        'common'
+        'coupon',
+        'common',
+        'legacy'

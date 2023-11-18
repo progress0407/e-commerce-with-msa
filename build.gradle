@@ -9,9 +9,13 @@ plugins {
 }
 
 allprojects {
+
     group = 'msa-with-ddd'
     version = '0.0.1-SNAPSHOT'
     sourceCompatibility = '17'
+
+//    bootJar.enabled = false
+//    jar.enabled = true
 
     repositories {
         mavenCentral()
@@ -23,6 +27,17 @@ allprojects {
             jvmTarget = JavaVersion.VERSION_17.toString()
         }
     }
+
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
 }
 
 subprojects {
@@ -38,14 +53,15 @@ subprojects {
         implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
         implementation 'org.jetbrains.kotlin:kotlin-reflect'
         implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
-
-        // kotlin logging
+        testImplementation 'io.kotest:kotest-runner-junit5:5.8.0'
+        testImplementation 'io.kotest:kotest-assertions-core:5.8.0'
+        // Kotlin logging
         implementation 'io.github.microutils:kotlin-logging:3.0.5'
-
         // Lombok
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
-
+        testCompileOnly 'org.projectlombok:lombok'
+        testAnnotationProcessor 'org.projectlombok:lombok'
         // Actuator
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
     }
@@ -61,12 +77,55 @@ subprojects {
     }
 }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
+//subprojects { project ->
+//    if (project.name in [':user', ':item', ':order']) {
+//        apply from: rootProject.file('module-dependencies/micro-service.gradle')
+//        dependencies {
+//            implementation project(':common')
+//        }
+//    }
+//}
+
+project(':eureka') {
+    dependencies {
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
     }
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+project(':api-gateway') {
+    dependencies {
+        // Router
+        implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+
+        // Service Registry Client
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    }
 }
+
+project(':user') {
+    apply from: rootProject.file('module-dependencies/micro-service.gradle')
+    dependencies {
+        // Spring Security core for BCrypt
+        implementation 'org.springframework.security:spring-security-core'
+        implementation project(':common')
+    }
+}
+
+project(':item') {
+    apply from: rootProject.file('module-dependencies/micro-service.gradle')
+    dependencies {
+        implementation project(':common')
+    }
+}
+
+project(':order') {
+    apply from: rootProject.file('module-dependencies/micro-service.gradle')
+    dependencies {
+        implementation project(':common')
+    }
+}
+
+project(':common') {
+    apply from: rootProject.file('module-dependencies/micro-service.gradle')
+}
+
