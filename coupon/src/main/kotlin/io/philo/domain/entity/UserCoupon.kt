@@ -4,6 +4,6 @@ class UserCoupon(
     val id: Long?,
     val userId: Long,
     val couponId: Long,
-    var isUse: Boolean
+    var isUse: Boolean // 사용 여부
 ) {
 }

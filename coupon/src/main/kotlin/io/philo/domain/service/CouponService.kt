@@ -8,9 +8,16 @@ class CouponService {
 
     fun discountCoupon(userId: Long, itemId: Long, itemAmount: Int, couponIds: List<Long>): Int {
 
-        val coupons: List<Coupon> = listOf()
-        val finalAmount = coupons.map { it.discount(itemAmount) }
-            .toList()
+        val coupons: List<Coupon> =  // find Coupons and ordering coupons
+            listOf<Coupon>()
+                .sortedBy { it -> it.orer }
+        val finalAmount = coupons.sumOf { it.discount(itemAmount) }
+
+        if (finalAmount < 0) {
+            throw IllegalArgumentException("상품 가격은 음수가 될 수 없습니다")
+        }
+
+        coupons[0].calculatedValue
 
         return finalAmount
     }
