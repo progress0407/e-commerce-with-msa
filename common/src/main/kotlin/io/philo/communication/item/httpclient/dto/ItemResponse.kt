@@ -1,4 +1,4 @@
-package io.philo.etc
+package io.philo.communication.item.httpclient.dto
 
 data class ItemResponse(
     val id: Long,

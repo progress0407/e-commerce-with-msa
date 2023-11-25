@@ -1,5 +1,6 @@
-package io.philo.etc
+package io.philo.communication.item.httpclient
 
+import io.philo.communication.item.httpclient.dto.ItemResponse
 import org.springframework.stereotype.Component
 
 @Component
