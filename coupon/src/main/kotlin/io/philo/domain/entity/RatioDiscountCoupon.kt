@@ -8,6 +8,8 @@ class RatioDiscountCoupon(val discountPercent: Int) : Coupon() {
         }
     }
 
+    override fun order(): Int = 2
+
     override fun discount(itemAmount: Int): Int {
         return itemAmount * (discountPercent / 100)
     }

@@ -1,20 +1,30 @@
 package io.philo.domain.entity
 
+import jakarta.persistence.*
 import java.time.LocalDate
 
+@Entity
+@MappedSuperclass
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 abstract class Coupon(
-    var expirationStartAt: LocalDate = LocalDate.now(),
-    var expirationEndAt: LocalDate = LocalDate.now().plusDays(30)
+
+    @field:Column(nullable = false)
+    val expirationStartAt: LocalDate = LocalDate.now(),
+
+    @field:Column(nullable = false)
+    val expirationEndAt: LocalDate = LocalDate.now().plusDays(30)
 ) {
 
-    abstract val order : Int
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_id")
+    val id: Long? = null
+
+    val order : Int
         get() = order()
+
     abstract fun order(): Int
 
     abstract fun discount(itemAmount: Int): Int
-
-    val calculatedValue: Int
-        get() =         // 여기에 계산 로직을 구현합니다.
-            42 // 예시 값
 
 }

@@ -2,34 +2,32 @@ package msa.with.ddd.item.domain.entity
 
 import jakarta.persistence.*
 import lombok.AccessLevel
+import lombok.AccessLevel.PROTECTED
 import lombok.Getter
 import lombok.NoArgsConstructor
 import lombok.ToString
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 @Getter
 @ToString
 class Item(
-    @field:Column(
-        nullable = false,
-        length = 100,
-        unique = true
-    ) val name: String,
+    @field:Column(nullable = false, length = 100, unique = true)
+    val name: String,
 
-    @field:Column(nullable = false) val size: String,
+    @field:Column(nullable = false)
+    val size: String,
 
-    @field:Column(nullable = false) val price: Int,
+    @field:Column(nullable = false)
+    val price: Int,
 
-    @field:Column(nullable = false) var availableQuantity: Int
+    @field:Column(nullable = false)
+    var availableQuantity: Int
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "item_id")
+    @Column
     val id: Long? = null
-
-    @Version
-    val version: Long? = null
 
     // default constructor for using JPA
     constructor() : this("", "", 0, 0)

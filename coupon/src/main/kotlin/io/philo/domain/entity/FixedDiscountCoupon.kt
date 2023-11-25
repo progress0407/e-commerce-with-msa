@@ -1,12 +1,8 @@
 package io.philo.domain.entity
 
-class FixedDiscountCoupon(
-    val discountAmount: Int
-) : Coupon() {
+class FixedDiscountCoupon(val discountAmount: Int) : Coupon() {
 
-    companion object {
-        public const val order: Int = 1
-    }
+    override fun order(): Int = 1
 
     override fun discount(itemAmount: Int): Int {
         validateDiscount(itemAmount)

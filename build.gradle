@@ -111,6 +111,15 @@ project(':user') {
     }
 }
 
+project(':coupon') {
+    bootJar.enabled = true
+    jar.enabled = true
+    apply from: rootProject.file('module-dependencies/micro-service.gradle')
+    dependencies {
+        implementation project(':common')
+    }
+}
+
 project(':item') {
     apply from: rootProject.file('module-dependencies/micro-service.gradle')
     dependencies {
