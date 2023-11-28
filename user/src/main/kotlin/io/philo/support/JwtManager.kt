@@ -8,10 +8,10 @@ import java.util.*
 import javax.crypto.SecretKey
 
 
-class JwtManager {
-
-    private val secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512)
-    private val expirationDurationTime: Long = 60 * 60 * 1000
+class JwtManager(
+    private val secretKey: SecretKey,
+    private val expirationDurationTime: Long
+) {
 
     fun createAccessToken(tokenSubject: String): String {
         return Jwts.builder()
