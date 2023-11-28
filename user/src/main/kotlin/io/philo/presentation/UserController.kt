@@ -38,12 +38,12 @@ class UserController(private val userService: UserService) {
     }
 
     @PostMapping("/login")
-    fun login(request: UserLoginRequest): ResponseEntity<*> {
+    fun login(@RequestBody request: UserLoginRequest): ResponseEntity<*> {
 
         val accessToken = userService.login(request.email, request.password)
 
         return ResponseEntity.ok()
-            .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
-            .body("User logged in successfully")
+            .header(HttpHeaders.AUTHORIZATION, accessToken)
+            .body("User logged in successfully. See response header")
     }
 }

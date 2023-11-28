@@ -33,12 +33,13 @@ class UserService(private val repository: UserRepository) {
 
         validateCredential(inputPassword, user)
 
-        val secretKeyStr = "asdv4uqweyvnrkilwevryulkqwevr,"
         val expirationDurationTime = 60 * 60 * 1000
 
         val subject = user.id.toString()
         val currentTime = Date()
-        val secretKey = Keys.hmacShaKeyFor(secretKeyStr.toByteArray())
+//        val secretKeyStr = "asdv4uqweyvnrkilwevryulkqwevraevoinuro32434324sdvrvrevorvfo"
+//        val secretKey = Keys.hmacShaKeyFor(secretKeyStr.toByteArray())
+        val secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512)
         val expirationTime = Date(System.currentTimeMillis() + expirationDurationTime)
 
         val newAccessToken = Jwts.builder()
