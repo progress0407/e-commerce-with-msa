@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class UserService(val repository: UserRepository) {
+class UserService(private val repository: UserRepository) {
 
     fun createUser(
         email: String,

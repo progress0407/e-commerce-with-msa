@@ -1,4 +1,4 @@
-server.port: 0
+server.port: 9090
 
 spring:
   application:
@@ -17,3 +17,4 @@ eureka:
       defaultZone: http://127.0.0.1:8761/eureka
     fetch-registry: true
     register-with-eureka: true
+    enabled: false
