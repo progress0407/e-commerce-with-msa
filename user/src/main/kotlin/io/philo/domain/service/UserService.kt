@@ -7,11 +7,14 @@ import io.philo.domain.entity.User
 import io.philo.domain.repository.UserRepository
 import io.philo.shop.error.EntityNotFoundException
 import io.philo.shop.error.UnauthorizedException
+import io.philo.support.JwtManager
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class UserService(private val repository: UserRepository) {
+class UserService(private val jwtManager: JwtManager,
+                  private val repository: UserRepository) {
+
 
     fun createUser(
         email: String,
@@ -33,21 +36,8 @@ class UserService(private val repository: UserRepository) {
 
         validateCredential(inputPassword, user)
 
-        val expirationDurationTime = 60 * 60 * 1000
-
         val subject = user.id.toString()
-        val currentTime = Date()
-//        val secretKeyStr = "asdv4uqweyvnrkilwevryulkqwevraevoinuro32434324sdvrvrevorvfo"
-//        val secretKey = Keys.hmacShaKeyFor(secretKeyStr.toByteArray())
-        val secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512)
-        val expirationTime = Date(System.currentTimeMillis() + expirationDurationTime)
-
-        val newAccessToken = Jwts.builder()
-            .signWith(secretKey, SignatureAlgorithm.HS512)
-            .setSubject(subject)
-            .setIssuedAt(currentTime)
-            .setExpiration(expirationTime)
-            .compact()
+        val newAccessToken = jwtManager.createAccessToken(subject)
 
         return newAccessToken
     }
