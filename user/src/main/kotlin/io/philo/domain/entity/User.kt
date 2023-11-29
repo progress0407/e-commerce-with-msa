@@ -5,7 +5,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "users")
-data class User(
+open class User protected constructor(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,18 +13,23 @@ data class User(
     val id: Long? = null,
 
     @Column(nullable = false)
-    private var email: String = "",
+    var email: String = "",
 
     @Column(nullable = false)
-    private var name: String = "",
+    var name: String = "",
 
     @Column(nullable = false)
-    private var address: String = "",
+    var address: String = "",
 
     @Column(nullable = false)
     var encodedPassword: String = ""
 ) {
-    constructor() : this(email = "")
+
+    @Column(nullable = false)
+    var email2: String = ""
+        private set
+
+    protected constructor() : this(email = "")
 
     constructor(
         email: String,
@@ -41,5 +46,11 @@ data class User(
 
     fun isSamePassword(rawPassword: String?): Boolean {
         return PasswordEncoder.isSamePassword(rawPassword, encodedPassword)
+    }
+
+    companion object {}
+
+    override fun toString(): String {
+        return "User(id=$id, email='$email', name='$name', address='$address', encodedPassword='$encodedPassword')"
     }
 }
