@@ -5,4 +5,6 @@ data class UserCreateRequest(
     val name: String,
     val address: String,
     val password: String
-)
+) {
+    companion object
+}

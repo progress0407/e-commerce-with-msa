@@ -1,23 +1,26 @@
 package io.philo.integration
 
 import io.kotest.matchers.shouldBe
+import io.philo.presentation.dto.create.UserCreateRequest
+import io.philo.presentation.dto.create.UserCreateResponse
+import org.junit.jupiter.api.Test
 
-class UserAcceptanceTest() : AcceptanceTest({
-    "사용자 생성 및 암호화 검증" {
-        val requestBody = io.philo.presentation.dto.create.UserCreateRequest(
-            email = "jason0101@example.com",
-            name = "jason",
-            address = "seoul yongsangu",
-            password = "1234"
-        )
+class UserAcceptanceTest : AcceptanceTest() {
 
-        val response = post(uri = "/users", body = requestBody)
+    @Test
+    fun `회원가입한다`() {
 
-        val userId = response.`as`(io.philo.presentation.dto.create.UserCreateResponse::class.java).id
+        val requestBody = UserCreateRequest.fixture()
 
-        println("coroutineContext = ${coroutineContext}")
-        println("userId = ${userId}")
+        val userId = postAndGetBody<UserCreateResponse>(uri = "/users", body = requestBody).id
 
-        (userId > 0) shouldBe false
+        (userId > 0) shouldBe true
     }
-})
+
+    fun UserCreateRequest.Companion.fixture(): UserCreateRequest = UserCreateRequest(
+        email = "jason0101@example.com",
+        name = "jason",
+        address = "seoul yongsangu",
+        password = "1234"
+    )
+}
