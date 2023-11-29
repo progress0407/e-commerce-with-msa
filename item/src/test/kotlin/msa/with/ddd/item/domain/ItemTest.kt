@@ -10,7 +10,7 @@ class ItemTest : StringSpec({
     "구매한 수량만큼 재고가 감소한다" {
 
         // given
-        val item = Item(name = "척 70 클래식 블랙 컨버스", size = "270", price = 86_000, stockQuantity = 4)
+        val item = Item.fixture
 
         // when
         item.decreaseStockQuantity(2)
@@ -22,7 +22,7 @@ class ItemTest : StringSpec({
     "재고 수량보다 많은 수량을 구매할 수 없다" {
 
         // given
-        val item = Item(name = "척 70 클래식 블랙 컨버스", size = "270", price = 86_000, stockQuantity = 4)
+        val item = Item.fixture
 
         // when
         val exception = shouldThrow<IllegalStateException> {

@@ -7,8 +7,10 @@ import io.philo.domain.entity.User
 import io.philo.presentation.dto.create.UserCreateRequest
 import io.philo.presentation.dto.create.UserCreateResponse
 import io.philo.presentation.dto.login.UserLoginRequest
+import io.restassured.response.ExtractableResponse
+import io.restassured.response.Response
 import org.junit.jupiter.api.Test
-import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpHeaders.AUTHORIZATION
 
 class UserAcceptanceTest : AcceptanceTest() {
 
@@ -20,11 +22,14 @@ class UserAcceptanceTest : AcceptanceTest() {
         val userId = postAndGetBody<UserCreateResponse>(uri = "/users", body = requestBody).id
 
         val loginResponse = post("/users/login", UserLoginRequest.fixture)
-        val accessToken = loginResponse.header(HttpHeaders.AUTHORIZATION)
+        val accessToken = loginResponse.authHeader
 
         (userId > 0) shouldBe true // id 생성 검증
         accessToken shouldNotBe null // token 존재 검증
     }
+
+    val ExtractableResponse<Response>.authHeader
+        get() = this.header(AUTHORIZATION)
 
     val UserCreateRequest.Companion.fixture: UserCreateRequest
         get() = UserCreateRequest(
