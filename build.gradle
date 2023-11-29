@@ -94,7 +94,7 @@ project(':eureka') {
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
 
         implementation project(':common')
-        testImplementation project(':common')
+        testImplementation testFixtures(project(':common'))
     }
 }
 
@@ -107,7 +107,7 @@ project(':api-gateway') {
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
         implementation project(':common')
-        testImplementation project(':common')
+        testImplementation testFixtures(project(':common'))
     }
 }
 
@@ -123,9 +123,7 @@ project(':user') {
         runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 
         implementation project(':common')
-//        testImplementation project(':common')
         testImplementation testFixtures(project(':common'))
-//        testImplementation testFixtures project ':common'
     }
 
     tasks.test {
@@ -139,7 +137,7 @@ project(':coupon') {
     apply from: rootProject.file('module-dependencies/micro-service.gradle')
     dependencies {
         implementation project(':common')
-        testImplementation project(':common')
+        testImplementation testFixtures(project(':common'))
     }
 }
 
@@ -147,7 +145,7 @@ project(':item') {
     apply from: rootProject.file('module-dependencies/micro-service.gradle')
     dependencies {
         implementation project(':common')
-        testImplementation project(':common')
+        testImplementation testFixtures(project(':common'))
     }
 }
 
@@ -155,7 +153,7 @@ project(':order') {
     apply from: rootProject.file('module-dependencies/micro-service.gradle')
     dependencies {
         implementation project(':common')
-        testImplementation project(':common')
+        testImplementation testFixtures(project(':common'))
     }
 }
 

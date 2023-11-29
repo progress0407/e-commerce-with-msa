@@ -15,6 +15,6 @@ class ItemResponse(item: Item) {
         name = item.name
         size = item.size
         price = item.price
-        availableQuantity = item.availableQuantity
+        availableQuantity = item.stockQuantity
     }
 }

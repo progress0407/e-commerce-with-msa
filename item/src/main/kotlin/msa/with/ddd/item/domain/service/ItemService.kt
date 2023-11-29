@@ -1,9 +1,8 @@
 package msa.with.ddd.item.domain.service
 
 import msa.with.ddd.item.domain.entity.Item
-import msa.with.ddd.item.repository.ItemRepository
-import msa.with.ddd.item.presentation.dto.ItemCreateRequest
 import msa.with.ddd.item.presentation.dto.ItemResponse
+import msa.with.ddd.item.repository.ItemRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -12,13 +11,20 @@ import org.springframework.transaction.annotation.Transactional
 class ItemService(private val itemRepository: ItemRepository) {
 
     @Transactional
-    fun registerItem(request: ItemCreateRequest): Long {
-        val item = createItem(request)
-        val savedItem = itemRepository.save(item)
-        return savedItem.id!!
+    fun registerItem(name: String,
+                     size: String,
+                     price: Int,
+                     availableQuantity: Int): Long {
+
+        val item = Item(name, size, price, availableQuantity)
+        itemRepository.save(item)
+
+        return item.id!!
     }
 
+    @Transactional(readOnly = true)
     fun findItems(itemIds: List<Long>?): List<ItemResponse> {
+
         return if (itemIds.isNullOrEmpty()) {
             itemRepository.findAll()
                 .map { item -> ItemResponse(item) }
@@ -37,13 +43,10 @@ class ItemService(private val itemRepository: ItemRepository) {
         validateAndDecreaseItemQuantity(itemIdToDecreaseQuantity, findItems)
     }
 
-    private fun createItem(request: ItemCreateRequest) =
-        Item(request.name, request.size, request.price, request.availableQuantity)
-
     private fun validateAndDecreaseItemQuantity(itemIdToDecreaseQuantity: Map<Long, Int>, findItems: List<Item>) {
         for (item in findItems) {
             val decreaseQuantity = itemIdToDecreaseQuantity[item.id]!!
-            item.decreaseQuantity(decreaseQuantity)
+            item.decreaseStockQuantity(decreaseQuantity)
         }
     }
 }

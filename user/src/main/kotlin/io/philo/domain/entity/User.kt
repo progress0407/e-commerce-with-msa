@@ -2,13 +2,14 @@ package io.philo.domain.entity
 
 import io.philo.support.PasswordEncoder
 import jakarta.persistence.*
+import jakarta.persistence.GenerationType.IDENTITY
 
 @Entity
 @Table(name = "users")
 open class User protected constructor(
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     @Column
     val id: Long? = null,
 
@@ -24,10 +25,6 @@ open class User protected constructor(
     @Column(nullable = false)
     var encodedPassword: String = ""
 ) {
-
-    @Column(nullable = false)
-    var email2: String = ""
-        private set
 
     protected constructor() : this(email = "")
 
