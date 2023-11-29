@@ -2,6 +2,7 @@ package io.philo.integration
 
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.philo.AcceptanceTest
 import io.philo.domain.entity.User
 import io.philo.presentation.dto.create.UserCreateRequest
 import io.philo.presentation.dto.create.UserCreateResponse
@@ -24,13 +25,6 @@ class UserAcceptanceTest : AcceptanceTest() {
         (userId > 0) shouldBe true // id 생성 검증
         accessToken shouldNotBe null // token 존재 검증
     }
-
-    fun UserCreateRequest.Companion.fixture(): UserCreateRequest = UserCreateRequest(
-        email = User.fixture.email,
-        name = User.fixture.name,
-        address = User.fixture.address,
-        password = User.fixture.encodedPassword
-    )
 
     val UserCreateRequest.Companion.fixture: UserCreateRequest
         get() = UserCreateRequest(

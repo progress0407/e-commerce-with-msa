@@ -1,4 +1,4 @@
-package io.philo.integration
+package io.philo
 
 import io.restassured.RestAssured
 import io.restassured.response.ExtractableResponse
@@ -6,14 +6,12 @@ import io.restassured.response.Response
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
 import org.junit.jupiter.api.BeforeEach
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
-import javax.sql.DataSource
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class AcceptanceTest {
+open class AcceptanceTest {
 
     @LocalServerPort
     var port = 0
@@ -21,15 +19,15 @@ class AcceptanceTest {
     @PersistenceContext
     lateinit var entityManager: EntityManager
 
-    @Autowired
-    lateinit var dataSource: DataSource
+//    @Autowired
+//    lateinit var dataSource: DataSource
 
     @BeforeEach
     protected fun setUp() {
         RestAssured.port = port
     }
 
-    protected fun post(uri: String, body: Any): ExtractableResponse<Response> {
+    fun post(uri: String, body: Any): ExtractableResponse<Response> {
         return RestAssured.given().log().all()
             .body(body)
             .contentType(APPLICATION_JSON_VALUE)
@@ -39,7 +37,7 @@ class AcceptanceTest {
             .extract()
     }
 
-    protected fun post(uri: String, body: Any, token: String): ExtractableResponse<Response> {
+    fun post(uri: String, body: Any, token: String): ExtractableResponse<Response> {
         return RestAssured.given().log().all()
             .auth().oauth2(token)
             .body(body)
@@ -51,7 +49,7 @@ class AcceptanceTest {
     }
 
 
-    protected final inline fun <reified T: Any> postAndGetBody(uri: String, body: Any): T {
+    final inline fun <reified T: Any> postAndGetBody(uri: String, body: Any): T {
 
         val response = RestAssured.given().log().all()
             .body(body)

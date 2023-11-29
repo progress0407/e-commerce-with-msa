@@ -6,6 +6,7 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.7.22'
     id 'org.jetbrains.kotlin.plugin.spring' version '1.7.22'
     id 'org.jetbrains.kotlin.plugin.jpa' version '1.7.22'
+    id 'java-test-fixtures'
 }
 
 allprojects {
@@ -46,6 +47,7 @@ subprojects {
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'org.jetbrains.kotlin.plugin.spring'
+    apply plugin: 'java-test-fixtures'
 
     dependencies {
         // Kotlin
@@ -53,7 +55,9 @@ subprojects {
         implementation 'org.jetbrains.kotlin:kotlin-reflect'
         implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
         testImplementation 'io.kotest:kotest-runner-junit5:5.8.0'
+        testFixturesImplementation 'io.kotest:kotest-runner-junit5:5.8.0'
         testImplementation 'io.kotest:kotest-assertions-core:5.8.0'
+        testFixturesImplementation 'io.kotest:kotest-assertions-core:5.8.0'
         // Kotlin logging
         implementation 'io.github.microutils:kotlin-logging:3.0.5'
         // Lombok
@@ -88,6 +92,9 @@ subprojects {
 project(':eureka') {
     dependencies {
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+
+        implementation project(':common')
+        testImplementation project(':common')
     }
 }
 
@@ -98,6 +105,9 @@ project(':api-gateway') {
 
         // Service Registry Client
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+        implementation project(':common')
+        testImplementation project(':common')
     }
 }
 
@@ -113,6 +123,9 @@ project(':user') {
         runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 
         implementation project(':common')
+//        testImplementation project(':common')
+        testImplementation testFixtures(project(':common'))
+//        testImplementation testFixtures project ':common'
     }
 
     tasks.test {
@@ -126,6 +139,7 @@ project(':coupon') {
     apply from: rootProject.file('module-dependencies/micro-service.gradle')
     dependencies {
         implementation project(':common')
+        testImplementation project(':common')
     }
 }
 
@@ -133,6 +147,7 @@ project(':item') {
     apply from: rootProject.file('module-dependencies/micro-service.gradle')
     dependencies {
         implementation project(':common')
+        testImplementation project(':common')
     }
 }
 
@@ -140,10 +155,18 @@ project(':order') {
     apply from: rootProject.file('module-dependencies/micro-service.gradle')
     dependencies {
         implementation project(':common')
+        testImplementation project(':common')
     }
 }
 
 project(':common') {
     apply from: rootProject.file('module-dependencies/micro-service.gradle')
+
+    dependencies {
+        testFixturesImplementation 'org.springframework.boot:spring-boot-starter-web'
+        testFixturesImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        testFixturesImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testFixturesImplementation 'io.rest-assured:rest-assured'
+    }
 }
 
