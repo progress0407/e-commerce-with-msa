@@ -6,7 +6,7 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.7.22'
     id 'org.jetbrains.kotlin.plugin.spring' version '1.7.22'
     id 'org.jetbrains.kotlin.plugin.jpa' version '1.7.22'
-    id 'java-test-fixtures'
+    id 'org.jetbrains.kotlin.plugin.allopen' version '1.7.22'
 }
 
 allprojects {
@@ -83,6 +83,12 @@ subprojects {
 
     tasks.test {
         useJUnitPlatform()
+    }
+
+    allOpen {
+        annotation("jakarta.persistence.Entity")
+        annotation("jakarta.persistence.Embeddable")
+        annotation("jakarta.persistence.MappedSuperclass")
     }
 }
 

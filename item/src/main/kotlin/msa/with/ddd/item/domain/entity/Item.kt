@@ -7,7 +7,7 @@ import jakarta.persistence.GenerationType.IDENTITY
 import jakarta.persistence.Id
 
 @Entity
-open class Item protected constructor(
+class Item protected constructor(
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

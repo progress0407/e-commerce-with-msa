@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 @Component
 class RabbitMqEventListener(private val rabbitTemplate: RabbitTemplate){
 
-    @RabbitListener(queues = ["item.decrease.stock"])
+    @RabbitListener(queues = ["item.decrease.stock.queue"])
     fun receiveMessage() {
         rabbitTemplate.receive()
     }
