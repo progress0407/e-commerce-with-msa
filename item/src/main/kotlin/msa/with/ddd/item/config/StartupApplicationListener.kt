@@ -48,9 +48,9 @@ class StartupApplicationListener(
 
     private fun initItems() {
         try {
-            itemRepository.save(Item("포카리 스웨트", "200", 1_600, 40))
-            itemRepository.save(Item("이영자 함박 돈까스 도시락", 4_900, 3))
-            itemRepository.save(Item("포카리 스웨트", 1_600, 100))
+            itemRepository.save(Item(name = "포카리 스웨트", size = "200", price = 1_600, stockQuantity = 40))
+            itemRepository.save(Item(name = "이영자 함박 돈까스 도시락", price = 4_900, stockQuantity = 3))
+            itemRepository.save(Item(name = "포카리 스웨트", price = 1_600, stockQuantity = 100))
         } catch (e: Exception) {
             // 데이터 초기화 에러
             log.error { "[Data Initialization error]" }

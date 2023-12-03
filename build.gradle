@@ -36,9 +36,9 @@ configurations {
     }
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
-}
+//tasks.named('test') {
+//    useJUnitPlatform()
+//}
 
 subprojects {
 
@@ -77,6 +77,10 @@ subprojects {
         imports {
             mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
         }
+    }
+
+    tasks.test {
+        useJUnitPlatform()
     }
 }
 
@@ -118,16 +122,12 @@ project(':user') {
         implementation 'org.springframework.security:spring-security-core'
 
         // jjwt
-        implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
-        runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
-        runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+        implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+        implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+        implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
         implementation project(':common')
         testImplementation testFixtures(project(':common'))
-    }
-
-    tasks.test {
-        useJUnitPlatform()
     }
 }
 

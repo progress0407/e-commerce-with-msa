@@ -19,7 +19,7 @@ class UserAcceptanceTest : AcceptanceTest() {
 
         val requestBody = UserCreateRequest.fixture
 
-        val userId = postAndGetBody<UserCreateResponse>(uri = "/users", body = requestBody).id
+        val userId = postAndGetBody<UserCreateResponse>("/users", requestBody).id
 
         val loginResponse = post("/users/login", UserLoginRequest.fixture)
         val accessToken = loginResponse.authHeader
