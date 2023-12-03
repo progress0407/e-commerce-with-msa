@@ -67,6 +67,8 @@ subprojects {
         testAnnotationProcessor 'org.projectlombok:lombok'
         // Actuator
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        // Yaml Auto Complete
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     }
 
     ext {
