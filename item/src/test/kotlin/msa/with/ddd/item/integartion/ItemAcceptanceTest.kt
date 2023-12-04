@@ -44,5 +44,8 @@ class ItemAcceptanceTest : AcceptanceTest() {
         }
 
     val Item.Companion.fixture
-        get() = Item(name = "컨셉원 슬랙스 BLACK 30", size = "30", price = 70_000, stockQuantity = 500)
+        get() = Item(name = "컨셉원 슬랙스 BLACK 30",
+            size = "30",
+            price = 70_000,
+            stockQuantity = 500)
 }
