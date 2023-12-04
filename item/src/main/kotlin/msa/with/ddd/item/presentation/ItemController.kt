@@ -3,6 +3,7 @@ package msa.with.ddd.item.presentation
 import io.philo.dto.ResourceCreateResponse
 import msa.with.ddd.item.domain.service.ItemService
 import msa.with.ddd.item.presentation.dto.ItemCreateRequest
+import msa.with.ddd.item.presentation.dto.ItemResponse
 import msa.with.ddd.item.presentation.dto.ItemResponses
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.web.bind.annotation.*
@@ -31,7 +32,7 @@ class ItemController(private val itemService: ItemService) {
     @GetMapping
     fun list(@RequestParam(value = "ids", required = false) itemIds: List<Long>?): ItemResponses {
 
-        val items = itemService.findItems(itemIds)
+        val items: List<ItemResponse> = itemService.findItems(itemIds)
 
         return ItemResponses(items)
     }

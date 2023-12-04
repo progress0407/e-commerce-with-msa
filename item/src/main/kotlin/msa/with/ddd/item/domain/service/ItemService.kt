@@ -25,14 +25,18 @@ class ItemService(private val itemRepository: ItemRepository) {
     @Transactional(readOnly = true)
     fun findItems(itemIds: List<Long>?): List<ItemResponse> {
 
-        return if (itemIds.isNullOrEmpty()) {
-            itemRepository.findAll()
+        if (itemIds.isNullOrEmpty()) {
+            val entities = itemRepository.findAll()
+            val dtos = entities
                 .map { item -> ItemResponse(item) }
                 .toList()
+            return dtos
         } else {
-            itemRepository.findByIdIn(itemIds)
+            val entities = itemRepository.findByIdIn(itemIds)
+            val dtos = entities
                 .map { item -> ItemResponse(item) }
                 .toList()
+            return dtos
         }
     }
 

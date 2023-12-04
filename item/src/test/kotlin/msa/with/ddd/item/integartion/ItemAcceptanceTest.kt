@@ -6,6 +6,7 @@ import io.philo.AcceptanceTest
 import io.philo.dto.ResourceCreateResponse
 import msa.with.ddd.item.domain.entity.Item
 import msa.with.ddd.item.presentation.dto.ItemCreateRequest
+import msa.with.ddd.item.presentation.dto.ItemResponse
 import msa.with.ddd.item.presentation.dto.ItemResponses
 import org.junit.jupiter.api.Test
 
@@ -20,14 +21,18 @@ class ItemAcceptanceTest : AcceptanceTest() {
 
         // when
         val itemId = postAndGetBody<ResourceCreateResponse>("/items", requestBody).id
-        val responseBody = getAndGetBody<ItemResponses>("/items?ids=$itemId")
+        val responseBody: ItemResponses = getAndGetBody<ItemResponses>("/items?ids=$itemId")
 
         // then
-        val foundItems = responseBody.items
+        val foundItems: List<ItemResponse> = responseBody.items
+
         itemId shouldNotBe null
         foundItems shouldNotBe null
-        foundItems!!.size shouldBe 1
-        foundItems[0].name shouldBe ItemCreateRequest.fixture.name
+
+        val foundItem = foundItems[0]
+
+        foundItem.size shouldBe ItemCreateRequest.fixture.size
+        foundItem.name shouldBe ItemCreateRequest.fixture.name
     }
 
     val ItemCreateRequest.Companion.fixture: ItemCreateRequest
