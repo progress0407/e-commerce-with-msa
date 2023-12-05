@@ -5,5 +5,7 @@ include 'eureka',
         'item',
         'order',
         'coupon',
-        'common',
+        'common:general',
+        'common:event',
+        'common:rest-client',
         'legacy'

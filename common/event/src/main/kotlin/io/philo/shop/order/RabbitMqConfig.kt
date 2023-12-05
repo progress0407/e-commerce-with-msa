@@ -1,4 +1,4 @@
-package io.philo.shop.communication.event
+package io.philo.shop.order
 
 import org.springframework.amqp.core.Binding
 import org.springframework.amqp.core.BindingBuilder
@@ -26,10 +26,11 @@ class RabbitMqConfig(
     val password: String,
 ) {
 
-
-    private val EXCAHGE_NAME = "item.decrease.stock.exchange"
-    private val QUEUE_NAME = "item.decrease.stock.queue"
-    private val ROUTING_KEY = "item.decrease.stock.routing.#"
+    companion object {
+        private const val EXCHANGE_NAME = "order.create.exchange"
+        private const val QUEUE_NAME = "order.create.queue"
+        private const val ROUTING_KEY = "order.create.routing.#"
+    }
 
     @Bean
     fun messageConverter(): Jackson2JsonMessageConverter {
@@ -40,7 +41,7 @@ class RabbitMqConfig(
     fun queue() = Queue(QUEUE_NAME)
 
     @Bean
-    fun exchange() = DirectExchange(EXCAHGE_NAME)
+    fun exchange() = DirectExchange(EXCHANGE_NAME)
 
     @Bean
     fun binding(

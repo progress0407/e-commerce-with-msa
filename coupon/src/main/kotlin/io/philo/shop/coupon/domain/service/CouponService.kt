@@ -1,8 +1,8 @@
 package io.philo.shop.coupon.domain.service
 
-import io.philo.shop.communication.restclient.item.ItemHttpClient
 import io.philo.shop.coupon.domain.repository.CouponRepository
 import io.philo.shop.coupon.domain.repository.UserCouponRepository
+import io.philo.shop.item.ItemHttpClient
 import org.springframework.stereotype.Service
 
 @Service

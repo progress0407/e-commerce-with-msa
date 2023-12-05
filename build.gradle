@@ -119,8 +119,8 @@ project(':eureka') {
     dependencies {
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
 
-        implementation project(':common')
-        testImplementation testFixtures(project(':common'))
+        implementation project(':common:general')
+        testImplementation testFixtures(project(':common:general'))
     }
 }
 
@@ -132,8 +132,8 @@ project(':api-gateway') {
         // Service Registry Client
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
-        implementation project(':common')
-        testImplementation testFixtures(project(':common'))
+        implementation project(':common:general')
+        testImplementation testFixtures(project(':common:general'))
     }
 }
 
@@ -148,38 +148,43 @@ project(':user') {
         implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
         implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
-        implementation project(':common')
-        testImplementation testFixtures(project(':common'))
+        implementation project(':common:general')
+        testImplementation testFixtures(project(':common:general'))
     }
 }
 
 project(':coupon') {
     apply from: rootProject.file('module-dependencies/micro-service.gradle')
     dependencies {
-        implementation project(':common')
-        testImplementation testFixtures(project(':common'))
+
+        implementation project(':common:general')
+        testImplementation testFixtures(project(':common:general'))
+
+        implementation project(':common:rest-client')
+        testImplementation testFixtures(project(':common:rest-client'))
     }
 }
 
 project(':item') {
     apply from: rootProject.file('module-dependencies/micro-service.gradle')
     dependencies {
-        implementation project(':common')
-        testImplementation testFixtures(project(':common'))
+        implementation project(':common:general')
+        testImplementation testFixtures(project(':common:general'))
     }
 }
 
 project(':order') {
     apply from: rootProject.file('module-dependencies/micro-service.gradle')
     dependencies {
-        implementation project(':common')
-        testImplementation testFixtures(project(':common'))
+        implementation project(':common:general')
+        testImplementation testFixtures(project(':common:general'))
     }
 }
 
-project(':common') {
+project(':common:general') {
     bootJar.enabled = false
     jar.enabled = true
+
     apply from: rootProject.file('module-dependencies/micro-service.gradle')
 
     dependencies {
@@ -189,4 +194,3 @@ project(':common') {
         testFixturesImplementation 'io.rest-assured:rest-assured'
     }
 }
-

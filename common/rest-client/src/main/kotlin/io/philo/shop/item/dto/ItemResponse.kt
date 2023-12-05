@@ -1,4 +1,4 @@
-package io.philo.shop.communication.restclient.item.dto
+package io.philo.shop.item.dto
 
 data class ItemResponse(
     val id: Long,

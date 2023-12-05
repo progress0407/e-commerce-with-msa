@@ -1,8 +1,7 @@
-package io.philo.shop.etc
+package io.philo.shop.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.MappedSuperclass
-import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import java.time.LocalDateTime

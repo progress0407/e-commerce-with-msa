@@ -1,6 +1,6 @@
-package io.philo.shop.communication.restclient.item
+package io.philo.shop.item
 
-import io.philo.shop.communication.restclient.item.dto.ItemResponse
+import io.philo.shop.item.dto.ItemResponse
 import org.springframework.stereotype.Component
 
 @Component
