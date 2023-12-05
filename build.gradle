@@ -15,9 +15,6 @@ allprojects {
     version = '0.0.1-SNAPSHOT'
     sourceCompatibility = '17'
 
-//    bootJar.enabled = false
-//    jar.enabled = true
-
     repositories {
         mavenCentral()
     }
@@ -36,10 +33,6 @@ configurations {
     }
 }
 
-//tasks.named('test') {
-//    useJUnitPlatform()
-//}
-
 subprojects {
 
     apply plugin: 'java'
@@ -48,6 +41,9 @@ subprojects {
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'org.jetbrains.kotlin.plugin.spring'
     apply plugin: 'java-test-fixtures'
+
+    bootJar.enabled = true
+    jar.enabled = true
 
     dependencies {
         // Kotlin
@@ -92,14 +88,32 @@ subprojects {
     }
 }
 
-//subprojects { project ->
-//    if (project.name in [':user', ':item', ':order']) {
-//        apply from: rootProject.file('module-dependencies/micro-service.gradle')
-//        dependencies {
+/*
+subprojects { project ->
+    if (project.name in [':user', ':item', ':order']) {
+        apply from: rootProject.file('module-dependencies/micro-service.gradle')
+        dependencies {
+            implementation project(':common')
+        }
+    }
+}
+*/
+
+subprojects { project ->
+
+//    println "## project = $project.name" // for debug
+    if (!(project.name in ['common', 'eureka', 'api-gateway'])) {
+//        println "## (if inner clause) project = $project.name" // for debug
+        apply from: rootProject.file('module-dependencies/micro-service.gradle')
+
+        dependencies {
+
 //            implementation project(':common')
-//        }
-//    }
-//}
+//            testImplementation testFixtures(project(':common'))
+        }
+    }
+}
+
 
 project(':eureka') {
     dependencies {
@@ -140,8 +154,6 @@ project(':user') {
 }
 
 project(':coupon') {
-    bootJar.enabled = true
-    jar.enabled = true
     apply from: rootProject.file('module-dependencies/micro-service.gradle')
     dependencies {
         implementation project(':common')
@@ -166,6 +178,8 @@ project(':order') {
 }
 
 project(':common') {
+    bootJar.enabled = false
+    jar.enabled = true
     apply from: rootProject.file('module-dependencies/micro-service.gradle')
 
     dependencies {
