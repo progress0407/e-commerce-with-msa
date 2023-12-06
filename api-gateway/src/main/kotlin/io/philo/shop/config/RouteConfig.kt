@@ -16,18 +16,28 @@ class RouteConfig(private val loggingFilter: LoggingFilter) {
     @Bean
     fun routes(builder: RouteLocatorBuilder, loggingFilter: LoggingFilter): RouteLocator {
         return builder.routes()
-            .route { it.simpleRoute("ITEM-SERVICE", "/items") }
-            .route { it.simpleRoute("ORDER-SERVICE", "/orders") }
+//            .route { it.route("ITEM-SERVICE", "/items") }
+            .route { it.route("ITEM-SERVICE", "/items") }
+            .route { it.route("ORDER-SERVICE", "/orders") }
             .build()
     }
 
-    private fun PredicateSpec.simpleRoute(serviceName: String, url: String): Buildable<Route> =
-        this.path("$url/**")
-            .filters { filter -> buildFilter(filter, url) }
+    private fun PredicateSpec.route(serviceName: String, path: String): Buildable<Route> =
+        this.path("$path/**")
+            .filters { it.buildFilter(path) }
             .uri("lb://${serviceName}")
 
-    private fun buildFilter(filter: GatewayFilterSpec, url: String): GatewayFilterSpec? =
-        filter.removeRequestHeader("Cookie")
-            .rewritePath("$url(?<segment>/?.*)", "$\\{segment}") // ex. /order/1 -> /1
+    private fun GatewayFilterSpec.buildFilter(path: String): GatewayFilterSpec =
+        this.removeRequestHeader("Cookie")
             .filter(loggingFilter)
+            /**
+             * success  ex. /item-service/items/1 -> /items/1
+             * fail     ex. /items -> /
+             */
+//            .rewritePath("$path/(?<segment>.*)", "/\${segment}")
+            /**
+             * success  ex. /items/1 -> /items/1
+             * fail  ex. /item-service/items/1 -> /items/1
+             */
+//            .rewritePath(path, "/")
 }

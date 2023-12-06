@@ -36,10 +36,10 @@ class OrderService(
     private fun createOrderLines(
         itemResponses: List<ItemInternalResponse>,
         orderLineRequests: List<OrderLineRequest>
-    ): List<OrderItem> {
+    ): MutableList<OrderItem> {
         return orderLineRequests
             .map { request: OrderLineRequest -> createOrderLine(itemResponses, request) }
-            .toList()
+            .toMutableList()
     }
 
     private fun createOrderLine(itemResponses: List<ItemInternalResponse>, orderLineRequest: OrderLineRequest): OrderItem {

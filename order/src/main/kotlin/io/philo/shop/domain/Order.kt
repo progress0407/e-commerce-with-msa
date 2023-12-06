@@ -11,7 +11,7 @@ import lombok.ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(exclude = ["orderItems"])
-open class Order protected constructor(orderItems: List<OrderItem>) {
+class Order protected constructor(orderItems: MutableList<OrderItem>) {
 
     protected constructor() : this(mutableListOf())
 
@@ -21,10 +21,10 @@ open class Order protected constructor(orderItems: List<OrderItem>) {
     val id: Long? = null
 
     @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], orphanRemoval = true)
-    private var orderItems: List<OrderItem> = mutableListOf()
+    private var orderItems: MutableList<OrderItem> = mutableListOf()
 
     @Column(nullable = false)
-    open val totalOrderAmount: Int
+    val totalOrderAmount: Int
 
     init {
         this.orderItems = orderItems
@@ -46,6 +46,6 @@ open class Order protected constructor(orderItems: List<OrderItem>) {
 
     companion object {
         @JvmStatic
-        fun createOrder(orderItems: List<OrderItem>): Order = Order(orderItems)
+        fun createOrder(orderItems: MutableList<OrderItem>): Order = Order(orderItems)
     }
 }
