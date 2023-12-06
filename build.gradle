@@ -169,6 +169,7 @@ project(':item') {
     apply from: rootProject.file('module-dependencies/micro-service.gradle')
     dependencies {
         implementation project(':common:general')
+        implementation project(':common:rest-client')
         testImplementation testFixtures(project(':common:general'))
     }
 }
@@ -177,6 +178,7 @@ project(':order') {
     apply from: rootProject.file('module-dependencies/micro-service.gradle')
     dependencies {
         implementation project(':common:general')
+        implementation project(':common:rest-client')
         testImplementation testFixtures(project(':common:general'))
     }
 }

@@ -3,7 +3,7 @@ package io.philo.shop.item.domain
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import io.philo.shop.item.domain.entity.Item
+import io.philo.shop.domain.entity.Item
 
 class ItemTest : StringSpec({
 

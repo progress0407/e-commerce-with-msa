@@ -3,11 +3,11 @@ package io.philo.shop.item.integartion
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.philo.shop.AcceptanceTest
+import io.philo.shop.domain.entity.Item
 import io.philo.shop.dto.ResourceCreateResponse
-import io.philo.shop.item.domain.entity.Item
-import io.philo.shop.item.presentation.dto.ItemCreateRequest
-import io.philo.shop.item.presentation.dto.ItemResponse
-import io.philo.shop.item.presentation.dto.ItemResponses
+import io.philo.shop.presentation.dto.ItemCreateRequest
+import io.philo.shop.presentation.dto.ItemResponse
+import io.philo.shop.presentation.dto.ItemResponses
 import org.junit.jupiter.api.Test
 
 class ItemAcceptanceTest : AcceptanceTest() {
@@ -38,7 +38,7 @@ class ItemAcceptanceTest : AcceptanceTest() {
     val ItemCreateRequest.Companion.fixture: ItemCreateRequest
         get() {
 
-            val entity = io.philo.shop.item.domain.entity.Item.fixture
+            val entity = Item.fixture
 
             return ItemCreateRequest(
                 name = entity.name,
