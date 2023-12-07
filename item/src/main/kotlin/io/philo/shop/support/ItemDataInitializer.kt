@@ -1,11 +1,11 @@
-package io.philo.shop.config
+package io.philo.shop.support
 
 import io.philo.shop.domain.entity.Item
 import io.philo.shop.repository.ItemRepository
 import lombok.extern.slf4j.Slf4j
 import mu.KotlinLogging
+import org.springframework.boot.context.event.ApplicationStartedEvent
 import org.springframework.context.ApplicationListener
-import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.stereotype.Component
 import java.sql.Connection
 import java.sql.SQLException
@@ -14,14 +14,14 @@ import javax.sql.DataSource
 
 @Component
 @Slf4j
-class StartupApplicationListener(
+class ItemDataInitializer(
     private val dataSource: DataSource,
     private val itemRepository: ItemRepository
-) : ApplicationListener<ContextRefreshedEvent?> {
+) : ApplicationListener<ApplicationStartedEvent> {
 
     private val log = KotlinLogging.logger { }
 
-    override fun onApplicationEvent(event: ContextRefreshedEvent) {
+    override fun onApplicationEvent(event: ApplicationStartedEvent) {
         checkConnection()
         initItems()
     }

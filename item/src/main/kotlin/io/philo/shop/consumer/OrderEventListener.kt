@@ -21,12 +21,4 @@ class OrderEventListener(private val itemService: ItemService) {
 
         itemService.decreaseItems(itemIdToDecreaseQuantity)
     }
-
-/*
-    @RabbitListener(queues = ["order.create.queue"])
-    fun listenEvent(event: String) {
-
-        log.info { "$event" }
-    }
-*/
 }

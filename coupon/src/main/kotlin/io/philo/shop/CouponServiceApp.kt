@@ -2,10 +2,12 @@ package io.philo.shop
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.cloud.openfeign.EnableFeignClients
 
 @SpringBootApplication
-class CouponServiceApplication
+@EnableFeignClients
+class CouponServiceApp
 
 fun main(args: Array<String>) {
-    SpringApplication.run(CouponServiceApplication::class.java, *args)
+    SpringApplication.run(CouponServiceApp::class.java, *args)
 }

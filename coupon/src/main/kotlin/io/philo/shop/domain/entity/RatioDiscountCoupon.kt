@@ -1,6 +1,11 @@
 package io.philo.shop.domain.entity
 
+import jakarta.persistence.Entity
+
+@Entity
 class RatioDiscountCoupon(val discountPercent: Int) : Coupon() {
+
+    protected constructor() : this(discountPercent = -1)
 
     init {
         if (discountPercent < 0 || discountPercent > 100) {

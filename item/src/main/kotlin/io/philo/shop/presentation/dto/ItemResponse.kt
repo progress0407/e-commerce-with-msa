@@ -10,6 +10,5 @@ data class ItemResponse(
     val availableQuantity: Int
 ) {
 
-
     constructor(item: Item) : this(item.id!!, item.name, item.size, item.price, item.stockQuantity)
 }

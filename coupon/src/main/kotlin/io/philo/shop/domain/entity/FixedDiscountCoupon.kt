@@ -1,6 +1,11 @@
 package io.philo.shop.domain.entity
 
+import jakarta.persistence.Entity
+
+@Entity
 class FixedDiscountCoupon(val discountAmount: Int) : Coupon() {
+
+    constructor() : this(-1)
 
     override fun order(): Int = 1
 

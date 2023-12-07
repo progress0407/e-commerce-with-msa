@@ -4,13 +4,21 @@ import io.philo.shop.domain.repository.CouponRepository
 import io.philo.shop.domain.repository.UserCouponRepository
 import io.philo.shop.item.ItemRestClientFacade
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional(readOnly = false)
 class CouponService(
     private val itemClient: ItemRestClientFacade,
     private val couponRepository: CouponRepository,
     private val userCouponRepository: UserCouponRepository
 ) {
+
+    @Transactional
+    fun createCoupon(): Unit {
+
+//        couponRepository.save()
+    }
 
     fun calculateAmount(
         userId: Long,
@@ -37,5 +45,9 @@ class CouponService(
         }
 
         return finalAmount
+    }
+
+    fun calculateAmountForInternal(): Int {
+        return -1
     }
 }

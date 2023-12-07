@@ -1,19 +1,19 @@
 package io.philo.shop.domain.entity
 
+import io.philo.shop.entity.BaseEntity
 import jakarta.persistence.*
 import java.time.LocalDate
 
 @Entity
-@MappedSuperclass
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 abstract class Coupon(
 
     @field:Column(nullable = false)
-    val expirationStartAt: LocalDate = LocalDate.now(),
+    protected val expirationStartAt: LocalDate = LocalDate.now(),
 
     @field:Column(nullable = false)
-    val expirationEndAt: LocalDate = LocalDate.now().plusDays(30)
-) {
+    protected val expirationEndAt: LocalDate = LocalDate.now().plusDays(30)
+): BaseEntity() {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,5 +26,4 @@ abstract class Coupon(
     abstract fun order(): Int
 
     abstract fun discount(itemAmount: Int): Int
-
 }

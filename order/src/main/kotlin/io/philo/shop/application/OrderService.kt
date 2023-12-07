@@ -28,13 +28,18 @@ class OrderService(
 
         val itemIds = extractItemIds(orderLineRequests)
         val itemResponses = itemClient.requestItems(itemIds)
-        val orderItems: MutableList<OrderItem> = createOrderLines(itemResponses, orderLineRequests)
+        val orderItems = createOrderLines(itemResponses, orderLineRequests)
         val order = Order.createOrder(orderItems)
         orderRepository.save(order)
         orderEventPublisher.publishEvent(order)
-//        orderEventPublisher.publishEvent("hi")
 
         return order.id!!
+    }
+
+    private fun extractItemIds(orderLineRequests: List<OrderLineRequest>): List<Long> {
+        return orderLineRequests
+            .map(OrderLineRequest::itemId)
+            .toList()
     }
 
     private fun createOrderLines(
@@ -58,12 +63,6 @@ class OrderService(
             itemResponse.amount,
             orderLineRequest.quantity
         )
-    }
-
-    private fun extractItemIds(orderLineRequests: List<OrderLineRequest>): List<Long> {
-        return orderLineRequests
-            .map(OrderLineRequest::itemId)
-            .toList()
     }
 
     private fun findItemDtoFromOrderLineRequest(
