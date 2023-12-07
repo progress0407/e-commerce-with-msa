@@ -7,7 +7,6 @@ import io.philo.shop.dto.web.OrderListResponses
 import io.philo.shop.query.OrderQuery
 import lombok.RequiredArgsConstructor
 import org.springframework.http.HttpStatus.CREATED
-import org.springframework.http.HttpStatus.OK
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -20,18 +19,23 @@ class OrderController(private val orderService: OrderService,
     @PostMapping
     @ResponseStatus(CREATED)
     fun order(@RequestBody request: CreateOrderRequest): Long {
-        return orderService.order(request)
+
+        val orderLineRequests = request.orderLineRequests
+
+        val creatdEntityId = orderService.order(orderLineRequests)
+
+        return creatdEntityId
     }
 
     @GetMapping
-    @ResponseStatus(OK)
     fun list(): OrderListResponses {
+
         return orderQuery.list()
     }
 
     @GetMapping("/id")
-    @ResponseStatus(OK)
     fun detail(@PathVariable("id") id: Long): OrderDetailResponse {
+
         return orderQuery.detail(id)
     }
 }

@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam
 @FeignClient(name = "item-service")
 interface ItemFeignClient {
 
-    @GetMapping("/items")
+    @GetMapping("/items/internal")
     fun requestItems(@RequestParam("ids") ids: List<Long>): List<ItemInternalResponse>
 }

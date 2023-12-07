@@ -170,6 +170,7 @@ project(':item') {
     dependencies {
         implementation project(':common:general')
         implementation project(':common:rest-client')
+        implementation project(':common:event')
         testImplementation testFixtures(project(':common:general'))
     }
 }
@@ -179,6 +180,7 @@ project(':order') {
     dependencies {
         implementation project(':common:general')
         implementation project(':common:rest-client')
+        implementation project(':common:event')
         testImplementation testFixtures(project(':common:general'))
     }
 }

@@ -21,7 +21,7 @@ class Order protected constructor(orderItems: MutableList<OrderItem>) {
     val id: Long? = null
 
     @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], orphanRemoval = true)
-    private var orderItems: MutableList<OrderItem> = mutableListOf()
+    var orderItems: MutableList<OrderItem> = mutableListOf()
 
     @Column(nullable = false)
     val totalOrderAmount: Int

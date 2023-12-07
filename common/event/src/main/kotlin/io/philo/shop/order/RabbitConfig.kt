@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class RabbitMqConfig(
+class RabbitConfig(
     @Value("\${spring.rabbitmq.host}")
     val host: String,
 
@@ -27,9 +27,9 @@ class RabbitMqConfig(
 ) {
 
     companion object {
-        private const val EXCHANGE_NAME = "order.create.exchange"
-        private const val QUEUE_NAME = "order.create.queue"
-        private const val ROUTING_KEY = "order.create.routing.#"
+        const val QUEUE_NAME = "order.create.queue"
+        const val EXCHANGE_NAME = "order.create.exchange"
+        const val ROUTING_KEY = "order.create.routing.#"
     }
 
     @Bean

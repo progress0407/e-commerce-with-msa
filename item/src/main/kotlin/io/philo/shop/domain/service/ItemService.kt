@@ -53,7 +53,6 @@ class ItemService(private val itemRepository: ItemRepository) {
         return dtos
     }
 
-
     @Transactional
     fun decreaseItems(itemIdToDecreaseQuantity: Map<Long, Int>) {
         val itemIds = itemIdToDecreaseQuantity.keys

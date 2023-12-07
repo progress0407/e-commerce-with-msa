@@ -2,13 +2,13 @@ package io.philo.shop.application
 
 import io.philo.shop.domain.Order
 import io.philo.shop.domain.OrderItem
-import io.philo.shop.dto.web.CreateOrderRequest
 import io.philo.shop.dto.web.OrderLineRequest
 import io.philo.shop.item.ItemRestClientFacade
 import io.philo.shop.item.dto.ItemInternalResponse
-import io.philo.shop.message.RabbitMqEventPublisher
+import io.philo.shop.message.OrderEventPublisher
 import io.philo.shop.repository.OrderRepository
 import lombok.RequiredArgsConstructor
+import mu.KotlinLogging
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,19 +18,23 @@ import org.springframework.transaction.annotation.Transactional
 class OrderService(
     private val orderRepository: OrderRepository,
     private val itemClient: ItemRestClientFacade,
-    private val rabbitMqEventPublisher: RabbitMqEventPublisher
+    private val orderEventPublisher: OrderEventPublisher
 ) {
 
+    private val log = KotlinLogging.logger { }
+
     @Transactional
-    fun order(orderRequest: CreateOrderRequest): Long {
-        val orderLineRequests = orderRequest.orderLineRequests
+    fun order(orderLineRequests: List<OrderLineRequest>): Long {
+
         val itemIds = extractItemIds(orderLineRequests)
         val itemResponses = itemClient.requestItems(itemIds)
-        val orderItems = createOrderLines(itemResponses, orderLineRequests)
+        val orderItems: MutableList<OrderItem> = createOrderLines(itemResponses, orderLineRequests)
         val order = Order.createOrder(orderItems)
-        val savedOrder = orderRepository.save(order)
-        rabbitMqEventPublisher.sendMessage("hello")
-        return savedOrder.id!!
+        orderRepository.save(order)
+        orderEventPublisher.publishEvent(order)
+//        orderEventPublisher.publishEvent("hi")
+
+        return order.id!!
     }
 
     private fun createOrderLines(
@@ -42,7 +46,10 @@ class OrderService(
             .toMutableList()
     }
 
-    private fun createOrderLine(itemResponses: List<ItemInternalResponse>, orderLineRequest: OrderLineRequest): OrderItem {
+    private fun createOrderLine(
+        itemResponses: List<ItemInternalResponse>,
+        orderLineRequest: OrderLineRequest
+    ): OrderItem {
         val itemResponse = findItemDtoFromOrderLineRequest(itemResponses, orderLineRequest)
         return OrderItem(
             itemResponse.id,
@@ -53,21 +60,19 @@ class OrderService(
         )
     }
 
-    companion object {
-        private fun extractItemIds(orderLineRequests: List<OrderLineRequest>): List<Long> {
-            return orderLineRequests
-                .map(OrderLineRequest::itemId)
-                .toList()
-        }
+    private fun extractItemIds(orderLineRequests: List<OrderLineRequest>): List<Long> {
+        return orderLineRequests
+            .map(OrderLineRequest::itemId)
+            .toList()
+    }
 
-        private fun findItemDtoFromOrderLineRequest(
-            itemResponses: List<ItemInternalResponse>,
-            orderLineRequest: OrderLineRequest
-        ): ItemInternalResponse {
-            return itemResponses.stream()
-                .filter { it: ItemInternalResponse -> it.id == orderLineRequest.itemId }
-                .findAny()
-                .orElseThrow { IllegalArgumentException("주문 항목 요청에 해당하는 상품이 없습니다.") }
-        }
+    private fun findItemDtoFromOrderLineRequest(
+        itemResponses: List<ItemInternalResponse>,
+        orderLineRequest: OrderLineRequest
+    ): ItemInternalResponse {
+        return itemResponses.stream()
+            .filter { it: ItemInternalResponse -> it.id == orderLineRequest.itemId }
+            .findAny()
+            .orElseThrow { IllegalArgumentException("주문 항목 요청에 해당하는 상품이 없습니다.") }
     }
 }

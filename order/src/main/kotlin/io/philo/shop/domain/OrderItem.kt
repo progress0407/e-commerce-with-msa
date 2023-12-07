@@ -17,9 +17,9 @@ class OrderItem(
 
     @field:Column(nullable = false) val size: String,
 
-    @field:Column(nullable = false) val orderItemPrice: Int,
+    @field:Column(nullable = false) val orderItemPrice: Int, // 실제 주문 가격
 
-    @field:Column(nullable = false) val orderItemQuantity: Int
+    @field:Column(nullable = false) val orderedQuantity: Int // 주문 수량
 ) {
 
     constructor() : this(0L, "", "", 0, 0)
@@ -27,17 +27,17 @@ class OrderItem(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_item_id")
-    private val id: Long? = null
+    val id: Long? = null
 
     @JoinColumn(name = "order_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private var order: Order? = null
+    var order: Order? = null
 
     fun mapOrder(order: Order?) {
         this.order = order
     }
 
     fun orderItemAmount(): Int {
-        return orderItemPrice * orderItemQuantity
+        return orderItemPrice * orderedQuantity
     }
 }
