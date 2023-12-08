@@ -1,7 +1,8 @@
 package io.philo.shop.ui
 
 import io.philo.shop.application.OrderService
-import io.philo.shop.dto.web.CreateOrderRequest
+import io.philo.shop.dto.ResourceCreateResponse
+import io.philo.shop.dto.web.OrderCreateRequest
 import io.philo.shop.dto.web.OrderDetailResponse
 import io.philo.shop.dto.web.OrderListResponses
 import io.philo.shop.query.OrderQuery
@@ -18,13 +19,12 @@ class OrderController(private val orderService: OrderService,
 
     @PostMapping
     @ResponseStatus(CREATED)
-    fun order(@RequestBody request: CreateOrderRequest): Long {
+    fun order(@RequestBody request: OrderCreateRequest): ResourceCreateResponse {
 
         val orderLineRequests = request.orderLineRequests
+        val orderId = orderService.order(orderLineRequests)
 
-        val creatdEntityId = orderService.order(orderLineRequests)
-
-        return creatdEntityId
+        return ResourceCreateResponse(orderId)
     }
 
     @GetMapping

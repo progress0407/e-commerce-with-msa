@@ -17,16 +17,24 @@ class UserAcceptanceTest : AcceptanceTest() {
     @Test
     fun `회원가입 후 로그인 한다`() {
 
+        // given
         val requestBody = UserCreateRequest.fixture
 
-        val userId = postAndGetBody<UserCreateResponse>("/users", requestBody).id
+        // when
+        val userId = 회원가입(requestBody).id
+        val loginResponse = 로그인()
 
-        val loginResponse = post("/users/login", UserLoginRequest.fixture)
+        // then
         val accessToken = loginResponse.authHeader
 
         (userId > 0) shouldBe true // id 생성 검증
         accessToken shouldNotBe null // token 존재 검증
     }
+
+    private fun 회원가입(requestBody: UserCreateRequest) =
+        postAndGetBody<UserCreateResponse>("/users", requestBody)
+
+    private fun 로그인() = post("/users/login", UserLoginRequest.fixture)
 
     val ExtractableResponse<Response>.authHeader
         get() = this.header(AUTHORIZATION)
