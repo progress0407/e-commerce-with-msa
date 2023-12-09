@@ -11,6 +11,7 @@ import lombok.ToString
 @Getter
 @ToString
 class UserCoupon(
+
     @field:Column(nullable = false, unique = true)
     val userId: Long,
 

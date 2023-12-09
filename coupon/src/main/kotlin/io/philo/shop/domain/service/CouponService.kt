@@ -34,9 +34,9 @@ class CouponService(
         val itemResponse = itemClient.getItemAmount(itemId)
         val itemAmount: Int = itemResponse.amount
 
-            coupons
-                .sortedBy { it.order }
-                .map { it -> it.discount(itemAmount) }
+        coupons
+            .sortedBy { it.order }
+            .map { it.discount(itemAmount) }
 
         val finalAmount = coupons.sumOf { it.discount(itemAmount) }
 

@@ -15,7 +15,14 @@ class RatioDiscountCoupon(val discountPercent: Int) : Coupon() {
 
     override fun order(): Int = 2
 
+    /**
+     * 할인된 금액을 계산
+     *
+     * 상품가 10,000에 10%일 경우
+     *
+     * 10,000 * 90% = 9,000
+     */
     override fun discount(itemAmount: Int): Int {
-        return itemAmount * (discountPercent / 100)
+        return (itemAmount * ((100 - discountPercent).toDouble() / 100)).toInt()
     }
 }
