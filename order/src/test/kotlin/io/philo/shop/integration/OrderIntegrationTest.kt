@@ -22,7 +22,6 @@ class OrderIntegrationTest : AcceptanceTest() {
     @Autowired
     lateinit var orderRepository: OrderRepository
 
-//    @MockK
     @MockkBean
     lateinit var itemClient: ItemRestClientFacade
 

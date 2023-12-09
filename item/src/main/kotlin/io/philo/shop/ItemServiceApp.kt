@@ -1,13 +1,13 @@
 package io.philo.shop
 
-import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
 import org.springframework.cloud.openfeign.EnableFeignClients
 
 @SpringBootApplication
 @EnableFeignClients
-class OrderServiceApplication
+class ItemServiceApp
 
 fun main(args: Array<String>) {
-    SpringApplication.run(OrderServiceApplication::class.java, *args)
+    runApplication<ItemServiceApp>(*args)
 }
