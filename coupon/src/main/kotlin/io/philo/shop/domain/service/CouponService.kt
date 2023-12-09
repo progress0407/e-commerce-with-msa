@@ -2,6 +2,7 @@ package io.philo.shop.domain.service
 
 import io.philo.shop.domain.repository.CouponRepository
 import io.philo.shop.domain.repository.UserCouponRepository
+import io.philo.shop.domain.service.CouponDiscountCalculator.Companion.calculateDiscountAmount
 import io.philo.shop.item.ItemRestClientFacade
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -34,15 +35,7 @@ class CouponService(
         val itemResponse = itemClient.getItemAmount(itemId)
         val itemAmount: Int = itemResponse.amount
 
-        coupons
-            .sortedBy { it.order }
-            .map { it.discount(itemAmount) }
-
-        val finalAmount = coupons.sumOf { it.discount(itemAmount) }
-
-        if (finalAmount < 0) {
-            throw IllegalArgumentException("상품 가격은 음수가 될 수 없습니다")
-        }
+        val finalAmount = calculateDiscountAmount(itemAmount, coupons)
 
         return finalAmount
     }
