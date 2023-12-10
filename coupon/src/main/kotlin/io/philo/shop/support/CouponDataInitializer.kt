@@ -25,5 +25,7 @@ class CouponDataInitializer(
     private fun initEntities() {
         couponRepository.save(FixedDiscountCoupon(1_000))
         couponRepository.save(RatioDiscountCoupon(5))
+        val findAll = couponRepository.findAll()
+        println("findAll = ${findAll}")
     }
 }

@@ -2,12 +2,22 @@ package io.philo.shop.domain.entity
 
 import jakarta.persistence.Entity
 
+/**
+ * 고정 할인
+ */
 @Entity
-class FixedDiscountCoupon(val discountAmount: Int) : Coupon() {
+class FixedDiscountCoupon(final val discountAmount: Int) : Coupon() {
 
-    constructor() : this(-1)
+    protected constructor() : this(0)
 
-    override fun order(): Int = 1
+    init {
+        require(discountAmount >= 0) {
+            "할인액은 음수가 될 수 없습니다"
+        }
+
+    }
+
+    override fun order() = 1
 
     override fun discount(itemAmount: Int): Int {
         validateDiscount(itemAmount)
@@ -15,8 +25,8 @@ class FixedDiscountCoupon(val discountAmount: Int) : Coupon() {
     }
 
     private fun validateDiscount(itemAmount: Int) {
-        if (itemAmount / 2 < discountAmount) {
-            throw RuntimeException("할인액이 너무 많습니다. (쿠폰 하나로 상품가의 50% 이상의 할인은 불가합니다.)")
+        check(itemAmount / 2 < discountAmount) {
+            "할인액이 너무 많습니다. (쿠폰 하나로 상품가의 50% 이상의 할인은 불가합니다.)"
         }
     }
 }

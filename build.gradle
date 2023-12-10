@@ -10,7 +10,6 @@ plugins {
 }
 
 allprojects {
-
     group = 'msa-with-ddd'
     version = '0.0.1-SNAPSHOT'
     sourceCompatibility = '17'
