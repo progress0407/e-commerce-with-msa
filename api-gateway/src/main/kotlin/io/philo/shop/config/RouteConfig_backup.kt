@@ -7,15 +7,14 @@ import org.springframework.cloud.gateway.route.builder.Buildable
 import org.springframework.cloud.gateway.route.builder.GatewayFilterSpec
 import org.springframework.cloud.gateway.route.builder.PredicateSpec
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 
-@Configuration
-class RouteConfig(private val loggingFilter: LoggingFilter) {
+//@Configuration
+class RouteConfig_backup(private val loggingFilter: LoggingFilter) {
 
-    @Bean
+//    @Bean
     fun routes(builder: RouteLocatorBuilder, loggingFilter: LoggingFilter): RouteLocator {
         return builder.routes()
+//            .route { it.route("ITEM-SERVICE", "/items") }
             .route { it.route("ITEM-SERVICE", "/items") }
             .route { it.route("ORDER-SERVICE", "/orders") }
             .build()
@@ -29,4 +28,14 @@ class RouteConfig(private val loggingFilter: LoggingFilter) {
     private fun GatewayFilterSpec.buildFilter(path: String): GatewayFilterSpec =
         this.removeRequestHeader("Cookie")
             .filter(loggingFilter)
+            /**
+             * success  ex. /item-service/items/1 -> /items/1
+             * fail     ex. /items -> /
+             */
+//            .rewritePath("$path/(?<segment>.*)", "/\${segment}")
+            /**
+             * success  ex. /items/1 -> /items/1
+             * fail  ex. /item-service/items/1 -> /items/1
+             */
+//            .rewritePath(path, "/")
 }

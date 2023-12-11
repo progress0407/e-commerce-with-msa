@@ -10,7 +10,7 @@ import io.philo.shop.presentation.dto.ItemResponse
 import io.philo.shop.presentation.dto.ItemResponses
 import org.junit.jupiter.api.Test
 
-class ItemAcceptanceTest : AcceptanceTest() {
+class ItemIntegrationTest : AcceptanceTest() {
 
 
     @Test

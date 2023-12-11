@@ -28,6 +28,7 @@ abstract class AcceptanceTest {
     }
 
     fun post(uri: String, body: Any): ExtractableResponse<Response> {
+
         return RestAssured.given().log().all()
             .body(body)
             .contentType(APPLICATION_JSON_VALUE)
@@ -38,6 +39,7 @@ abstract class AcceptanceTest {
     }
 
     fun post(uri: String, body: Any, token: String): ExtractableResponse<Response> {
+
         return RestAssured.given().log().all()
             .auth().oauth2(token)
             .body(body)
@@ -64,6 +66,7 @@ abstract class AcceptanceTest {
     }
 
     protected fun get(uri: String): ExtractableResponse<Response> {
+
         return RestAssured.given().log().all()
             .accept(APPLICATION_JSON_VALUE)
             .`when`()[uri]
@@ -72,6 +75,7 @@ abstract class AcceptanceTest {
     }
 
     final inline fun <reified T: Any> getAndGetBody(uri: String): T {
+
         return RestAssured.given().log().all()
             .accept(APPLICATION_JSON_VALUE)
             .`when`()[uri]
@@ -81,6 +85,7 @@ abstract class AcceptanceTest {
     }
 
     protected fun get(uri: String, token: String): ExtractableResponse<Response> {
+
         return RestAssured.given().log().all()
             .auth().oauth2(token)
             .accept(APPLICATION_JSON_VALUE)
@@ -90,6 +95,7 @@ abstract class AcceptanceTest {
     }
 
     protected fun put(uri: String, requestBody: Any, token: String): ExtractableResponse<Response> {
+
         return RestAssured.given().log().all()
             .auth().oauth2(token)
             .body(requestBody)
@@ -101,6 +107,7 @@ abstract class AcceptanceTest {
     }
 
     protected fun delete(uri: String, token: String): ExtractableResponse<Response> {
+
         return RestAssured.given().log().all()
             .auth().oauth2(token)
             .contentType(APPLICATION_JSON_VALUE)
@@ -111,6 +118,7 @@ abstract class AcceptanceTest {
     }
 
     protected fun delete(uri: String, requestBody: Any, token: String): ExtractableResponse<Response> {
+
         return RestAssured.given().log().all()
             .auth().oauth2(token)
             .body(requestBody)

@@ -134,6 +134,8 @@ project(':api-gateway') {
         // Service Registry Client
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
+        testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
+
         implementation project(':common:general')
         testImplementation testFixtures(project(':common:general'))
     }
