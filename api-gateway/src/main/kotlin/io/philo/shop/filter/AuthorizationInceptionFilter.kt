@@ -22,6 +22,7 @@ class AuthorizationInceptionFilter : GatewayFilter, Ordered {
     override fun filter(exchange: ServerWebExchange,
                         chain: GatewayFilterChain): Mono<Void> {
 
+
         val request = exchange.request
 
         val authorizationHeader: MutableList<String>? = request.headers[HttpHeaders.AUTHORIZATION]
