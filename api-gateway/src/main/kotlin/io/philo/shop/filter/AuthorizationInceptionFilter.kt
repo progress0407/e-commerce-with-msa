@@ -1,8 +1,8 @@
 package io.philo.shop.filter
 
 import mu.KotlinLogging
-import org.springframework.cloud.gateway.filter.GatewayFilter
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
+import org.springframework.cloud.gateway.filter.GlobalFilter
 import org.springframework.core.Ordered
 import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Component
@@ -12,10 +12,10 @@ import reactor.core.publisher.Mono
 /**
  * 인증 토큰 정보가 있을 경우
  *
- * 유저 패스포트 정보를 삽입하는 역할
+ * User Passport 정보를 삽입하는 역할
  */
 @Component
-class AuthorizationInceptionFilter : GatewayFilter, Ordered {
+class AuthorizationInceptionFilter : GlobalFilter, Ordered {
 
     private val log = KotlinLogging.logger { }
 
@@ -26,8 +26,9 @@ class AuthorizationInceptionFilter : GatewayFilter, Ordered {
 
         val authorizationHeader: MutableList<String>? = request.headers[HttpHeaders.AUTHORIZATION]
 
-        if (authorizationHeader.isNullOrEmpty()) {
-            return proceedNextFilter(chain, exchange)
+        // null 도 아니고 비어있으면 안돼, 유효한 헤더여야만해!
+        if (authorizationHeader != null && authorizationHeader.isNotEmpty()) {
+            request.mutate().header("user-passport", "hello-something-do-that").build()
         }
 
         return proceedNextFilter(chain, exchange)

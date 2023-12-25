@@ -1,15 +1,15 @@
 package io.philo.shop.filter
 
 import mu.KotlinLogging
-import org.springframework.cloud.gateway.filter.GatewayFilter
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
+import org.springframework.cloud.gateway.filter.GlobalFilter
 import org.springframework.core.Ordered
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 
 @Component
-class LoggingFilter : GatewayFilter, Ordered {
+class LoggingFilter : GlobalFilter, Ordered {
 
     private val log = KotlinLogging.logger { }
 

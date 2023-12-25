@@ -1,5 +1,6 @@
 package io.philo.shop.config
 
+import io.philo.shop.filter.AuthorizationInceptionFilter
 import io.philo.shop.filter.LoggingFilter
 import org.springframework.cloud.gateway.route.Route
 import org.springframework.cloud.gateway.route.RouteLocator
@@ -11,13 +12,14 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class RouteConfig(private val loggingFilter: LoggingFilter) {
+class RouteConfig(private val authorizationInceptionFilter: AuthorizationInceptionFilter) {
 
     @Bean
     fun routes(builder: RouteLocatorBuilder, loggingFilter: LoggingFilter): RouteLocator {
         return builder.routes()
             .route { it.route("ITEM-SERVICE", "/items") }
             .route { it.route("ORDER-SERVICE", "/orders") }
+//            .route { it.path("").filters { it.filters(authorizationInceptionFilter)}.uri("")}
             .build()
     }
 
@@ -28,5 +30,6 @@ class RouteConfig(private val loggingFilter: LoggingFilter) {
 
     private fun GatewayFilterSpec.buildFilter(path: String): GatewayFilterSpec =
         this.removeRequestHeader("Cookie")
-            .filter(loggingFilter)
+//            .filter(loggingFilter)
+//            .filters(authorizationInceptionFilter)
 }

@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RefreshScope
-class ApiGatewayController(@Value("\${constant.test.value}") private val testConstantValue: String,
-    private val routeLocator: RouteLocator) {
+class ApiGatewayController(
+    @Value("\${constant.test.value}")
+    private val testConstantValue: String,
+    private val routeLocator: RouteLocator
+) {
 
     @GetMapping("/gw/env-test")
     fun testConstantValue() = "check value for dynamical refresh test: $testConstantValue"

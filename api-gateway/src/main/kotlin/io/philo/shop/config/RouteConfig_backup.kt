@@ -27,7 +27,7 @@ class RouteConfig_backup(private val loggingFilter: LoggingFilter) {
 
     private fun GatewayFilterSpec.buildFilter(path: String): GatewayFilterSpec =
         this.removeRequestHeader("Cookie")
-            .filter(loggingFilter)
+//            .filter(loggingFilter)
             /**
              * success  ex. /item-service/items/1 -> /items/1
              * fail     ex. /items -> /

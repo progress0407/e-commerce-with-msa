@@ -3,7 +3,7 @@ server.port: 8000
 
 spring:
   application.name: api-gateway
-  main.web-application-type: reactive
+  main.web-application-type: reactive  # 내장 서버를 tomcat이 아닌 netty로
 
 
 eureka:
@@ -12,9 +12,9 @@ eureka:
     leaseRenewalIntervalInSeconds: 1
 
   client:
-    enabled: false
+    enabled: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://localhost:8762/eureka
     register-with-eureka: true
     fetch-registry: true
     registry-fetch-interval-seconds: 1
