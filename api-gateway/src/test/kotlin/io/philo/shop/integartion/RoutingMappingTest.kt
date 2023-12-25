@@ -1,32 +1,38 @@
 package io.philo.shop.integartion
 
-import io.philo.shop.AcceptanceTest
+import io.restassured.RestAssured
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.cloud.gateway.route.Route
-import org.springframework.cloud.gateway.route.RouteLocator
-import reactor.core.publisher.Flux
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.web.server.LocalServerPort
 
 /**
  * 라우팅이 잘 이루어졌는지 테스트
  */
-class RoutingMappingTest : AcceptanceTest() {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class RoutingMappingTest {
+
+    @LocalServerPort
+    var port = 0
 
 //    @Autowired
 //    lateinit var routeDefinitionLocator: RouteDefinitionLocator
 
-    @Autowired
-    lateinit var routeLocator: RouteLocator
+//    @Autowired
+//    lateinit var routeLocator: RouteLocator
 
+    @BeforeEach
+    protected fun setUp() {
+        RestAssured.port = port
+    }
 
     @Test
     fun `라우트 목록을 테스트한다`() {
+        println("")
 //        val routeDefinitions = routeDefinitionLocator.getRouteDefinitions()
 //        println("routeDefinitionLocator = ${routeDefinitionLocator}")
 
-        val routes: Flux<Route> = routeLocator.routes
-        println("routes = ${routes}")
+//        val routes: Flux<Route> = routeLocator.routes
+//        println("routes = ${routes}")
     }
-
-
 }
