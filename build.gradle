@@ -40,6 +40,7 @@ subprojects {
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'org.jetbrains.kotlin.plugin.spring'
     apply plugin: 'java-test-fixtures'
+    apply plugin: 'org.jetbrains.kotlin.plugin.allopen'
 
     bootJar.enabled = true
     jar.enabled = true
@@ -134,10 +135,20 @@ project(':api-gateway') {
         // Service Registry Client
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
+        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.0'
+//        implementation 'org.springframework.boot:spring-boot-starter-web'
+
         testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
 
+        implementation project(':common:rest-client')
         implementation project(':common:general')
-        testImplementation testFixtures(project(':common:general'))
+//        testImplementation testFixtures(project(':common:general'))
+
+        // E2E test
+        testImplementation 'io.rest-assured:rest-assured'
+
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
     }
 }
 
@@ -153,6 +164,7 @@ project(':user') {
         implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
         implementation project(':common:general')
+        implementation project(':common:rest-client')
         testImplementation testFixtures(project(':common:general'))
     }
 }

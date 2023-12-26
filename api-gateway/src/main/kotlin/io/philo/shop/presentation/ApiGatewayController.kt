@@ -15,7 +15,9 @@ class ApiGatewayController(
 ) {
 
     @GetMapping("/gw/env-test")
-    fun testConstantValue() = "check value for dynamical refresh test: $testConstantValue"
+    fun testConstantValue(): String {
+        return "check value for dynamical refresh test: $testConstantValue"
+    }
 
     @GetMapping("/route-info")
     fun routeLocator(): RouteLocator {

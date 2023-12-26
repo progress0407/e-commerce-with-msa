@@ -1,6 +1,5 @@
 package io.philo.shop.config
 
-import io.philo.shop.filter.AuthorizationInceptionFilter
 import io.philo.shop.filter.LoggingFilter
 import org.springframework.cloud.gateway.route.Route
 import org.springframework.cloud.gateway.route.RouteLocator
@@ -12,10 +11,11 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class RouteConfig(private val authorizationInceptionFilter: AuthorizationInceptionFilter) {
+class RouteConfig {
 
     @Bean
     fun routes(builder: RouteLocatorBuilder, loggingFilter: LoggingFilter): RouteLocator {
+
         return builder.routes()
             .route { it.route("ITEM-SERVICE", "/items") }
             .route { it.route("ORDER-SERVICE", "/orders") }

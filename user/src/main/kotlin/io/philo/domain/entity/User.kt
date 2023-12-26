@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType.IDENTITY
 
 @Entity
 @Table(name = "users")
-open class User protected constructor(
+class User protected constructor(
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

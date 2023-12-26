@@ -12,7 +12,7 @@ import io.restassured.response.Response
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpHeaders.AUTHORIZATION
 
-class UserAcceptanceTest : AcceptanceTest() {
+class UserIntegrationTest : AcceptanceTest() {
 
     @Test
     fun `회원가입 후 로그인 한다`() {
