@@ -1,9 +1,8 @@
 package io.philo.support
 
 import io.jsonwebtoken.*
-import io.jsonwebtoken.security.Keys
+import io.jsonwebtoken.io.DecodingException
 import io.jsonwebtoken.security.SignatureException
-import lombok.RequiredArgsConstructor
 import java.util.*
 import javax.crypto.SecretKey
 
@@ -34,6 +33,8 @@ class JwtManager(
         } catch (e: ExpiredJwtException) {
             return false
         } catch (e: UnsupportedJwtException) {
+            return false
+        } catch (e: DecodingException) {
             return false
         }
         return true

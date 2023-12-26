@@ -3,7 +3,7 @@ package io.philo.presentation
 import io.philo.domain.service.UserService
 import io.philo.shop.user.dto.UserPassportResponse
 import mu.KotlinLogging
-import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
@@ -16,25 +16,16 @@ class UserInternalController(private val userService: UserService) {
     val log = KotlinLogging.logger { }
 
     @GetMapping("/valid-token")
-    fun isValidToken(@RequestHeader(HttpHeaders.AUTHORIZATION) acceeToekn: String): Boolean {
+    fun isValidToken(@RequestHeader(AUTHORIZATION) acceeToekn: String): Boolean {
 
         return userService.isValidToken(acceeToekn)
     }
 
     @GetMapping("/passport")
-    fun passport(@RequestHeader(HttpHeaders.AUTHORIZATION) tokens: List<String>): UserPassportResponse {
-
-        val accessToken = tokens[0]
+    fun passport(@RequestHeader(AUTHORIZATION) accessToken: String): UserPassportResponse {
 
         log.info { "accessToken=$accessToken" }
 
         return userService.passport(accessToken)
     }
-
-    @GetMapping("/test")
-    fun test(): String {
-
-        return "hello seomthign"
-    }
-
 }

@@ -1,6 +1,5 @@
 package io.philo.shop.user.dto
 
-//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 class UserPassportResponse private constructor(
     val id: Long = -1,
     val name: String = "",
@@ -14,10 +13,8 @@ class UserPassportResponse private constructor(
         fun OfValid(id: Long, name: String, email: String) =
             UserPassportResponse(id, name, email, isValid = true)
     }
+
+    override fun toString(): String {
+        return "UserPassportResponse(id=$id, name='$name', email='$email', isValid=$isValid)"
+    }
 }
-
-//data class ValidUserPassportResponse(val id: Long, val name: String, val email: String) : UserPassportResponse {
-//    constructor(): this(0L, "", "")
-//}
-
-//class InValidUserPassportResponse : UserPassportResponse

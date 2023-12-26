@@ -19,6 +19,7 @@ class RouteConfig {
         return builder.routes()
             .route { it.route("ITEM-SERVICE", "/items") }
             .route { it.route("ORDER-SERVICE", "/orders") }
+            .route { it.route("USER-SERVICE", "/users") }
 //            .route { it.path("").filters { it.filters(authorizationInceptionFilter)}.uri("")}
             .build()
     }

@@ -1,10 +1,12 @@
 package io.philo.shop.presentation
 
+import com.google.gson.Gson
 import io.philo.shop.domain.service.ItemService
 import io.philo.shop.dto.ResourceCreateResponse
 import io.philo.shop.presentation.dto.ItemCreateRequest
 import io.philo.shop.presentation.dto.ItemResponse
 import io.philo.shop.presentation.dto.ItemResponses
+import io.philo.shop.user.dto.UserPassportResponse
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.web.bind.annotation.*
@@ -37,9 +39,12 @@ class ItemController(private val itemService: ItemService) {
              @RequestHeader(name = "user-passport", required = false) userHeader: String?
     ): ItemResponses {
 
-        val items: List<ItemResponse> = itemService.findItems(itemIds)
-
         log.info { "# user header: ${userHeader}" }
+
+        val gson = Gson()
+        val json = gson.fromJson(userHeader, UserPassportResponse::class.java)
+
+        val items: List<ItemResponse> = itemService.findItems(itemIds)
 
         return ItemResponses(items)
     }

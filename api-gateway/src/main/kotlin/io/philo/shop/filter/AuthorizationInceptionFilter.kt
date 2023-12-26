@@ -1,12 +1,14 @@
 package io.philo.shop.filter
 
+import com.google.gson.Gson
 import io.philo.shop.user.UserRestClientFacade
 import mu.KotlinLogging
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
 import org.springframework.cloud.gateway.filter.GlobalFilter
 import org.springframework.context.annotation.Lazy
 import org.springframework.core.Ordered
-import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpHeaders.AUTHORIZATION
+import org.springframework.http.server.reactive.ServerHttpRequest
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
@@ -21,33 +23,42 @@ class AuthorizationInceptionFilter(@Lazy private val userRestClient: UserRestCli
 
     private val log = KotlinLogging.logger { }
 
-    override fun filter(exchange: ServerWebExchange,
-                        chain: GatewayFilterChain): Mono<Void> {
+    private val gson = Gson()
+
+    override fun filter(
+        exchange: ServerWebExchange,
+        chain: GatewayFilterChain
+    ): Mono<Void> {
 
         val request = exchange.request
 
-        val authorizationHeaders: MutableList<String>? = request.headers[HttpHeaders.AUTHORIZATION]
+        if ("/users/login" == request.path.toString())
+            return proceedNextFilter(chain, exchange)
 
-        // null 도 아니고 비어있으면 안돼, 유효한 헤더여야만해!
-        if (authorizationHeaders != null && authorizationHeaders.isNotEmpty()) {
-            val userPassport = userRestClient.getUserPassport(authorizationHeaders)
+        val authorizationHeader: String = getAuthorizationHeader(request)
 
-            if (userPassport.isValid) {
-                request.mutate().header("user-passport", "hello-something-do-that").build()
-            } else { // 예외의 경우!
-                throw RuntimeException("올바르지 못한 인증 헤더입니다.")
-            }
-//            val userPassport = userRestClient.test()
-//            println("userPassport = ${userPassport}")
+        val userPassport = userRestClient.getUserPassport(authorizationHeader)
+        if (userPassport.isValid) {
+            val jsonString = gson.toJson(userPassport)
+            request.mutate().header("user-passport", jsonString).build()
+        } else { // 예외의 경우!
+            throw RuntimeException("올바르지 못한 인증 헤더입니다.")
         }
 
         return proceedNextFilter(chain, exchange)
     }
 
-    private fun proceedNextFilter(
-        chain: GatewayFilterChain,
-        exchange: ServerWebExchange
-    ): Mono<Void> = chain.filter(exchange).then(Mono.fromRunnable { exchange.response })
+    private fun getAuthorizationHeader(request: ServerHttpRequest): String {
+        val strings = request.headers[AUTHORIZATION]
+        if (strings == null || strings.isEmpty()) {
+            return ""
+        }
+        return strings[0].replace("Bearer ", "")
+    }
+
+    private fun proceedNextFilter(chain: GatewayFilterChain, exchange: ServerWebExchange): Mono<Void> {
+        return chain.filter(exchange).then(Mono.fromRunnable { exchange.response })
+    }
 
     override fun getOrder(): Int {
         return Ordered.LOWEST_PRECEDENCE

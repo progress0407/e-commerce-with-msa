@@ -136,7 +136,9 @@ project(':api-gateway') {
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
         implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.0'
-//        implementation 'org.springframework.boot:spring-boot-starter-web'
+
+        // Gson
+        implementation 'com.google.code.gson:gson:2.10'
 
         testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
 
@@ -148,7 +150,6 @@ project(':api-gateway') {
         testImplementation 'io.rest-assured:rest-assured'
 
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
     }
 }
 

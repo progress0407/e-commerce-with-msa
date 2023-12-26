@@ -9,8 +9,10 @@ import io.philo.support.JwtManager
 import org.springframework.stereotype.Service
 
 @Service
-class UserService(private val jwtManager: JwtManager,
-                  private val repository: UserRepository) {
+class UserService(
+    private val jwtManager: JwtManager,
+    private val repository: UserRepository
+) {
 
 
     fun createUser(

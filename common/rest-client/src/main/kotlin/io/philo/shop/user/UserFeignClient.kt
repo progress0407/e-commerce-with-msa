@@ -13,8 +13,6 @@ interface UserFeignClient {
     fun isValidToken(): Boolean
 
     @GetMapping("/user/internal/passport")
-    fun getUserPassport(@RequestHeader(HttpHeaders.AUTHORIZATION) authHeader: List<String>): UserPassportResponse
+    fun getUserPassport(@RequestHeader(HttpHeaders.AUTHORIZATION) authHeader: String): UserPassportResponse
 
-    @GetMapping("/user/internal/test")
-    fun test(): String
 }

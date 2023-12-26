@@ -13,11 +13,8 @@ class UserRestClientFacade(private val userFeignClient: UserFeignClient) {
         return userFeignClient.isValidToken()
     }
 
-    fun getUserPassport(authHeader: List<String>): UserPassportResponse {
-        return userFeignClient.getUserPassport(authHeader)
-    }
+    fun getUserPassport(authHeader: String): UserPassportResponse {
 
-    fun test(): String {
-        return userFeignClient.test()
+        return userFeignClient.getUserPassport(authHeader)
     }
 }
