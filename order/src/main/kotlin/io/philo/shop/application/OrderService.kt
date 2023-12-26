@@ -1,5 +1,6 @@
 package io.philo.shop.application
 
+import io.philo.shop.coupon.CouponRestClientFacade
 import io.philo.shop.domain.Order
 import io.philo.shop.domain.OrderItem
 import io.philo.shop.dto.web.OrderLineRequest
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional
 class OrderService(
     private val orderRepository: OrderRepository,
     private val itemClient: ItemRestClientFacade,
+    private val couponClient: CouponRestClientFacade,
     private val orderEventPublisher: OrderEventPublisher
 ) {
 
@@ -28,7 +30,9 @@ class OrderService(
 
         val itemIds = extractItemIds(orderLineRequests)
         val itemResponses = itemClient.requestItems(itemIds)
-        val orderItems = createOrderLines(itemResponses, orderLineRequests)
+        val discountAmountMap = couponClient.requestItemCostsByIds(itemIds)
+
+        val orderItems = createOrderLines(itemResponses, orderLineRequests,discountAmountMap)
         val order = Order.createOrder(orderItems)
         orderRepository.save(order)
         orderEventPublisher.publishEvent(order)
@@ -44,24 +48,27 @@ class OrderService(
 
     private fun createOrderLines(
         itemResponses: List<ItemInternalResponse>,
-        orderLineRequests: List<OrderLineRequest>
+        orderLineRequests: List<OrderLineRequest>,
+        discountAmountMap: Map<Long, Int>
     ): MutableList<OrderItem> {
         return orderLineRequests
-            .map { request: OrderLineRequest -> createOrderLine(itemResponses, request) }
+            .map { request: OrderLineRequest -> createOrderLine(itemResponses, request, discountAmountMap) }
             .toMutableList()
     }
 
     private fun createOrderLine(
         itemResponses: List<ItemInternalResponse>,
-        orderLineRequest: OrderLineRequest
+        orderLineRequest: OrderLineRequest,
+        discountAmountMap: Map<Long, Int>
     ): OrderItem {
         val itemResponse = findItemDtoFromOrderLineRequest(itemResponses, orderLineRequest)
+        val itemId = itemResponse.id
         return OrderItem(
-            itemResponse.id,
-            itemResponse.name,
-            itemResponse.size,
-            itemResponse.amount,
-            orderLineRequest.quantity
+            itemId = itemId,
+            itemName = itemResponse.name,
+            size = itemResponse.size,
+            orderItemPrice = discountAmountMap[itemId]!!,
+            orderedQuantity = orderLineRequest.quantity
         )
     }
 

@@ -1,17 +1,19 @@
 package io.philo.shop.presentation
 
 import io.philo.shop.domain.service.CouponService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/coupon/internal")
 @RestController
 class CouponInternalController(private val couponService: CouponService) {
 
-    @GetMapping("/coupon-applied-amount")
-    fun calculateAmount(): Int {
+//    @GetMapping("/coupon-applied-amount")
+    @GetMapping("/discount-amounts")
+    fun calculateAmount(@RequestHeader userId: Long,
+                        @RequestBody ids: List<Long>): Int {
 
-        return couponService.calculateAmountForInternal()
+        return couponService.calculateAmountForInternal(userId, ids)
     }
+
+    // /coupon/internal/discount-amounts
 }

@@ -40,7 +40,11 @@ class CouponService(
         return finalAmount
     }
 
-    fun calculateAmountForInternal(): Int {
+    fun calculateAmountForInternal(userId: Long, ids: List<Long>): Int {
+
+        val userCoupons = userCouponRepository.findAllByUserId(userId, ids)
+        couponRepository.findById(ids)
+
         return -1
     }
 }
