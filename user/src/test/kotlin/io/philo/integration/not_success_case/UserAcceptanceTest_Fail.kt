@@ -1,8 +1,8 @@
 package io.philo.integration.not_success_case
 
 import io.kotest.matchers.shouldBe
-import io.philo.presentation.dto.create.UserCreateRequestDto
-import io.philo.presentation.dto.create.UserCreateResponseDto
+import io.philo.shop.presentation.dto.create.UserCreateRequestDto
+import io.philo.shop.presentation.dto.create.UserCreateResponseDto
 
 class UserAcceptanceTest_Fail() : AcceptanceTest_Fail({
 

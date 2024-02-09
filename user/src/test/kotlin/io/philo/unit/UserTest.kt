@@ -2,7 +2,7 @@ package io.philo.unit
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import io.philo.domain.entity.UserEntity
+import io.philo.shop.domain.entity.UserEntity
 
 class UserTest : StringSpec({
 

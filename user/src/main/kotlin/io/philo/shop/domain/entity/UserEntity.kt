@@ -1,6 +1,6 @@
-package io.philo.domain.entity
+package io.philo.shop.domain.entity
 
-import io.philo.support.PasswordEncoder
+import io.philo.shop.PasswordEncoder
 import jakarta.persistence.*
 import jakarta.persistence.GenerationType.IDENTITY
 

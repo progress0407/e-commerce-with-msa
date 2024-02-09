@@ -1,8 +1,7 @@
-package io.philo.config
+package io.philo.shop
 
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
-import io.philo.support.JwtManager
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 

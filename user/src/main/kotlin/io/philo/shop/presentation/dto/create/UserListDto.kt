@@ -1,6 +1,6 @@
-package io.philo.presentation.dto.create
+package io.philo.shop.presentation.dto.create
 
-import io.philo.domain.entity.UserEntity
+import io.philo.shop.domain.entity.UserEntity
 
 class UserListDto
 

@@ -2,11 +2,11 @@ package io.philo.integration
 
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.philo.domain.entity.UserEntity
-import io.philo.presentation.dto.create.UserCreateRequestDto
-import io.philo.presentation.dto.create.UserCreateResponseDto
-import io.philo.presentation.dto.login.UserLoginRequest
 import io.philo.shop.AcceptanceTest
+import io.philo.shop.domain.entity.UserEntity
+import io.philo.shop.presentation.dto.create.UserCreateRequestDto
+import io.philo.shop.presentation.dto.create.UserCreateResponseDto
+import io.philo.shop.presentation.dto.login.UserLoginRequest
 import io.restassured.response.ExtractableResponse
 import io.restassured.response.Response
 import org.junit.jupiter.api.Test

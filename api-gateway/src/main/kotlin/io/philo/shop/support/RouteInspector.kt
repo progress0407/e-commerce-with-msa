@@ -1,4 +1,4 @@
-package io.philo.shop.config
+package io.philo.shop.support
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cloud.gateway.route.Route

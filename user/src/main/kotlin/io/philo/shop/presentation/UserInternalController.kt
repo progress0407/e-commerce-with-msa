@@ -1,6 +1,6 @@
-package io.philo.presentation
+package io.philo.shop.presentation
 
-import io.philo.domain.service.UserService
+import io.philo.shop.domain.service.UserService
 import io.philo.shop.user.dto.UserPassportResponse
 import mu.KotlinLogging
 import org.springframework.http.HttpHeaders.AUTHORIZATION

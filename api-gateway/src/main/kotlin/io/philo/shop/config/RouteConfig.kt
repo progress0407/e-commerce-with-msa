@@ -1,6 +1,6 @@
 package io.philo.shop.config
 
-import io.philo.shop.filter.AuthorizationInceptionFilter
+import io.philo.shop.filter.AuthorizationVerificationFilter
 import org.springframework.cloud.gateway.route.Route
 import org.springframework.cloud.gateway.route.RouteLocator
 import org.springframework.cloud.gateway.route.builder.*
@@ -13,7 +13,7 @@ import org.springframework.http.HttpMethod.POST
 @Configuration
 class RouteConfig(
     private val routeLocatorBuilder: RouteLocatorBuilder,
-    private val authFilter: AuthorizationInceptionFilter,
+    private val authFilter: AuthorizationVerificationFilter,
 ) {
 
     @Bean

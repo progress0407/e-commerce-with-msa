@@ -1,4 +1,4 @@
-package io.philo.support
+package io.philo.shop
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 

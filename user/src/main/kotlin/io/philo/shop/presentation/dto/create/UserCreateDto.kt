@@ -1,4 +1,4 @@
-package io.philo.presentation.dto.create
+package io.philo.shop.presentation.dto.create
 
 class UserCreateDto
 

@@ -3,7 +3,7 @@ package io.philo.unit
 import io.jsonwebtoken.security.Keys
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import io.philo.support.JwtManager
+import io.philo.shop.JwtManager
 import java.nio.charset.StandardCharsets
 
 class JwtManagerTest:StringSpec( {

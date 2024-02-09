@@ -1,4 +1,4 @@
-package io.philo.support
+package io.philo.shop
 
 import io.jsonwebtoken.*
 import io.jsonwebtoken.io.DecodingException

@@ -9,9 +9,7 @@ import org.springframework.cloud.gateway.filter.GatewayFilter
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
 import org.springframework.context.annotation.Lazy
 import org.springframework.core.Ordered
-import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.http.server.reactive.ServerHttpRequest
-import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 
@@ -23,14 +21,10 @@ import reactor.core.publisher.Mono
  *
  * Netflix Passport에서 착안한 아이디어
  */
-@Component
-class AuthorizationInceptionFilter(@Lazy private val userRestClient: UserRestClientFacade) : GatewayFilter, Ordered {
-
-    companion object {
-        const val TOKEN_PREFIX = "Bearer "
-
-        private const val USER_PASSPORT = "user-passport"
-    }
+//@Component
+@Deprecated("동기 호출로 인한 Blocking RuntTime 예외로 잠정 중단")
+class AuthorizationInceptionFilter(@Lazy private val userRestClient: UserRestClientFacade) :
+    AbstractAuthorizationFilter(), GatewayFilter, Ordered {
 
     private val log = KotlinLogging.logger { }
 
@@ -46,7 +40,7 @@ class AuthorizationInceptionFilter(@Lazy private val userRestClient: UserRestCli
 //        if ("/users/login" == request.path.toString())
 //            return proceedNextFilter(chain, exchange)
 
-        val accessToken: String = validateAndExtractAccessToken(request)
+        val accessToken = validateAndExtractAccessToken(request)
         val userPassport = userRestClient.getUserPassport(accessToken)
 
         validatePassport(userPassport)
@@ -59,27 +53,6 @@ class AuthorizationInceptionFilter(@Lazy private val userRestClient: UserRestCli
     private fun validatePassport(userPassport: UserPassportResponse) {
         if (userPassport.isValid.not())
             throw UnauthorizedException("올바르지 못한 인증 헤더입니다.")
-    }
-
-    /**
-     * JWT 에 대해 유효성 검증을 하고 토큰을 추출합니다
-     */
-    private fun validateAndExtractAccessToken(request: ServerHttpRequest): String {
-
-        val headerValues = request.headers[AUTHORIZATION]
-
-        if (headerValues.isNullOrEmpty())
-            throw UnauthorizedException("Bearer prefix가 존재하지 않습니다.")
-
-        val tokenWithPrefix = headerValues
-            .find { it.contains(TOKEN_PREFIX) }
-            ?: throw UnauthorizedException("Bearer prefix가 존재하지 않습니다.")
-
-        return tokenWithPrefix.replace(TOKEN_PREFIX, "")
-    }
-
-    private fun proceedNextFilter(chain: GatewayFilterChain, exchange: ServerWebExchange): Mono<Void> {
-        return chain.filter(exchange).then(Mono.fromRunnable { exchange.response })
     }
 
     /**

@@ -1,11 +1,11 @@
-package io.philo.presentation
+package io.philo.shop.presentation
 
-import io.philo.domain.repository.UserRepository
-import io.philo.domain.service.UserService
-import io.philo.presentation.dto.create.UserCreateRequestDto
-import io.philo.presentation.dto.create.UserCreateResponseDto
-import io.philo.presentation.dto.create.UserListResponseDto
-import io.philo.presentation.dto.login.UserLoginRequest
+import io.philo.shop.domain.repository.UserRepository
+import io.philo.shop.domain.service.UserService
+import io.philo.shop.presentation.dto.create.UserCreateRequestDto
+import io.philo.shop.presentation.dto.create.UserCreateResponseDto
+import io.philo.shop.presentation.dto.create.UserListResponseDto
+import io.philo.shop.presentation.dto.login.UserLoginRequest
 import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

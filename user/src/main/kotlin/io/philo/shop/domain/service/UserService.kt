@@ -1,11 +1,11 @@
-package io.philo.domain.service
+package io.philo.shop.domain.service
 
-import io.philo.domain.entity.UserEntity
-import io.philo.domain.repository.UserRepository
+import io.philo.shop.JwtManager
+import io.philo.shop.domain.entity.UserEntity
+import io.philo.shop.domain.repository.UserRepository
 import io.philo.shop.error.EntityNotFoundException
 import io.philo.shop.error.UnauthorizedException
 import io.philo.shop.user.dto.UserPassportResponse
-import io.philo.support.JwtManager
 import org.springframework.stereotype.Service
 
 @Service

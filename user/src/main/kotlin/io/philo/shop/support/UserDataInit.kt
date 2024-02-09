@@ -1,7 +1,7 @@
-package io.philo.support
+package io.philo.shop.support
 
-import io.philo.domain.entity.UserEntity
-import io.philo.domain.repository.UserRepository
+import io.philo.shop.domain.entity.UserEntity
+import io.philo.shop.domain.repository.UserRepository
 import jakarta.annotation.PostConstruct
 import org.springframework.stereotype.Component
 

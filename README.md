@@ -20,6 +20,9 @@
 - [ ] RabbitMQ -> Kafka로 전환
 - [x] [User Module](https://github.com/progress0407/intergrated-study/tree/main/0.%20study/1.%20alone/%5BMSA%5D%20Spring%20Cloud%20MicroService/leedowon-msa-project/user-service) 옮겨오기
 - [ ] 쿠폰 Module 개발: `진행중`
+- [ ] Neflix Passport 구현
+  - 보류 (동기 호출 Blocking 예외)
+  - [ ] 토큰 검증 필터 구현
 
 ## 고려한 점
 
