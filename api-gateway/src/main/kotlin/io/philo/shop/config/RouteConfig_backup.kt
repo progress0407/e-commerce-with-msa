@@ -1,6 +1,6 @@
 package io.philo.shop.config
 
-import io.philo.shop.filter.LoggingFilter
+import io.philo.shop.filter.GlobalLoggingFilter
 import org.springframework.cloud.gateway.route.Route
 import org.springframework.cloud.gateway.route.RouteLocator
 import org.springframework.cloud.gateway.route.builder.Buildable
@@ -9,10 +9,10 @@ import org.springframework.cloud.gateway.route.builder.PredicateSpec
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder
 
 //@Configuration
-class RouteConfig_backup(private val loggingFilter: LoggingFilter) {
+class RouteConfig_backup(private val globalLoggingFilter: GlobalLoggingFilter) {
 
 //    @Bean
-    fun routes(builder: RouteLocatorBuilder, loggingFilter: LoggingFilter): RouteLocator {
+    fun routes(builder: RouteLocatorBuilder, globalLoggingFilter: GlobalLoggingFilter): RouteLocator {
         return builder.routes()
 //            .route { it.route("ITEM-SERVICE", "/items") }
             .route { it.route("ITEM-SERVICE", "/items") }

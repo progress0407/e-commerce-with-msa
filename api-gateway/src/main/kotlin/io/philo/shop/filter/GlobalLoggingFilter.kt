@@ -4,12 +4,14 @@ import mu.KotlinLogging
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
 import org.springframework.cloud.gateway.filter.GlobalFilter
 import org.springframework.core.Ordered
+import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 
 @Component
-class LoggingFilter : GlobalFilter, Ordered {
+@Order(-1)
+class GlobalLoggingFilter : GlobalFilter, Ordered {
 
     private val log = KotlinLogging.logger { }
 

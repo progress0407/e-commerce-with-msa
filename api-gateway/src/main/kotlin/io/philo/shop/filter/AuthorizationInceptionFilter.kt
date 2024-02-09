@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Lazy
 import org.springframework.core.Ordered
 import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.http.server.reactive.ServerHttpRequest
-import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 
@@ -18,7 +17,7 @@ import reactor.core.publisher.Mono
  *
  * User Passport 정보를 삽입하는 역할
  */
-@Component
+//@Component
 class AuthorizationInceptionFilter(@Lazy private val userRestClient: UserRestClientFacade) : GlobalFilter, Ordered {
 
     private val log = KotlinLogging.logger { }
