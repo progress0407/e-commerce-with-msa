@@ -22,22 +22,20 @@ class JwtManager(
     }
 
     fun isValidToken(accessToken: String): Boolean {
-        try {
+        return try {
             tryParseJwt(accessToken)
-        } catch (e: IllegalArgumentException) {
-            return false
-        } catch (e: SignatureException) {
-            return false
-        } catch (e: MalformedJwtException) {
-            return false
-        } catch (e: ExpiredJwtException) {
-            return false
-        } catch (e: UnsupportedJwtException) {
-            return false
-        } catch (e: DecodingException) {
-            return false
+            true
+        } catch (e: Exception) {
+            when (e) {
+                is IllegalArgumentException,
+                is SignatureException,
+                is MalformedJwtException,
+                is ExpiredJwtException,
+                is UnsupportedJwtException,
+                is DecodingException -> false
+                else -> throw e
+            }
         }
-        return true
     }
 
     fun parse(accessToken: String?): String {
