@@ -1,6 +1,8 @@
 package io.philo.presentation.dto.create
 
-data class UserCreateRequest(
+class UserCreateDto
+
+data class UserCreateRequestDto(
     val email: String,
     val name: String,
     val address: String,
@@ -8,3 +10,5 @@ data class UserCreateRequest(
 ) {
     companion object
 }
+
+data class UserCreateResponseDto(val id: Long)

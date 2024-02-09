@@ -1,6 +1,6 @@
 package io.philo.support
 
-import io.philo.domain.entity.User
+import io.philo.domain.entity.UserEntity
 import io.philo.domain.repository.UserRepository
 import jakarta.annotation.PostConstruct
 import org.springframework.stereotype.Component
@@ -17,13 +17,13 @@ class UserDataInit(private val userRepository: UserRepository) {
     @PostConstruct
     fun init() {
 
-        val user = User(
+        val userEntity = UserEntity(
             email = "swcho@naver.com",
             name = "성우",
             address = "노량진",
             rawPassword = "12345678"
         )
 
-        userRepository.save(user)
+        userRepository.save(userEntity)
     }
 }

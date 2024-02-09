@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType.IDENTITY
 
 @Entity
 @Table(name = "users")
-class User protected constructor(
+class UserEntity protected constructor(
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -45,9 +45,9 @@ class User protected constructor(
         return PasswordEncoder.isSamePassword(rawPassword, encodedPassword)
     }
 
-    companion object {}
-
     override fun toString(): String {
-        return "User(id=$id, email='$email', name='$name', address='$address', encodedPassword='$encodedPassword')"
+        return "UserEntity(id=$id, email='$email', name='$name', address='$address')"
     }
+
+    companion object
 }

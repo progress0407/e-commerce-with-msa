@@ -2,9 +2,9 @@ package io.philo.integration
 
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.philo.domain.entity.User
-import io.philo.presentation.dto.create.UserCreateRequest
-import io.philo.presentation.dto.create.UserCreateResponse
+import io.philo.domain.entity.UserEntity
+import io.philo.presentation.dto.create.UserCreateRequestDto
+import io.philo.presentation.dto.create.UserCreateResponseDto
 import io.philo.presentation.dto.login.UserLoginRequest
 import io.philo.shop.AcceptanceTest
 import io.restassured.response.ExtractableResponse
@@ -18,7 +18,7 @@ class UserIntegrationTest : AcceptanceTest() {
     fun `회원가입 후 로그인 한다`() {
 
         // given
-        val requestBody = UserCreateRequest.fixture
+        val requestBody = UserCreateRequestDto.fixture
 
         // when
         val userId = 회원가입(requestBody).id
@@ -31,33 +31,33 @@ class UserIntegrationTest : AcceptanceTest() {
         accessToken shouldNotBe null // token 존재 검증
     }
 
-    private fun 회원가입(requestBody: UserCreateRequest) =
-        postAndGetBody<UserCreateResponse>("/users", requestBody)
+    private fun 회원가입(requestBody: UserCreateRequestDto) =
+        postAndGetBody<UserCreateResponseDto>("/users", requestBody)
 
     private fun 로그인() = post("/users/login", UserLoginRequest.fixture)
 
     val ExtractableResponse<Response>.authHeader
         get() = this.header(AUTHORIZATION)
 
-    val UserCreateRequest.Companion.fixture: UserCreateRequest
-        get() = UserCreateRequest(
-            email = User.fixture.email,
-            name = User.fixture.name,
-            address = User.fixture.address,
-            password = User.fixture_rawPassword
+    val UserCreateRequestDto.Companion.fixture: UserCreateRequestDto
+        get() = UserCreateRequestDto(
+            email = UserEntity.fixture.email,
+            name = UserEntity.fixture.name,
+            address = UserEntity.fixture.address,
+            password = UserEntity.fixture_rawPassword
         )
 
-    val User.Companion.fixture: User
-        get() = User(
+    val UserEntity.Companion.fixture: UserEntity
+        get() = UserEntity(
             email = "jason0101@example.com",
             name = "jason",
             address = "seoul yongsangu",
-            rawPassword = User.fixture_rawPassword
+            rawPassword = UserEntity.fixture_rawPassword
         )
 
-    val User.Companion.fixture_rawPassword
+    val UserEntity.Companion.fixture_rawPassword
         get() = "1234"
 
     val UserLoginRequest.Companion.fixture: Any
-        get() = UserLoginRequest(email = User.fixture.email, password = User.fixture_rawPassword)
+        get() = UserLoginRequest(email = UserEntity.fixture.email, password = UserEntity.fixture_rawPassword)
 }

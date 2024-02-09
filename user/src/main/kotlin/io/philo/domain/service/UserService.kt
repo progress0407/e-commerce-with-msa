@@ -1,6 +1,6 @@
 package io.philo.domain.service
 
-import io.philo.domain.entity.User
+import io.philo.domain.entity.UserEntity
 import io.philo.domain.repository.UserRepository
 import io.philo.shop.error.EntityNotFoundException
 import io.philo.shop.error.UnauthorizedException
@@ -22,11 +22,11 @@ class UserService(
         password: String
     ): Long {
 
-        val user = User(email, name, address, password)
+        val userEntity = UserEntity(email, name, address, password)
 
-        repository.save(user)
+        repository.save(userEntity)
 
-        return user.id!!
+        return userEntity.id!!
     }
 
     fun login(inputEmail: String, inputPassword: String): String {
@@ -50,24 +50,24 @@ class UserService(
 
         return if (jwtManager.isValidToken(accessToken)) {
             val userInfo = jwtManager.parse(accessToken)
-            val user: User? = repository.findById(userInfo.toLong()).orElseGet(null)
-            if (user == null) {
+            val userEntity: UserEntity? = repository.findById(userInfo.toLong()).orElseGet(null)
+            if (userEntity == null) {
                 UserPassportResponse.OfInvalid()
             } else {
-                UserPassportResponse.OfValid(user.id!!, user.name, user.email)
+                UserPassportResponse.OfValid(userEntity.id!!, userEntity.name, userEntity.email)
             }
         } else {
             UserPassportResponse.OfInvalid()
         }
     }
 
-    private fun validateCredential(inputPassword: String, user: User) {
-        if (isCorrectCredential(inputPassword, user).not()) {
+    private fun validateCredential(inputPassword: String, userEntity: UserEntity) {
+        if (isCorrectCredential(inputPassword, userEntity).not()) {
             throw UnauthorizedException("유효한 로그인 정보가 아닙니다.")
         }
     }
 
-    private fun isCorrectCredential(inputPassword: String, user: User): Boolean {
-        return user.isSamePassword(inputPassword)
+    private fun isCorrectCredential(inputPassword: String, userEntity: UserEntity): Boolean {
+        return userEntity.isSamePassword(inputPassword)
     }
 }
