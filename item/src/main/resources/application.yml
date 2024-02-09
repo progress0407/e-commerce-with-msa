@@ -2,7 +2,7 @@ server.port: 8081
 
 spring:
   application:
-    name: item-service
+    name: ITEM-SERVICE
   rabbitmq:
     host: localhost
     port: 5672
@@ -13,11 +13,11 @@ spring:
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-    leaseRenewalIntervalInSeconds: 1
+#    leaseRenewalIntervalInSeconds: 1
   client:
     enabled: true
     service-url:
-      defaultZone: http://127.0.0.1:8762/eureka
+      defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
-    registry-fetch-interval-seconds: 1
+    registry-fetch-interval-seconds: 3

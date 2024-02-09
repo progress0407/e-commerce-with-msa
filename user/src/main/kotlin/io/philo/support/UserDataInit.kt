@@ -17,7 +17,12 @@ class UserDataInit(private val userRepository: UserRepository) {
     @PostConstruct
     fun init() {
 
-        val user = User("swcho@naver.com", "sw cho", address = "노량진", rawPassword = "12345678")
+        val user = User(
+            email = "swcho@naver.com",
+            name = "성우",
+            address = "노량진",
+            rawPassword = "12345678"
+        )
 
         userRepository.save(user)
     }

@@ -6,7 +6,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestHeader
 
-@FeignClient(name = "user-service")
+@FeignClient(name = "USER-SERVICE")
 interface UserFeignClient {
 
     @GetMapping("/user/internal/valid-token")
