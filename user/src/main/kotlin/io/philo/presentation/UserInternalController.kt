@@ -16,9 +16,9 @@ class UserInternalController(private val userService: UserService) {
     val log = KotlinLogging.logger { }
 
     @GetMapping("/valid-token")
-    fun isValidToken(@RequestHeader(AUTHORIZATION) acceeToekn: String): Boolean {
+    fun isValidToken(@RequestHeader(AUTHORIZATION) accessToken: String): Boolean {
 
-        return userService.isValidToken(acceeToekn)
+        return userService.isValidToken(accessToken)
     }
 
     @GetMapping("/passport")

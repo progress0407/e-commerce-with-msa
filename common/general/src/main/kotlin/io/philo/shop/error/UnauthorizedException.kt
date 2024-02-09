@@ -1,10 +1,9 @@
 package io.philo.shop.error
 
-import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.UNAUTHORIZED
 
-open class UnauthorizedException(message: String?, cause: Throwable?) : RuntimeException(message, cause) {
-
-    private val httpStatus = HttpStatus.UNAUTHORIZED
-
-    constructor(message: String): this(message, null)
-}
+/**
+ * 401 예외
+ */
+open class UnauthorizedException(message: String, cause: Throwable? = null) :
+    InAppException(UNAUTHORIZED, message, cause)

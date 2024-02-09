@@ -41,7 +41,7 @@ class UserController(
     }
 
     /**
-     * todo! Paging
+     * todo! 페이징 처리하기
      */
     @GetMapping
     fun list(): List<UserListResponseDto> {
