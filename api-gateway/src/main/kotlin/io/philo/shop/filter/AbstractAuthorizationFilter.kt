@@ -15,6 +15,9 @@ abstract class AbstractAuthorizationFilter {
 
         @JvmStatic
         protected val USER_PASSPORT = "user-passport"
+
+        @JvmStatic
+        protected val LOGIN_USER_ID = "loginUserId"
     }
 
     /**

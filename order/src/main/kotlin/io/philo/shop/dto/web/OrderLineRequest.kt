@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor
 @Getter
 data class OrderLineRequest(
     val itemId: Long,
-    val quantity: Int = 0
+    val quantity: Int = 0,
+    val userCouponId: Long? = null,
 )

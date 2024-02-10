@@ -4,6 +4,7 @@ import io.philo.shop.coupon.CouponRestClientFacade
 import io.philo.shop.domain.Order
 import io.philo.shop.domain.OrderItem
 import io.philo.shop.dto.web.OrderLineRequest
+import io.philo.shop.error.BadRequestException
 import io.philo.shop.item.ItemRestClientFacade
 import io.philo.shop.item.dto.ItemInternalResponse
 import io.philo.shop.message.OrderEventPublisher
@@ -28,6 +29,8 @@ class OrderService(
     @Transactional
     fun order(orderLineRequests: List<OrderLineRequest>): Long {
 
+        validateCoupoUseable(orderLineRequests)
+
         val itemIds = extractItemIds(orderLineRequests)
         val itemResponses = itemClient.requestItems(itemIds)
         val discountAmountMap = couponClient.requestItemCostsByIds(itemIds)
@@ -35,9 +38,31 @@ class OrderService(
         val orderItems = createOrderLines(itemResponses, orderLineRequests,discountAmountMap)
         val order = Order.createOrder(orderItems)
         orderRepository.save(order)
+
+        /**
+         * 결제가 성공한다면 아래 로직 수행?
+         *
+         * DB 커넥션을 아끼고 싶다면,
+         *
+         * 비동기로 할 것.
+         */
+
         orderEventPublisher.publishEvent(order)
 
         return order.id!!
+    }
+
+    /**
+     * 쿠폰, 상품 수량 검증.
+     *
+     * 쿠폰은 하나의 상품에 대해서만 사용할 수 있습니다.
+     */
+    private fun validateCoupoUseable(orderLineRequests: List<OrderLineRequest>) {
+        for (orderLineRequest in orderLineRequests) {
+            if (orderLineRequest.userCouponId != null && orderLineRequest.quantity != 1) {
+                throw BadRequestException("쿠폰은 하나의 상품에만 적용할 수 있습니다.")
+            }
+        }
     }
 
     private fun extractItemIds(orderLineRequests: List<OrderLineRequest>): List<Long> {
