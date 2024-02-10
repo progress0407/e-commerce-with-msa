@@ -1,8 +1,10 @@
 package io.philo.shop.support
 
-import io.philo.shop.domain.entity.FixedDiscountCoupon
-import io.philo.shop.domain.entity.RatioDiscountCoupon
+import io.philo.shop.domain.entity.FixedDiscountCouponEntity
+import io.philo.shop.domain.entity.RatioDiscountCouponEntity
+import io.philo.shop.domain.entity.UserCouponEntity
 import io.philo.shop.domain.repository.CouponRepository
+import io.philo.shop.domain.repository.UserCouponRepository
 import mu.KotlinLogging
 import org.springframework.boot.context.event.ApplicationStartedEvent
 import org.springframework.context.event.EventListener
@@ -12,8 +14,9 @@ import javax.sql.DataSource
 @Component
 class CouponDataInitializer(
     private val dataSource: DataSource,
-    private val couponRepository: CouponRepository
-){
+    private val couponRepository: CouponRepository,
+    private val userCouponRepository: UserCouponRepository,
+) {
 
     private val log = KotlinLogging.logger { }
 
@@ -22,9 +25,19 @@ class CouponDataInitializer(
         initEntities()
     }
 
+    /**
+     * todo 추후 유저 서비스와 정합성을 고려하여 작성할 것
+     */
     private fun initEntities() {
-        couponRepository.save(FixedDiscountCoupon(1_000))
-        couponRepository.save(RatioDiscountCoupon(5))
+        val userId: Long = 1
+        val firstRegisterCoupon = couponRepository.save(FixedDiscountCouponEntity("첫 가입 3,000원 할인 쿠폰", 3_000))
+        val birthdayCoupon = couponRepository.save(RatioDiscountCouponEntity("초신사 생일 15% 할인 쿠폰", 15))
+
+        val sampleUserCouponEntity1 = UserCouponEntity(userId = userId, couponId = firstRegisterCoupon.id!!)
+        val sampleUserCouponEntity2 = UserCouponEntity(userId = userId, couponId = birthdayCoupon.id!!)
+
+        userCouponRepository.saveAll(listOf(sampleUserCouponEntity1, sampleUserCouponEntity2))
+
         val findAll = couponRepository.findAll()
         println("findAll = ${findAll}")
     }

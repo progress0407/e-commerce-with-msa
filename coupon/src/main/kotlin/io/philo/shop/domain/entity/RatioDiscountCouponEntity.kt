@@ -6,13 +6,13 @@ import jakarta.persistence.Entity
  * 비율 할인
  */
 @Entity
-class RatioDiscountCoupon(final val discountPercent: Int) : Coupon() {
+class RatioDiscountCouponEntity(name: String, val discountPercent: Int) : CouponEntity(name = name) {
 
-    protected constructor() : this(discountPercent = 0)
+    protected constructor() : this(name = "", discountPercent = 50)
 
     init {
-        require(discountPercent in 0..100) {
-            "할인율은 0에서 100 (%) 사이여야 합니다."
+        require(discountPercent in 5..95) {
+            "쿠폰의 할인율은 5에서 95 (%) 사이여야 합니다."
         }
     }
 

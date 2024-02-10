@@ -3,6 +3,7 @@ package io.philo.shop.domain.service
 import io.philo.shop.domain.repository.CouponRepository
 import io.philo.shop.domain.repository.UserCouponRepository
 import io.philo.shop.domain.service.CouponDiscountCalculator.Companion.calculateDiscountAmount
+import io.philo.shop.error.BadRequestException
 import io.philo.shop.item.ItemRestClientFacade
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -40,10 +41,13 @@ class CouponService(
         return finalAmount
     }
 
-    fun calculateAmountForInternal(userId: Long, ids: List<Long>): Int {
+    fun calculateAmountForInternal(userId: Long, reqUserCouponIds: List<Long>): Int {
 
-        val userCoupons = userCouponRepository.findAllByUserId(userId, ids)
-        couponRepository.findById(ids)
+        val itemDtos = itemClient.requestItems(reqUserCouponIds)
+
+        val userCoupons = userCouponRepository.findByUserIdAndCouponIdInAndIsUseFalse(userId, reqUserCouponIds)
+        if(reqUserCouponIds.size != userCoupons.size)
+            throw BadRequestException("사용자의 쿠폰에 대해 검증이 실패하였습니다.")
 
         return -1
     }

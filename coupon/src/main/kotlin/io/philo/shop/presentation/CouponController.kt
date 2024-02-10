@@ -1,14 +1,18 @@
 package io.philo.shop.presentation
 
+import io.philo.shop.domain.repository.CouponRepository
+import io.philo.shop.domain.repository.UserCouponRepository
 import io.philo.shop.domain.service.CouponService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import io.philo.shop.presentation.dto.CouponListDto
+import org.springframework.web.bind.annotation.*
 
-@RequestMapping("/coupon")
+@RequestMapping("/coupons")
 @RestController
-class CouponController(private val couponService: CouponService) {
+class CouponController(
+    private val couponService: CouponService,
+    private val couponRepository: CouponRepository,
+    private val userCouponRepository: UserCouponRepository
+) {
 
     /**
      * Coupon 생성
@@ -22,6 +26,22 @@ class CouponController(private val couponService: CouponService) {
 
         return couponService.createCoupon()
     }
+
+    @GetMapping
+    fun list(): List<CouponListDto> {
+
+        return couponRepository
+            .findAll()
+            .map { CouponListDto(it) }
+    }
+
+    @GetMapping("/users/{userId}")
+    fun listOfUser(@PathVariable userId: Long): Unit {
+
+//        return couponService.listOfUser(userId)
+    }
+
+
 
     @GetMapping("/coupon-applied-amount")
     fun calculateAmount(): Int {

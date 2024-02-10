@@ -6,13 +6,17 @@ import java.time.LocalDate
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-abstract class Coupon(
+abstract class CouponEntity(
 
     @field:Column(nullable = false)
-    protected val expirationStartAt: LocalDate = LocalDate.now(),
+    val name: String = "",
 
     @field:Column(nullable = false)
-    protected val expirationEndAt: LocalDate = LocalDate.now().plusDays(30)
+    val expirationStartAt: LocalDate = LocalDate.now(),
+
+    @field:Column(nullable = false)
+    val expirationEndAt: LocalDate = LocalDate.now().plusDays(30)
+
 ): BaseEntity() {
 
     @Id

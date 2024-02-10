@@ -1,6 +1,6 @@
 package io.philo.shop.domain.service
 
-import io.philo.shop.domain.entity.Coupon
+import io.philo.shop.domain.entity.CouponEntity
 
 class CouponDiscountCalculator {
 
@@ -11,17 +11,17 @@ class CouponDiscountCalculator {
          *
          * 고정 할인을 비율 할인보다 먼저 계산한다
          */
-        fun calculateDiscountAmount(itemAmount: Int, vararg coupons: Coupon): Int {
+        fun calculateDiscountAmount(itemAmount: Int, vararg couponEntities: CouponEntity): Int {
 
-            return calculateDiscountAmount(itemAmount, coupons.toList())
+            return calculateDiscountAmount(itemAmount, couponEntities.toList())
         }
 
         /**
          * @see calculateDiscountAmount
          */
-        fun calculateDiscountAmount(itemAmount: Int, coupons: List<Coupon>): Int {
+        fun calculateDiscountAmount(itemAmount: Int, couponEntities: List<CouponEntity>): Int {
 
-            val discountedAmount = coupons.toList()
+            val discountedAmount = couponEntities.toList()
                 .sortedBy { it.order }
                 .fold(itemAmount) { nextAmount, coupon -> coupon.discount(nextAmount) }
 
