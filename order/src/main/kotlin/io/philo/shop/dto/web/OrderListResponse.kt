@@ -1,8 +1,8 @@
 package io.philo.shop.dto.web
 
-import io.philo.shop.domain.Order
+import io.philo.shop.domain.OrderEntity
 
 data class OrderListResponse(val id:Long, val totalOrderAmount: Int) {
 
-    constructor(entity: Order) : this(entity.id!!, entity.totalOrderAmount)
+    constructor(entity: OrderEntity) : this(entity.id!!, entity.totalOrderAmount)
 }

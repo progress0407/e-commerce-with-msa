@@ -50,24 +50,32 @@ subprojects {
         implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
         implementation 'org.jetbrains.kotlin:kotlin-reflect'
         implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+        implementation 'io.github.microutils:kotlin-logging:3.0.5'
+
+        // Kotlin for Test
         testImplementation "io.kotest:kotest-runner-junit5:$junitVersion"
         testFixturesImplementation "io.kotest:kotest-runner-junit5:$junitVersion"
         testImplementation "io.kotest:kotest-assertions-core:$junitVersion"
         testFixturesImplementation "io.kotest:kotest-assertions-core:$junitVersion"
-        // Kotlin logging
-        implementation 'io.github.microutils:kotlin-logging:3.0.5'
+
+        // Mock for kotlin
+        testImplementation 'io.mockk:mockk:1.13.8'
+        testImplementation 'com.ninja-squad:springmockk:4.0.2'
+
+        // Actuator
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+        // Yaml (Configuration Auto Complete)
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+        // Validate
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+
         // Lombok
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
         testCompileOnly 'org.projectlombok:lombok'
         testAnnotationProcessor 'org.projectlombok:lombok'
-        // Actuator
-        implementation 'org.springframework.boot:spring-boot-starter-actuator'
-        // Yaml Auto Complete
-        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-        // mock for kotlin
-        testImplementation 'io.mockk:mockk:1.13.8'
-        testImplementation 'com.ninja-squad:springmockk:4.0.2'
     }
 
     ext {

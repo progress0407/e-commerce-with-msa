@@ -1,6 +1,6 @@
 package io.philo.shop.coupon
 
-import io.philo.shop.item.dto.ItemInternalResponse
+import io.philo.shop.item.dto.ItemInternalResponseDto
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam
 interface CouponFeignClient {
 
     @GetMapping("/coupon/internal")
-    fun requestItems(@RequestParam("ids") ids: List<Long>): List<ItemInternalResponse>
+    fun requestItems(@RequestParam("ids") ids: List<Long>): List<ItemInternalResponseDto>
 
     @GetMapping("/coupon/internal/discount-amounts")
     fun requestItemCostsByIds(ids: List<Long>): Map<Long, Int>

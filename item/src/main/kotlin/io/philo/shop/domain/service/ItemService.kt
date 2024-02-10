@@ -1,7 +1,7 @@
 package io.philo.shop.domain.service
 
 import io.philo.shop.domain.entity.Item
-import io.philo.shop.item.dto.ItemInternalResponse
+import io.philo.shop.item.dto.ItemInternalResponseDto
 import io.philo.shop.presentation.dto.ItemResponse
 import io.philo.shop.repository.ItemRepository
 import org.springframework.stereotype.Service
@@ -44,11 +44,11 @@ class ItemService(private val itemRepository: ItemRepository) {
     }
 
     @Transactional(readOnly = true)
-    fun findItemsForInternal(itemIds: List<Long>): List<ItemInternalResponse> {
+    fun findItemsForInternal(itemIds: List<Long>): List<ItemInternalResponseDto> {
 
         val entities = itemRepository.findByIdIn(itemIds)
         val dtos = entities
-            .map { item -> ItemInternalResponse(item.id!!, item.name, item.size, item.price) }
+            .map { item -> ItemInternalResponseDto(item.id!!, item.name, item.size, item.price) }
             .toList()
         return dtos
     }

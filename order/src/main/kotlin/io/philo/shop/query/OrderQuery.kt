@@ -1,6 +1,6 @@
 package io.philo.shop.query
 
-import io.philo.shop.domain.Order
+import io.philo.shop.domain.OrderEntity
 import io.philo.shop.dto.web.OrderDetailResponse
 import io.philo.shop.dto.web.OrderListResponse
 import io.philo.shop.dto.web.OrderListResponses
@@ -20,7 +20,7 @@ class OrderQuery(private val orderRepository: OrderRepository) {
         return OrderDetailResponse(entitiy)
     }
 
-    private fun convertListDtos(savedItems: List<Order>): OrderListResponses {
+    private fun convertListDtos(savedItems: List<OrderEntity>): OrderListResponses {
         val dtos = savedItems
             .map(::OrderListResponse)
             .toList()

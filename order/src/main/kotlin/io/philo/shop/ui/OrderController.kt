@@ -21,7 +21,7 @@ class OrderController(private val orderService: OrderService,
     @ResponseStatus(CREATED)
     fun order(@RequestBody request: OrderCreateRequest): ResourceCreateResponse {
 
-        val orderLineRequests = request.orderLineRequests
+        val orderLineRequests = request.orderLineRequestDtos
         val orderId = orderService.order(orderLineRequests)
 
         return ResourceCreateResponse(orderId)

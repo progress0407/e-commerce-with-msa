@@ -1,6 +1,7 @@
 package io.philo.shop.domain.entity
 
 import io.philo.shop.PasswordEncoder
+import io.philo.shop.entity.BaseEntity
 import jakarta.persistence.*
 import jakarta.persistence.GenerationType.IDENTITY
 
@@ -23,8 +24,9 @@ class UserEntity protected constructor(
     var address: String = "",
 
     @Column(nullable = false)
-    var encodedPassword: String = ""
-) {
+    var encodedPassword: String = "",
+
+) : BaseEntity() {
 
     protected constructor() : this(email = "")
 
@@ -32,7 +34,7 @@ class UserEntity protected constructor(
         email: String,
         name: String,
         address: String,
-        rawPassword: String
+        rawPassword: String,
     ) :
             this(
                 email = email,
