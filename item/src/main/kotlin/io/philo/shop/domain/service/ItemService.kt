@@ -39,7 +39,7 @@ class ItemService(private val itemRepository: ItemRepository) {
                 .toList()
             return dtos
         } else {
-            val entities = itemRepository.findByIdIn(itemIds)
+            val entities = itemRepository.findAllByIdIn(itemIds)
             val dtos = entities
                 .map { item -> ItemResponse(item) }
                 .toList()
@@ -50,7 +50,7 @@ class ItemService(private val itemRepository: ItemRepository) {
     @Transactional(readOnly = true)
     fun findItemsForInternal(itemIds: List<Long>): List<ItemInternalResponseDto> {
 
-        val entities = itemRepository.findByIdIn(itemIds)
+        val entities = itemRepository.findAllByIdIn(itemIds)
         val dtos = entities
             .map { item -> ItemInternalResponseDto(item.id!!, item.name, item.size, item.price) }
             .toList()
@@ -61,7 +61,7 @@ class ItemService(private val itemRepository: ItemRepository) {
     fun decreaseItems(itemIdToDecreaseQuantity: Map<Long, Int>) {
 
         val itemIds = itemIdToDecreaseQuantity.keys
-        val findItems = itemRepository.findByIdIn(itemIds) // problem !
+        val findItems = itemRepository.findAllByIdIn(itemIds) // problem !
         validateAndDecreaseItemQuantity(itemIdToDecreaseQuantity, findItems)
     }
 
@@ -91,7 +91,7 @@ class ItemService(private val itemRepository: ItemRepository) {
     fun checkItemBeforeOrder(events: List<OrderLineCreatedEvent>): Boolean {
 
         val itemIds = events.map { it.itemId }.toList()
-        val items = itemRepository.findByIdIn(itemIds)
+        val items = itemRepository.findAllByIdIn(itemIds)
 
         if(events.size != items.size) // DB에 존재하지 않는 상품 존재
             return false

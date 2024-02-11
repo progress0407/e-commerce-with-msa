@@ -12,11 +12,10 @@ class OrderOutBox(
     @Column(nullable = false)
     val orderId: Long,
 
-    ) : BaseEntity() {
+) : BaseEntity() {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     val id: Long? = null
 
     @Column(nullable = false)

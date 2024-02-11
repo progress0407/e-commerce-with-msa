@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component
  * OutBox에 저장한 이벤트를 브로커에 적재하는 역할
  */
 @Component
-class EventLoadScheduler(
+class OrderEventLoadScheduler(
     private val outBoxRepository: OrderOutBoxRepository,
     private val orderRepository: OrderRepository,
     private val orderEventPublisher: OrderEventPublisher,
