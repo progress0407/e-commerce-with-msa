@@ -47,9 +47,16 @@ class ItemDataInitializer(
     }
 
     private fun initItems() {
+
         try {
-            itemRepository.save(ItemEntity(name = "포카리 스웨트", price = 1_600, stockQuantity = 1000))
-            itemRepository.save(ItemEntity(name = "이영자 함박 돈까스 도시락", price = 4_900, stockQuantity = 3))
+
+            val item1 = ItemEntity(name = "초신사 스탠다드 블랙 스웨트 셔츠 오버 핏", size = "90-S", price = 49_800, stockQuantity = 1_000)
+            val item2 = ItemEntity(name = "초신사 스탠다드 블랙 스웨트 셔츠 오버 핏", size = "100-M", price = 49_800, stockQuantity = 1_000)
+            val item3 = ItemEntity(name = "초신사 스탠다드 블랙 스웨트 셔츠 오버 핏", size = "110-L", price = 49_800, stockQuantity = 1_000)
+
+            val item4 = ItemEntity(name = "드로우핏 네이비 발마칸 코트 세미 오버", price = 245_000, stockQuantity = 200)
+
+            itemRepository.saveAll(listOf(item1, item2, item3, item4))
         } catch (e: Exception) {
             // 데이터 초기화 에러
             log.error { "[Data Initialization error]" }

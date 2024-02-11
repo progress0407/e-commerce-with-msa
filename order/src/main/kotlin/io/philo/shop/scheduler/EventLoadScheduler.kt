@@ -1,7 +1,13 @@
 package io.philo.shop.scheduler
 
+import io.philo.shop.domain.OrderEntity
+import io.philo.shop.domain.OrderLineItemEntity
+import io.philo.shop.domain.OrderOutBox
 import io.philo.shop.message.OrderEventPublisher
-import io.philo.shop.repository.OrderOutBoxTableRepository
+import io.philo.shop.order.OrderCreatedEvent
+import io.philo.shop.order.OrderLineCreatedEvent
+import io.philo.shop.repository.OrderOutBoxRepository
+import io.philo.shop.repository.OrderRepository
 import mu.KotlinLogging
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
@@ -11,7 +17,8 @@ import org.springframework.stereotype.Component
  */
 @Component
 class EventLoadScheduler(
-    private val outBoxTableRepository: OrderOutBoxTableRepository,
+    private val outBoxRepository: OrderOutBoxRepository,
+    private val orderRepository: OrderRepository,
     private val orderEventPublisher: OrderEventPublisher,
 ) {
 
@@ -19,15 +26,65 @@ class EventLoadScheduler(
 
     @Scheduled(fixedDelay = 1_000)
     fun loadEventToBroker() {
-        val events = outBoxTableRepository.findAllByLoadedIsFalse()
 
-        if(events.isNullOrEmpty())
+        val outboxes = outBoxRepository.findAllByLoadedIsFalse()
+
+        if (outboxes.isNullOrEmpty())
             return
 
         log.info { "브로커에 적재할 이벤트가 존재합니다." }
 
+        val orderIds = outboxes.extractIds()
+        val orderEntities: List<OrderEntity> = orderRepository.findAllByIdIn(orderIds)
+        val events = orderEntities.convertToEvents()
+
         for (event in events) {
             orderEventPublisher.publishEvent(event)
+        }
+
+        // todo!
+        // kafka의 경우 event에 적재됨을 확인하면, (acks=1 이상)
+        // 이후에 Commit을 하게끔 변경하자
+    }
+
+    private fun List<OrderOutBox>.extractIds() =
+        this.map { it.orderId }.toList()
+
+    private fun List<OrderEntity>.convertToEvents(): List<OrderCreatedEvent> =
+        this.map { OrderCreatedEvent.from(it) }.toList()
+
+    private fun OrderCreatedEvent.Companion.from(orderEntity: OrderEntity): OrderCreatedEvent {
+
+        val orderLineEntities = orderEntity.orderLineItemEntities
+        val orderLineEvents = orderLineEntities.map { OrderLineCreatedEvent.from(it) }.toList()
+
+        return OrderCreatedEvent(
+            orderId = orderEntity.id!!,
+            orderLineCreatedEvents = orderLineEvents
+        )
+    }
+
+    private fun OrderLineCreatedEvent.Companion.from(orderLineEntity: OrderLineItemEntity): OrderLineCreatedEvent {
+
+
+        val couponIds: List<Long>? = getCouponIds(orderLineEntity)
+
+        return OrderLineCreatedEvent(
+            itemId = orderLineEntity.itemId,
+            itemAmount = orderLineEntity.itemRawAmount,
+            itemDiscountedAmount = orderLineEntity.itemDiscountedAmount,
+            itemQuantity = orderLineEntity.orderedQuantity,
+            userCouponIds = couponIds
+        )
+    }
+
+    private fun getCouponIds(orderLineEntity: OrderLineItemEntity): List<Long>? {
+
+        return if (orderLineEntity.useCoupon) {
+            val coupons = orderLineEntity.coupons!!
+            listOfNotNull(coupons.userCouponId1, coupons.userCouponId2)
+        } else {
+            return null
         }
     }
 }

@@ -74,11 +74,12 @@ class ItemService(private val itemRepository: ItemRepository) {
 
         if (currentItem == null)
             return false
-        else if (currentItem.price != itemAmount)
-            return false
-        else if (currentItem.stockQuantity - itemQuantity < 0) // 재고 수량이 0 이하로 내려갈 수 없다
-            return false
 
+        // 재고 수량이 0 이하로 내려갈 수 없다
+        if(currentItem.price == itemAmount && currentItem.stockQuantity - itemQuantity >= 0)
+            return true
+
+        // 그 이외의 경우는 허용하지 않습니다
         throw InAppException(INTERNAL_SERVER_ERROR, "데이터 형태가 올바르지 않습니다.")
     }
 

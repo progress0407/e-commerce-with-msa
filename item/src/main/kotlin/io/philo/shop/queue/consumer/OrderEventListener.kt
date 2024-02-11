@@ -1,7 +1,7 @@
 package io.philo.shop.queue.consumer
 
 import io.philo.shop.domain.service.ItemService
-import io.philo.shop.order.OrderCreatedEvent
+import io.philo.shop.order.OrderCreatedEventDeprecated
 import mu.KotlinLogging
 
 //@Component
@@ -11,7 +11,7 @@ class OrderEventListener(private val itemService: ItemService) {
     private val log = KotlinLogging.logger { }
 
 //    @RabbitListener(queues = [RabbitConfig.QUEUE_NAME])
-    fun listenEvent(event: OrderCreatedEvent) {
+    fun listenEvent(event: OrderCreatedEventDeprecated) {
 
         log.info { "$event" }
 

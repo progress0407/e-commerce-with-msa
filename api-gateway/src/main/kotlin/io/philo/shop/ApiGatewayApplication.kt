@@ -6,8 +6,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients
 
 @SpringBootApplication
 @EnableFeignClients
-class ApiGatewayApp
+class ApiGatewayApplication
 
 fun main(args: Array<String>) {
-    runApplication<ApiGatewayApp>(*args)
+    runApplication<ApiGatewayApplication>(*args)
 }

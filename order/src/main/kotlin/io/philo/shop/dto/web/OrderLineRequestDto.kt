@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size
 
 data class OrderLineRequestDto(
     val itemId: Long,
-    val quantity: Int = 0,
+    val itemQuantity: Int = 0,
     val itemAmount: Int = 0,
     val itemDiscountedAmount: Int = 0,
 

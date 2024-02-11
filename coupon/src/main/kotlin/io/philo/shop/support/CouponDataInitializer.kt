@@ -29,9 +29,12 @@ class CouponDataInitializer(
      * todo 추후 유저 서비스와 정합성을 고려하여 작성할 것
      */
     private fun initEntities() {
+
         val userId: Long = 1
-        val firstRegisterCoupon = couponRepository.save(FixedDiscountCouponEntity("첫 가입 3,000원 할인 쿠폰", 3_000))
-        val birthdayCoupon = couponRepository.save(RatioDiscountCouponEntity("초신사 생일 15% 할인 쿠폰", 15))
+
+        val firstRegisterCoupon = FixedDiscountCouponEntity("첫 가입 3,000원 할인 쿠폰", 3_000)
+        val birthdayCoupon = RatioDiscountCouponEntity("초신사 생일 15% 할인 쿠폰", 15)
+        couponRepository.saveAll(listOf(firstRegisterCoupon, birthdayCoupon))
 
         val sampleUserCouponEntity1 = UserCouponEntity(userId = userId, couponId = firstRegisterCoupon.id!!)
         val sampleUserCouponEntity2 = UserCouponEntity(userId = userId, couponId = birthdayCoupon.id!!)

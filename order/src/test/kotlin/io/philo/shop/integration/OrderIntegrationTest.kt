@@ -45,7 +45,7 @@ class OrderIntegrationTest : AcceptanceTest() {
                 listOf(ItemInternalResponseDto(1L, "드로우핏 캐시미어 발마칸 코트 D.NABY", "M", 190_000))
         every { orderEventPublisher.publishEvent(any()) } just runs
 
-        val requestBody = OrderCreateRequest(orderLineRequestDtos = listOf(OrderLineRequestDto(itemId = 1L, quantity = 5)))
+        val requestBody = OrderCreateRequest(orderLineRequestDtos = listOf(OrderLineRequestDto(itemId = 1L, itemQuantity = 5)))
 
         // when
         val createdEntityId = postAndGetBody<ResourceCreateResponse>("/orders", requestBody).id

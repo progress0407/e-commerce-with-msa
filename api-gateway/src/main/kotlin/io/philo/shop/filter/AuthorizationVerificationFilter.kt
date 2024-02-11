@@ -1,6 +1,7 @@
 package io.philo.shop.filter
 
 import io.philo.shop.JwtManager
+import io.philo.shop.error.UnauthorizedException
 import org.springframework.cloud.gateway.filter.GatewayFilter
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
 import org.springframework.core.Ordered
@@ -20,7 +21,9 @@ class AuthorizationVerificationFilter(private val jwtManager: JwtManager) : Abst
 
         val request = exchange.request
         val accessToken = validateAndExtractAccessToken(request)
-        jwtManager.isValidToken(accessToken)
+
+        if(jwtManager.isValidToken(accessToken).not())
+            throw UnauthorizedException("인가되지 않은 사용자입니다.")
 
         val userId = jwtManager.parse(accessToken)
 
