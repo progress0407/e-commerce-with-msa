@@ -13,12 +13,19 @@ class JwtManager(
     private val expirationDurationTime: Long
 ) {
 
+    companion object {
+        @JvmStatic
+        val ENCODING_ALGORITHM = SignatureAlgorithm.HS512
+    }
+
     private val log = KotlinLogging.logger { }
 
+
     /**
-     * 인증 토큰 생성
+     * JWT 생성
      */
     fun createAccessToken(tokenSubject: String): String {
+
         return Jwts.builder()
             .signWith(secretKey, ENCODING_ALGORITHM)
             .setSubject(tokenSubject)
@@ -28,9 +35,10 @@ class JwtManager(
     }
 
     /**
-     * 토큰 검증
+     * 유효한 토큰인지 검증
      */
     fun isValidToken(accessToken: String): Boolean {
+
         return try {
             tryParseJwt(accessToken)
             true
@@ -42,17 +50,20 @@ class JwtManager(
                 is ExpiredJwtException,
                 is UnsupportedJwtException,
                 is DecodingException -> {
-                    log.info { "${e.message}\n$e" }
+                    log.info { e }
                     false
                 }
                 else -> {
-                    log.info { "${e.message}\n$e" }
+                    log.error { e } // 예측하지 못한 예외
                     throw e
                 }
             }
         }
     }
 
+    /**
+     * JWT의 Subject 추출
+     */
     fun parse(accessToken: String?): String {
         return Jwts.parserBuilder()
             .setSigningKey(secretKey)
@@ -62,6 +73,9 @@ class JwtManager(
             .subject
     }
 
+    /**
+     * 유요한 토큰인지 확인하는데 사용
+     */
     private fun tryParseJwt(accessToken: String) {
         Jwts.parserBuilder()
             .setSigningKey(secretKey)
@@ -69,11 +83,9 @@ class JwtManager(
             .parseClaimsJws(accessToken)
     }
 
-    private fun createExpirationDateTime(): Date {
-        return Date(System.currentTimeMillis() + expirationDurationTime)
-    }
-
-    companion object {
-        private val ENCODING_ALGORITHM = SignatureAlgorithm.HS512
-    }
+    /**
+     * 만료 일시 생성
+     */
+    private fun createExpirationDateTime() =
+        Date(System.currentTimeMillis() + expirationDurationTime)
 }

@@ -34,10 +34,15 @@ abstract class AbstractAuthorizationFilter {
             .find { it.contains(TOKEN_PREFIX) }
             ?: throw UnauthorizedException("Bearer prefix가 존재하지 않습니다.")
 
-        return tokenWithPrefix.replace(TOKEN_PREFIX, "").trim()
+        return tokenWithPrefix
+            .replace(TOKEN_PREFIX, "")
+            .removeAllWhiteSpaces()
+            .trim()
     }
 
     protected fun proceedNextFilter(chain: GatewayFilterChain, exchange: ServerWebExchange): Mono<Void> {
         return chain.filter(exchange).then(Mono.fromRunnable { exchange.response })
     }
+
+    private fun String.removeAllWhiteSpaces() = this.replace("\\s+", "")
 }

@@ -5,7 +5,6 @@ spring:
   application.name: api-gateway
   main.web-application-type: reactive  # 내장 서버를 tomcat이 아닌 netty로
 
-
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
