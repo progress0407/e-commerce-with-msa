@@ -6,7 +6,7 @@ import mu.KotlinLogging
 
 //@Component
 @Deprecated("out box 패턴을 사용하면서 불필요하게 된 이벤트 리스너")
-class OrderEventListener(private val itemService: ItemService) {
+class ItemEventListenerDeprecated(private val itemService: ItemService) {
 
     private val log = KotlinLogging.logger { }
 

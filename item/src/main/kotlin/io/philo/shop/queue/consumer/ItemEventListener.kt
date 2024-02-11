@@ -10,15 +10,18 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.stereotype.Component
 
 @Component
-class OrderCreatedEventListener(
+class ItemEventListener(
     private val itemService: ItemService,
     private val itemOutBoxRepository: ItemOutBoxRepository,
 ) {
 
     private val log = KotlinLogging.logger { }
 
+    /**
+     * 주문 생성 이벤트 수신처
+     */
     @RabbitListener(queues = [QUEUE_NAME])
-    fun listenEvent(event: OrderCreatedEvent) {
+    fun listenOrderCreatedEvent(event: OrderCreatedEvent) {
 
         log.info { "$event" }
 
