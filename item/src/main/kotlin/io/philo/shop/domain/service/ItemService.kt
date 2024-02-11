@@ -3,6 +3,7 @@ package io.philo.shop.domain.service
 import io.philo.shop.domain.entity.ItemEntity
 import io.philo.shop.error.InAppException
 import io.philo.shop.item.dto.ItemInternalResponseDto
+import io.philo.shop.order.OrderLineCreatedEvent
 import io.philo.shop.presentation.dto.ItemResponse
 import io.philo.shop.repository.ItemRepository
 import org.springframework.data.repository.findByIdOrNull
@@ -81,6 +82,37 @@ class ItemService(private val itemRepository: ItemRepository) {
 
         // 그 이외의 경우는 허용하지 않습니다
         throw InAppException(INTERNAL_SERVER_ERROR, "데이터 형태가 올바르지 않습니다.")
+    }
+
+    /**
+     * 주문 전에 상품 가격이 맞는지, 현재 재고가 충분하지를 검증
+     */
+    @Transactional(readOnly = true)
+    fun checkItemBeforeOrder(events: List<OrderLineCreatedEvent>): Boolean {
+
+        val itemIds = events.map { it.itemId }.toList()
+        val items = itemRepository.findByIdIn(itemIds)
+
+        if(events.size != items.size) // DB에 존재하지 않는 상품 존재
+            return false
+
+        val eventMap = events.associateBy { it.itemId }
+        for (item in items) {
+            val event = eventMap[item.id!!]
+
+            // 존재하지 않는 이벤트일 경우
+            if (event == null)
+                return false
+
+            // 재고 수량이 0 이하로 내려갈 수 없다
+            if(event.itemAmount == item.price && item.stockQuantity - event.itemQuantity >= 0)
+                continue
+
+            // 그 이외의 경우는 허용하지 않는다
+            return false
+        }
+
+        return true
     }
 
     private fun validateAndDecreaseItemQuantity(itemIdToDecreaseQuantity: Map<Long, Int>, findItemEntities: List<ItemEntity>) {

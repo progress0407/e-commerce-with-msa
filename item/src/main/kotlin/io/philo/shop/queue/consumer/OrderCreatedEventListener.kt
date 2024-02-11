@@ -17,23 +17,9 @@ class OrderCreatedEventListener(private val itemService: ItemService) {
 
         log.info { "$event" }
 
-        var finalVerify = true
-        for (event in event.orderLineCreatedEvents) {
-            val itemVerification = itemService.checkItemBeforeOrder(
-                event.itemId,
-                event.itemAmount,
-                event.itemQuantity
-            )
-            if (itemVerification == false) {
-                finalVerify=false
-            }
-        }
+        val orderLineEvents = event.orderLineCreatedEvents
+        val itemVerification = itemService.checkItemBeforeOrder(orderLineEvents)
 
-        println("finalVerify = ${finalVerify}")
-//        if(finalVerify)
-//            println("todo")
-//            itemService.decreaseItems()
-
-//        println("orderable = ${itemVerification}")
+        println("itemVerification = ${itemVerification}")
     }
 }
