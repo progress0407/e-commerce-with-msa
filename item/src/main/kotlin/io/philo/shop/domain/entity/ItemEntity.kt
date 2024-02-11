@@ -5,10 +5,8 @@ import jakarta.persistence.GenerationType.IDENTITY
 
 @Entity
 @Table(
-    name = "item",
-    uniqueConstraints = [
-        UniqueConstraint(name = "unique__item__name", columnNames = ["name"])
-    ]
+    name = "item"
+
 )
 class ItemEntity protected constructor(
 

@@ -6,7 +6,12 @@ import jakarta.persistence.*
 import jakarta.persistence.GenerationType.IDENTITY
 
 @Entity
-@Table(name = "users")
+@Table(
+    name = "users",
+    uniqueConstraints = [
+        UniqueConstraint(name = "unique__users__email", columnNames = ["email"])
+    ]
+)
 class UserEntity protected constructor(
 
     @Id
