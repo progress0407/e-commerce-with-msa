@@ -8,5 +8,4 @@ include 'eureka',
         'common:general',
         'common:event',
         'common:rest-client',
-        'common:security',
-        'legacy'
+        'common:security'
