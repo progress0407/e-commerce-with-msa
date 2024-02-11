@@ -5,7 +5,7 @@
 > 다른 일정으로 잠정적으로 보류된 프로젝트에요.  
 > 서둘러 작성할게요...
 
-## 작업 시나리오
+## 작업 체크 리스트
 
 [기존 DDD 프로젝트](https://github.com/progress0407/code-review-simple-orders)를 MSA 프로젝트로 전환
 
@@ -17,6 +17,7 @@
 - [x] API Gateway Module 개발
 - [x] 공통 Module 추출
 - [x] RabbitMQ 연동 후 주문 상품 이벤트 pub-sub 개발
+- [x] H2 -> MySQL로 DB 변경
 - [ ] RabbitMQ -> Kafka로 전환
 - [x] [User Module](https://github.com/progress0407/intergrated-study/tree/main/0.%20study/1.%20alone/%5BMSA%5D%20Spring%20Cloud%20MicroService/leedowon-msa-project/user-service) 옮겨오기
 - [ ] 쿠폰 Module 개발: `진행중`

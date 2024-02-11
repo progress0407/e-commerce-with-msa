@@ -3,12 +3,17 @@ server.port: 8081
 spring:
   application:
     name: ITEM-SERVICE
+  jpa.hibernate.ddl-auto: create-drop
+  datasource:
+    url: jdbc:mysql://localhost:3306/item-db?useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: item-user
+    password: 1234
   rabbitmq:
     host: localhost
     port: 5672
     virtual-host: /
     username: guest
-    password: guest
 
 eureka:
   instance:
