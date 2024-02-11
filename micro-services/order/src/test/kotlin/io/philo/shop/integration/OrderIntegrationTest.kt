@@ -11,7 +11,7 @@ import io.philo.shop.dto.web.OrderCreateRequest
 import io.philo.shop.dto.web.OrderLineRequestDto
 import io.philo.shop.item.ItemRestClientFacade
 import io.philo.shop.item.dto.ItemInternalResponseDto
-import io.philo.shop.message.OrderEventPublisher
+import io.philo.shop.messagequeue.OrderEventPublisher
 import io.philo.shop.repository.OrderRepository
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

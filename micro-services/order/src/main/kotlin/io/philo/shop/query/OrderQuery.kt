@@ -1,6 +1,6 @@
 package io.philo.shop.query
 
-import io.philo.shop.domain.OrderEntity
+import io.philo.shop.domain.core.OrderEntity
 import io.philo.shop.dto.web.OrderDetailResponse
 import io.philo.shop.dto.web.OrderListResponse
 import io.philo.shop.dto.web.OrderListResponses

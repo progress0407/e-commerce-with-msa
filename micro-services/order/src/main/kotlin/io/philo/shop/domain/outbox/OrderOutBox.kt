@@ -1,4 +1,4 @@
-package io.philo.shop.domain
+package io.philo.shop.domain.outbox
 
 import io.philo.shop.entity.BaseEntity
 import jakarta.persistence.*
@@ -34,5 +34,9 @@ class OrderOutBox(
 
     fun load() {
         this.loaded = true
+    }
+
+    fun changeItemValidated(verification: Boolean) {
+        this.itemValidated = verification
     }
 }

@@ -1,4 +1,4 @@
-package io.philo.shop.domain
+package io.philo.shop.domain.core
 
 import io.philo.shop.constant.ITEM_COUPON_SIZE_APPLY_VALIDATION_MESSAGE
 import io.philo.shop.entity.BaseEntity

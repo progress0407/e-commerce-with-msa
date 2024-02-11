@@ -17,5 +17,5 @@ class ItemEventPublisher(private val rabbitTemplate: RabbitTemplate) {
     }
 
     private fun publishEventToBroker(message: Any) =
-        rabbitTemplate.convertAndSend(ItemRabbitProperty.EXCHANGE_NAME, ItemRabbitProperty.ROUTING_KEY, message)
+        rabbitTemplate.convertAndSend(ItemRabbitProperty.ITEM_VERIFY_REQ_EXCHANGE_NAME, ItemRabbitProperty.ITEM_VERIFY_REQ_ROUTING_KEY, message)
 }

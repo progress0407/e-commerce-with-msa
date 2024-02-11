@@ -1,4 +1,4 @@
-package io.philo.shop.domain
+package io.philo.shop.domain.core
 
 import jakarta.persistence.*
 import lombok.ToString

@@ -1,4 +1,4 @@
-package io.philo.shop.domain
+package io.philo.shop.domain.core
 
 import io.philo.shop.constant.OrderStatus
 import jakarta.persistence.*

@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 
 @Component
-class ItemEventLoadScheduler(
+class ItemEventLoader(
     private val itemOutBoxRepository: ItemOutBoxRepository,
     private val itemRepository: ItemRepository,
     private val itemEventPublisher: ItemEventPublisher
@@ -34,10 +34,6 @@ class ItemEventLoadScheduler(
 
         for (event in events) {
             itemEventPublisher.publishEvent(event)
-            // todo!
-            // kafka의 경우 event에 적재됨을 확인하면, (acks=1 이상)
-            // 이후에 Load 상태로 바꾸게 변경하자
-
             changeOutBoxStatusToLoad(outboxMap, event)
         }
     }

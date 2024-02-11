@@ -1,7 +1,7 @@
-package io.philo.shop.message
+package io.philo.shop.messagequeue
 
-import io.philo.shop.domain.OrderEntity
-import io.philo.shop.domain.OrderLineItemEntity
+import io.philo.shop.domain.core.OrderEntity
+import io.philo.shop.domain.core.OrderLineItemEntity
 import io.philo.shop.order.OrderCreatedEvent
 import io.philo.shop.order.OrderCreatedEventDeprecated
 import io.philo.shop.order.OrderRabbitProperty.Companion.EXCHANGE_NAME

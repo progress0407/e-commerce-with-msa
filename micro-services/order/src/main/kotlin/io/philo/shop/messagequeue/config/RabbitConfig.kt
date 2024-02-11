@@ -1,4 +1,4 @@
-package io.philo.shop.config
+package io.philo.shop.messagequeue.config
 
 import io.philo.shop.order.OrderRabbitProperty.Companion.EXCHANGE_NAME
 import io.philo.shop.order.OrderRabbitProperty.Companion.QUEUE_NAME

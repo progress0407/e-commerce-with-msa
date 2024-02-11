@@ -1,8 +1,8 @@
 package io.philo.shop.queue.config
 
-import io.philo.shop.item.ItemRabbitProperty.Companion.EXCHANGE_NAME
-import io.philo.shop.item.ItemRabbitProperty.Companion.QUEUE_NAME
-import io.philo.shop.item.ItemRabbitProperty.Companion.ROUTING_KEY
+import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_VERIFY_REQ_EXCHANGE_NAME
+import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_VERIFY_REQ_QUEUE_NAME
+import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_VERIFY_REQ_ROUTING_KEY
 import org.springframework.amqp.core.Binding
 import org.springframework.amqp.core.BindingBuilder
 import org.springframework.amqp.core.DirectExchange
@@ -14,10 +14,10 @@ import org.springframework.context.annotation.Configuration
 class RabbitConfig {
 
     @Bean
-    fun queue() = Queue(QUEUE_NAME)
+    fun queue() = Queue(ITEM_VERIFY_REQ_QUEUE_NAME)
 
     @Bean
-    fun exchange() = DirectExchange(EXCHANGE_NAME)
+    fun exchange() = DirectExchange(ITEM_VERIFY_REQ_EXCHANGE_NAME)
 
     @Bean
     fun binding(
@@ -27,5 +27,5 @@ class RabbitConfig {
         BindingBuilder
             .bind(queue)
             .to(exchange)
-            .with(ROUTING_KEY)
+            .with(ITEM_VERIFY_REQ_ROUTING_KEY)
 }

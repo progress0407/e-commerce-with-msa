@@ -1,9 +1,9 @@
 package io.philo.shop.scheduler
 
-import io.philo.shop.domain.OrderEntity
-import io.philo.shop.domain.OrderLineItemEntity
-import io.philo.shop.domain.OrderOutBox
-import io.philo.shop.message.OrderEventPublisher
+import io.philo.shop.domain.core.OrderEntity
+import io.philo.shop.domain.core.OrderLineItemEntity
+import io.philo.shop.domain.outbox.OrderOutBox
+import io.philo.shop.messagequeue.OrderEventPublisher
 import io.philo.shop.order.OrderCreatedEvent
 import io.philo.shop.order.OrderLineCreatedEvent
 import io.philo.shop.repository.OrderOutBoxRepository
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component
  * OutBox에 저장한 이벤트를 브로커에 적재하는 역할
  */
 @Component
-class OrderEventLoadScheduler(
+class OrderEventLoader(
     private val outBoxRepository: OrderOutBoxRepository,
     private val orderRepository: OrderRepository,
     private val orderEventPublisher: OrderEventPublisher,
@@ -41,7 +41,7 @@ class OrderEventLoadScheduler(
         for (event in events) {
             orderEventPublisher.publishEvent(event)
             // todo!
-            // kafka의 경우 event에 적재됨을 확인하면, (acks=1 이상)
+            // kafka의 경우 event에 적재됨을 확인하면, (acks=1 이상) (offset >=0)
             // 이후에 Load 상태로 바꾸게 변경하자
             changeOutBoxStatusToLoad(outboxes, event)
         }

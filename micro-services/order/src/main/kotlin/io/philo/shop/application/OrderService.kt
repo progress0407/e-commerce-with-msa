@@ -1,13 +1,13 @@
 package io.philo.shop.application
 
 import io.philo.shop.coupon.CouponRestClientFacade
-import io.philo.shop.domain.OrderEntity
-import io.philo.shop.domain.OrderLineItemEntity
-import io.philo.shop.domain.OrderOutBox
+import io.philo.shop.domain.core.OrderEntity
+import io.philo.shop.domain.core.OrderLineItemEntity
+import io.philo.shop.domain.outbox.OrderOutBox
 import io.philo.shop.dto.web.OrderLineRequestDto
 import io.philo.shop.error.BadRequestException
 import io.philo.shop.item.ItemRestClientFacade
-import io.philo.shop.message.OrderEventPublisher
+import io.philo.shop.messagequeue.OrderEventPublisher
 import io.philo.shop.repository.OrderOutBoxRepository
 import io.philo.shop.repository.OrderRepository
 import lombok.RequiredArgsConstructor
