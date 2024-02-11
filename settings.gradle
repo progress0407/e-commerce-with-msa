@@ -1,10 +1,14 @@
 rootProject.name = 'e-commerce'
+
 include 'eureka',
         'api-gateway',
-        'user',
-        'item',
-        'order',
-        'coupon',
+
+        'micro-services',
+        'micro-services:user',
+        'micro-services:item',
+        'micro-services:order',
+        'micro-services:coupon',
+
         'common:general',
         'common:event',
         'common:rest-client',

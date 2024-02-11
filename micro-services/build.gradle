@@ -1,0 +1,18 @@
+subprojects {
+    apply from: rootProject.file('module-dependencies/micro-service.gradle')
+
+    dependencies {
+        implementation project(':common:general')
+        implementation project(':common:rest-client')
+        implementation project(':common:event')
+
+        testImplementation testFixtures(project(':common:general'))
+        testImplementation testFixtures(project(':common:general'))
+    }
+}
+
+project(':micro-services:user') {
+    dependencies {
+        implementation project(':common:security')
+    }
+}
