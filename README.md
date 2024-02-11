@@ -20,10 +20,14 @@
 - [x] H2 -> MySQL로 DB 변경
 - [ ] RabbitMQ -> Kafka로 전환
 - [x] [User Module](https://github.com/progress0407/intergrated-study/tree/main/0.%20study/1.%20alone/%5BMSA%5D%20Spring%20Cloud%20MicroService/leedowon-msa-project/user-service) 옮겨오기
-- [ ] 쿠폰 Module 개발: `진행중`
-- [ ] Neflix Passport 구현
+- [x] 쿠폰 Module 개발
+- [x] Neflix Passport 구현
   - 보류 (동기 호출 Blocking 예외)
-  - [ ] 토큰 검증 필터 구현
+  - [x] 토큰 검증 필터 구현
+- [x] Order <-> Item 주문 생성 검증 구현
+- [x] 마이크로 서비스 2-depth 멀티 모듈로 그룹화
+- [ ] Coupon 가격 계산 API 구현
+  - [ ] Item -> Coupon, 상품 Semi 데이터 이벤트 발송 기능 구현
 
 ## 이 프로젝트의 한계
 
