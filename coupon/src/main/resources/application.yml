@@ -3,11 +3,15 @@ server.port: 18086
 spring:
   application:
     name: COUPON-SERVICE
+
+  jpa.hibernate.ddl-auto: create-drop
+
   datasource:
     url: jdbc:mysql://localhost:3306/coupon-db?useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: coupon-user
     password: 1234
+
   rabbitmq:
     host: localhost
     port: 5672
