@@ -40,11 +40,18 @@ class EventLoadScheduler(
 
         for (event in events) {
             orderEventPublisher.publishEvent(event)
+            // todo!
+            // kafka의 경우 event에 적재됨을 확인하면, (acks=1 이상)
+            // 이후에 Load 상태로 바꾸게 변경하자
+            changeOutBoxStatusToLoad(outboxes, event)
         }
+    }
 
-        // todo!
-        // kafka의 경우 event에 적재됨을 확인하면, (acks=1 이상)
-        // 이후에 Commit을 하게끔 변경하자
+    private fun changeOutBoxStatusToLoad(outboxes: List<OrderOutBox>, event: OrderCreatedEvent) {
+
+        val matchedOutBox = outboxes.find { it.id == event.orderId }!!
+        matchedOutBox.load()
+        outBoxRepository.save(matchedOutBox)
     }
 
     private fun List<OrderOutBox>.extractIds() =

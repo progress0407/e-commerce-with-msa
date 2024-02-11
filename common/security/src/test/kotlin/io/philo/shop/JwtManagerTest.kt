@@ -6,7 +6,7 @@ import io.kotest.matchers.shouldBe
 import io.philo.shop.JwtManager.Companion.ENCODING_ALGORITHM
 import java.nio.charset.StandardCharsets
 
-class JwtManagerTes:StringSpec( {
+class JwtManagerTest:StringSpec( {
 
     val secretKey = Keys.hmacShaKeyFor(SECRET_KEY_STRING.toByteArray(StandardCharsets.UTF_8))
     val jwtManager = JwtManager(secretKey, ONE_DAY_IN_SECONDS)
