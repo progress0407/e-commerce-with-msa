@@ -56,7 +56,7 @@ class OrderService(
     private fun validateCouponUsable(orderLineDtos: List<OrderLineRequestDto>) {
 
         for (orderLineDto in orderLineDtos) {
-            if (orderLineDto.userCouponIds != null && orderLineDto.itemQuantity >= 1) {
+            if (orderLineDto.userCouponIds != null && orderLineDto.itemQuantity >= 2) {
                 throw BadRequestException("한 쿠폰을 둘 이상의 상품에 동시 적용할 수 없습니다.")
             }
         }
@@ -78,7 +78,7 @@ class OrderService(
         val orderLineItemEntity = OrderLineItemEntity(
             itemId = dto.itemId,
             itemRawAmount = dto.itemAmount,
-            itemDiscountedAmount = dto.itemAmount,
+            itemDiscountedAmount = dto.itemDiscountedAmount,
             orderedQuantity = dto.itemQuantity,
         )
 

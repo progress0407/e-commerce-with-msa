@@ -2,9 +2,7 @@ package io.philo.shop.domain
 
 import io.philo.shop.constant.ITEM_COUPON_SIZE_APPLY_VALIDATION_MESSAGE
 import io.philo.shop.entity.BaseEntity
-import io.philo.shop.error.InAppException
 import jakarta.persistence.*
-import org.springframework.http.HttpStatus.BAD_REQUEST
 
 @Entity
 @Table(name = "order_coupons")
@@ -39,14 +37,10 @@ class OrderCouponsEntity(
             if (userCouponIds.isNullOrEmpty()) return null
             require(userCouponIds.size in 1..2) { ITEM_COUPON_SIZE_APPLY_VALIDATION_MESSAGE }
 
-            val couponId1 = userCouponIds[0]
-            val couponId2 = userCouponIds[1]
+            val couponId1 = userCouponIds.getOrNull(0)
+            val couponId2 = userCouponIds.getOrNull(1)
 
-            return when (userCouponIds.size) {
-                1 -> OrderCouponsEntity(couponId1, null, orderLineEntity)
-                2 -> OrderCouponsEntity(couponId1, couponId2, orderLineEntity)
-                else -> throw InAppException(BAD_REQUEST, ITEM_COUPON_SIZE_APPLY_VALIDATION_MESSAGE)
-            }
+            return OrderCouponsEntity(couponId1, couponId2, orderLineEntity)
         }
     }
 }
