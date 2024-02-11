@@ -3,11 +3,16 @@ server.port: 9090
 spring:
   application:
     name: USER-SERVICE
-#  rabbitmq:
-#    host: localhost
-#    port: 5672
-#    username: user
-#    password: password
+  datasource:
+    url: jdbc:mysql://localhost:3306/user-db?useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: user-user
+    password: 1234
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: password
 
 eureka:
   instance:

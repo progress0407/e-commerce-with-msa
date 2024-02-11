@@ -6,8 +6,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients
 
 @SpringBootApplication
 @EnableFeignClients
-class ItemServiceApp
+class UserServiceApplication
 
 fun main(args: Array<String>) {
-    runApplication<ItemServiceApp>(*args)
+    runApplication<UserServiceApplication>(*args)
 }
