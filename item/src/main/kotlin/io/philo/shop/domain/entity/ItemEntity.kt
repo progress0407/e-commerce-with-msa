@@ -4,9 +4,10 @@ import jakarta.persistence.*
 import jakarta.persistence.GenerationType.IDENTITY
 
 @Entity
-@Table(
-    name = "item"
-
+@Table(name = "item",
+    uniqueConstraints = [
+        UniqueConstraint(name = "unique__item__name_size", columnNames = ["name", "size"])
+    ]
 )
 class ItemEntity protected constructor(
 
@@ -15,7 +16,7 @@ class ItemEntity protected constructor(
     @Column
     val id: Long? = null,
 
-    @Column(nullable = false, length = 100, unique = true)
+    @Column(nullable = false, length = 100)
     var name: String = "",
 
     @Column(nullable = false)
