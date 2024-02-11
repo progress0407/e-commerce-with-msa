@@ -1,5 +1,8 @@
-package io.philo.shop.order
+package io.philo.shop.config
 
+import io.philo.shop.order.OrderRabbitProperty.Companion.EXCHANGE_NAME
+import io.philo.shop.order.OrderRabbitProperty.Companion.QUEUE_NAME
+import io.philo.shop.order.OrderRabbitProperty.Companion.ROUTING_KEY
 import org.springframework.amqp.core.Binding
 import org.springframework.amqp.core.BindingBuilder
 import org.springframework.amqp.core.DirectExchange
@@ -25,17 +28,6 @@ class RabbitConfig(
     @Value("\${spring.rabbitmq.password}")
     val password: String,
 ) {
-
-    companion object {
-        const val QUEUE_NAME = "order.create.queue"
-        const val EXCHANGE_NAME = "order.create.exchange"
-        const val ROUTING_KEY = "order.create.routing.#"
-    }
-
-    @Bean
-    fun messageConverter(): Jackson2JsonMessageConverter {
-        return Jackson2JsonMessageConverter()
-    }
 
     @Bean
     fun queue() = Queue(QUEUE_NAME)

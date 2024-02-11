@@ -6,4 +6,6 @@ data class OrderLineCreatedEvent(
     val itemDiscountedAmount: Int,
     val itemQuantity: Int,
     val userCouponIds: List<Long>?
-)
+) {
+    companion object
+}

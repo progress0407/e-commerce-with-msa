@@ -5,40 +5,42 @@ import io.philo.shop.domain.OrderLineItemEntity
 import io.philo.shop.domain.OrderLineOutBox
 import io.philo.shop.order.OrderCreatedEvent
 import io.philo.shop.order.OrderLineCreatedEvent
-import io.philo.shop.order.RabbitConfig
+import io.philo.shop.order.OrderRabbitProperty.Companion.EXCHANGE_NAME
+import io.philo.shop.order.OrderRabbitProperty.Companion.ROUTING_KEY
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.stereotype.Component
 
 @Component
 class OrderEventPublisher(private val rabbitTemplate: RabbitTemplate) {
 
-    fun publishEvent(aggregateRoot: OrderEntity) {
-
-        val event = OrderCreatedEvent.from(aggregateRoot)
-
-        rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE_NAME, RabbitConfig.ROUTING_KEY, event)
-    }
-
     /**
      * out box 에서 브로커로 이벤트 적재
      */
     fun publishEvent(outbox: OrderLineOutBox) {
 
-        OrderLineCreatedEvent(
-            itemId = outbox.itemId,
-            itemAmount = outbox.itemAmount,
-            itemDiscountedAmount = outbox.itemDiscountedAmount,
-            itemQuantity = outbox.itemQuantity,
-            userCouponIds = processUserCouponIds(outbox)
-        )
+
+        val event = OrderLineCreatedEvent.from(outbox)
+
+        publishEventToBroker(event)
     }
+
+    @Deprecated("OutBox 패턴 사용으로 인한 사용 중단")
+    fun publishEvent(aggregateRoot: OrderEntity) {
+
+        val event = OrderCreatedEvent.from(aggregateRoot)
+
+        publishEventToBroker(event)
+    }
+
+    private fun publishEventToBroker(message: Any) =
+        rabbitTemplate.convertAndSend(EXCHANGE_NAME, ROUTING_KEY, message)
 
     private fun processUserCouponIds(outbox: OrderLineOutBox): List<Long>? {
 
         val userCouponId1: Long? = outbox.userCouponId1
         val userCouponId2: Long? = outbox.userCouponId2
 
-        if(userCouponId1 == null)
+        if (userCouponId1 == null)
             return null
 
         val ids = mutableListOf<Long>()
@@ -47,6 +49,15 @@ class OrderEventPublisher(private val rabbitTemplate: RabbitTemplate) {
 
         return ids
     }
+
+    private fun OrderLineCreatedEvent.Companion.from(outbox: OrderLineOutBox) =
+        OrderLineCreatedEvent(
+            itemId = outbox.itemId,
+            itemAmount = outbox.itemAmount,
+            itemDiscountedAmount = outbox.itemDiscountedAmount,
+            itemQuantity = outbox.itemQuantity,
+            userCouponIds = processUserCouponIds(outbox)
+        )
 
     private fun OrderCreatedEvent.Companion.from(orderEntity: OrderEntity): OrderCreatedEvent {
 

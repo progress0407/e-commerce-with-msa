@@ -4,10 +4,13 @@ import jakarta.persistence.*
 import jakarta.persistence.GenerationType.IDENTITY
 
 @Entity
-@Table(uniqueConstraints = [
-    UniqueConstraint(name = "unique__item__name", columnNames = [ "name" ])
-])
-class Item protected constructor(
+@Table(
+    name = "item",
+    uniqueConstraints = [
+        UniqueConstraint(name = "unique__item__name", columnNames = ["name"])
+    ]
+)
+class ItemEntity protected constructor(
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -24,7 +27,7 @@ class Item protected constructor(
     var price: Int = 0,
 
     @Column(nullable = false)
-    var stockQuantity: Int
+    var stockQuantity: Int,
 ) {
 
 
@@ -35,14 +38,14 @@ class Item protected constructor(
     constructor(
         name: String,
         price: Int,
-        stockQuantity: Int
+        stockQuantity: Int,
     ) : this(id = null, name, size = "-", price, stockQuantity)
 
     constructor(
         name: String,
         size: String,
         price: Int,
-        stockQuantity: Int
+        stockQuantity: Int,
     ) : this(id = null, name, size, price, stockQuantity)
 
     companion object {}

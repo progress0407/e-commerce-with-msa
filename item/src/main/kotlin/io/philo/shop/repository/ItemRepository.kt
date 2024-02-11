@@ -1,9 +1,9 @@
 package io.philo.shop.repository
 
-import io.philo.shop.domain.entity.Item
+import io.philo.shop.domain.entity.ItemEntity
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface ItemRepository : JpaRepository<Item, Long> {
+interface ItemRepository : JpaRepository<ItemEntity, Long> {
     
-    fun findByIdIn(itemIds: Collection<Long>): List<Item>
+    fun findByIdIn(itemIds: Collection<Long>): List<ItemEntity>
 }

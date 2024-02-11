@@ -1,6 +1,6 @@
 package io.philo.shop.presentation.dto
 
-import io.philo.shop.domain.entity.Item
+import io.philo.shop.domain.entity.ItemEntity
 
 data class ItemResponse(
     val id: Long,
@@ -10,5 +10,5 @@ data class ItemResponse(
     val availableQuantity: Int
 ) {
 
-    constructor(item: Item) : this(item.id!!, item.name, item.size, item.price, item.stockQuantity)
+    constructor(itemEntity: ItemEntity) : this(itemEntity.id!!, itemEntity.name, itemEntity.size, itemEntity.price, itemEntity.stockQuantity)
 }

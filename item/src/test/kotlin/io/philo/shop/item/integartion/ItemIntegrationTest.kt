@@ -3,7 +3,7 @@ package io.philo.shop.item.integartion
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.philo.shop.AcceptanceTest
-import io.philo.shop.domain.entity.Item
+import io.philo.shop.domain.entity.ItemEntity
 import io.philo.shop.dto.ResourceCreateResponse
 import io.philo.shop.presentation.dto.ItemCreateRequest
 import io.philo.shop.presentation.dto.ItemResponse
@@ -38,7 +38,7 @@ class ItemIntegrationTest : AcceptanceTest() {
     val ItemCreateRequest.Companion.fixture: ItemCreateRequest
         get() {
 
-            val entity = Item.fixture
+            val entity = ItemEntity.fixture
 
             return ItemCreateRequest(
                 name = entity.name,
@@ -48,8 +48,8 @@ class ItemIntegrationTest : AcceptanceTest() {
             )
         }
 
-    val Item.Companion.fixture
-        get() = Item(name = "컨셉원 슬랙스 BLACK 30",
+    val ItemEntity.Companion.fixture
+        get() = ItemEntity(name = "컨셉원 슬랙스 BLACK 30",
             size = "30",
             price = 70_000,
             stockQuantity = 500)

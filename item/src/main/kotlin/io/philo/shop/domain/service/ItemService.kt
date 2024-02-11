@@ -1,9 +1,12 @@
 package io.philo.shop.domain.service
 
-import io.philo.shop.domain.entity.Item
+import io.philo.shop.domain.entity.ItemEntity
+import io.philo.shop.error.InAppException
 import io.philo.shop.item.dto.ItemInternalResponseDto
 import io.philo.shop.presentation.dto.ItemResponse
 import io.philo.shop.repository.ItemRepository
+import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -19,10 +22,10 @@ class ItemService(private val itemRepository: ItemRepository) {
         availableQuantity: Int
     ): Long {
 
-        val item = Item(name, size, price, availableQuantity)
-        itemRepository.save(item)
+        val itemEntity = ItemEntity(name, size, price, availableQuantity)
+        itemRepository.save(itemEntity)
 
-        return item.id!!
+        return itemEntity.id!!
     }
 
     @Transactional(readOnly = true)
@@ -55,13 +58,32 @@ class ItemService(private val itemRepository: ItemRepository) {
 
     @Transactional
     fun decreaseItems(itemIdToDecreaseQuantity: Map<Long, Int>) {
+
         val itemIds = itemIdToDecreaseQuantity.keys
         val findItems = itemRepository.findByIdIn(itemIds) // problem !
         validateAndDecreaseItemQuantity(itemIdToDecreaseQuantity, findItems)
     }
 
-    private fun validateAndDecreaseItemQuantity(itemIdToDecreaseQuantity: Map<Long, Int>, findItems: List<Item>) {
-        for (item in findItems) {
+    /**
+     * 주문 전에 상품 가격이 맞는지, 현재 재고가 충분하지를 검증
+     */
+    @Transactional(readOnly = true)
+    fun checkItemBeforeOrder(itemId: Long, itemAmount: Int, itemQuantity: Int): Boolean {
+
+        val currentItem = itemRepository.findByIdOrNull(itemId)
+
+        if (currentItem == null)
+            return false
+        else if (currentItem.price != itemAmount)
+            return false
+        else if (currentItem.stockQuantity - itemQuantity < 0) // 재고 수량이 0 이하로 내려갈 수 없다
+            return false
+
+        throw InAppException(INTERNAL_SERVER_ERROR, "데이터 형태가 올바르지 않습니다.")
+    }
+
+    private fun validateAndDecreaseItemQuantity(itemIdToDecreaseQuantity: Map<Long, Int>, findItemEntities: List<ItemEntity>) {
+        for (item in findItemEntities) {
             val decreaseQuantity = itemIdToDecreaseQuantity[item.id]!!
             item.decreaseStockQuantity(decreaseQuantity)
         }
