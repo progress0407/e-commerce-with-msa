@@ -5,6 +5,7 @@ import jakarta.persistence.*
 import java.time.LocalDate
 
 @Entity
+@Table(name = "coupon")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 abstract class CouponEntity(
 

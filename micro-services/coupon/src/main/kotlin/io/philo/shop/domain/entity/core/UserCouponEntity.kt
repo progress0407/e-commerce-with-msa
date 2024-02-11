@@ -1,15 +1,9 @@
 package io.philo.shop.domain.entity.core
 
 import jakarta.persistence.*
-import lombok.AccessLevel
-import lombok.Getter
-import lombok.NoArgsConstructor
-import lombok.ToString
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
-@ToString
+@Table(name = "user_coupon")
 class UserCouponEntity(
 
     @field:Column(nullable = false)
@@ -26,6 +20,6 @@ class UserCouponEntity(
     @Column
     val id: Long? = null
 
-    constructor() : this(-1L, -1L)
+    protected constructor() : this(-1L, -1L)
 }
 

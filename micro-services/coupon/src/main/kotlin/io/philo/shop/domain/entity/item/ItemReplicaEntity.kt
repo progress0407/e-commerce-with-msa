@@ -4,6 +4,7 @@ import io.philo.shop.entity.BaseEntity
 import jakarta.persistence.*
 
 @Entity
+@Table(name = "item_replica")
 class ItemReplicaEntity(
 
     @Column(nullable = false)
