@@ -1,4 +1,4 @@
-package io.philo.shop.queue.consumer
+package io.philo.shop.messagequeue.consumer
 
 import io.philo.shop.domain.service.ItemService
 import io.philo.shop.order.OrderCreatedEventDeprecated

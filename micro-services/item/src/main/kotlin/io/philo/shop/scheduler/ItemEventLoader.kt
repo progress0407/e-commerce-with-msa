@@ -2,7 +2,7 @@ package io.philo.shop.scheduler
 
 import io.philo.shop.domain.outbox.ItemOutBox
 import io.philo.shop.item.ItemVerificationEvent
-import io.philo.shop.queue.producer.ItemEventPublisher
+import io.philo.shop.messagequeue.producer.ItemEventPublisher
 import io.philo.shop.repository.ItemOutBoxRepository
 import io.philo.shop.repository.ItemRepository
 import mu.KotlinLogging

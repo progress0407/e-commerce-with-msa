@@ -1,6 +1,6 @@
 package io.philo.shop.domain.service
 
-import io.philo.shop.domain.entity.CouponEntity
+import io.philo.shop.domain.entity.core.CouponEntity
 
 class CouponDiscountCalculator {
 

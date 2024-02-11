@@ -1,8 +1,8 @@
 package io.philo.shop.support
 
-import io.philo.shop.domain.entity.FixedDiscountCouponEntity
-import io.philo.shop.domain.entity.RatioDiscountCouponEntity
-import io.philo.shop.domain.entity.UserCouponEntity
+import io.philo.shop.domain.entity.core.FixedDiscountCouponEntity
+import io.philo.shop.domain.entity.core.RatioDiscountCouponEntity
+import io.philo.shop.domain.entity.core.UserCouponEntity
 import io.philo.shop.domain.repository.CouponRepository
 import io.philo.shop.domain.repository.UserCouponRepository
 import mu.KotlinLogging
@@ -40,8 +40,5 @@ class CouponDataInitializer(
         val sampleUserCouponEntity2 = UserCouponEntity(userId = userId, couponId = birthdayCoupon.id!!)
 
         userCouponRepository.saveAll(listOf(sampleUserCouponEntity1, sampleUserCouponEntity2))
-
-        val findAll = couponRepository.findAll()
-        println("findAll = ${findAll}")
     }
 }

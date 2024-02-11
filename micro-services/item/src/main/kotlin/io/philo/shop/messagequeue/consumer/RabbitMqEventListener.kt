@@ -1,4 +1,4 @@
-package io.philo.shop.message
+package io.philo.shop.messagequeue.consumer
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.amqp.rabbit.core.RabbitTemplate

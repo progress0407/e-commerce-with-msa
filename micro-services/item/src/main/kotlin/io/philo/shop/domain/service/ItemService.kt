@@ -3,6 +3,8 @@ package io.philo.shop.domain.service
 import io.philo.shop.domain.entity.ItemEntity
 import io.philo.shop.error.InAppException
 import io.philo.shop.item.dto.ItemInternalResponseDto
+import io.philo.shop.messagequeue.producer.ItemEventPublisher
+import io.philo.shop.messagequeue.producer.toEvent
 import io.philo.shop.order.OrderLineCreatedEvent
 import io.philo.shop.presentation.dto.ItemResponse
 import io.philo.shop.repository.ItemRepository
@@ -13,37 +15,41 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class ItemService(private val itemRepository: ItemRepository) {
+class ItemService(
+    private val itemRepository: ItemRepository,
+    private val itemEventPublisher: ItemEventPublisher,
+) {
 
     @Transactional
     fun registerItem(
         name: String,
         size: String,
         price: Int,
-        availableQuantity: Int
+        availableQuantity: Int,
     ): Long {
 
-        val itemEntity = ItemEntity(name, size, price, availableQuantity)
-        itemRepository.save(itemEntity)
+        val entity = ItemEntity(name, size, price, availableQuantity)
+        itemRepository.save(entity)
+        itemEventPublisher.publishEvent(entity.toEvent())
 
-        return itemEntity.id!!
+        return entity.id!!
     }
 
     @Transactional(readOnly = true)
     fun findItems(itemIds: List<Long>?): List<ItemResponse> {
 
-        if (itemIds.isNullOrEmpty()) {
+        return if (itemIds.isNullOrEmpty()) {
             val entities = itemRepository.findAll()
             val dtos = entities
                 .map { item -> ItemResponse(item) }
                 .toList()
-            return dtos
+            dtos
         } else {
             val entities = itemRepository.findAllByIdIn(itemIds)
             val dtos = entities
                 .map { item -> ItemResponse(item) }
                 .toList()
-            return dtos
+            dtos
         }
     }
 
@@ -77,7 +83,7 @@ class ItemService(private val itemRepository: ItemRepository) {
             return false
 
         // 재고 수량이 0 이하로 내려갈 수 없다
-        if(currentItem.price == itemAmount && currentItem.stockQuantity - itemQuantity >= 0)
+        if (currentItem.price == itemAmount && currentItem.stockQuantity - itemQuantity >= 0)
             return true
 
         // 그 이외의 경우는 허용하지 않습니다
@@ -93,7 +99,7 @@ class ItemService(private val itemRepository: ItemRepository) {
         val itemIds = events.map { it.itemId }.toList()
         val items = itemRepository.findAllByIdIn(itemIds)
 
-        if(events.size != items.size) // DB에 존재하지 않는 상품 존재
+        if (events.size != items.size) // DB에 존재하지 않는 상품 존재
             return false
 
         val eventMap = events.associateBy { it.itemId }
@@ -105,7 +111,7 @@ class ItemService(private val itemRepository: ItemRepository) {
                 return false
 
             // 재고 수량이 0 이하로 내려갈 수 없다
-            if(event.itemAmount == item.price && item.stockQuantity - event.itemQuantity >= 0)
+            if (event.itemAmount == item.price && item.stockQuantity - event.itemQuantity >= 0)
                 continue
 
             // 그 이외의 경우는 허용하지 않는다

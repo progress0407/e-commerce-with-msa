@@ -1,6 +1,6 @@
 package io.philo.shop.presentation.dto
 
-import io.philo.shop.domain.entity.CouponEntity
+import io.philo.shop.domain.entity.core.CouponEntity
 import java.time.LocalDate
 
 data class CouponListDto(val id: Long, val name: String, val expirationStartAt: LocalDate, val expirationEndAt: LocalDate) {

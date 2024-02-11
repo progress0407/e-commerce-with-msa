@@ -1,6 +1,6 @@
 package io.philo.shop.domain.repository
 
-import io.philo.shop.domain.entity.UserCouponEntity
+import io.philo.shop.domain.entity.core.UserCouponEntity
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface UserCouponRepository : JpaRepository<UserCouponEntity, Long> {
