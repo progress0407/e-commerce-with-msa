@@ -66,9 +66,8 @@
 
 ## 작업 체크 리스트
 
-[기존 DDD 프로젝트](https://github.com/progress0407/code-review-simple-orders)를 MSA 프로젝트로 전환
-
-- [x] 기존 프로젝트 Git Subtree 임포트
+- [x] [기존 DDD 프로젝트](https://github.com/progress0407/code-review-simple-orders) Git Subtree 임포트
+- [x] 기 프로젝트, MSA로 전환
 - [x] Java -> Kotlin 변경
 - [x] Library 버전 최신화
 - [x] 멀티 모듈로 전환
