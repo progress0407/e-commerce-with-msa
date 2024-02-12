@@ -66,25 +66,26 @@
 
 ## 작업 체크 리스트
 
-- [x] [기존 DDD 프로젝트](https://github.com/progress0407/code-review-simple-orders) Git Subtree 임포트
-- [x] 기 프로젝트, MSA로 전환
+- [x] (마이그레이션) [기존 DDD 프로젝트](https://github.com/progress0407/code-review-simple-orders) 
+  - Git Subtree 로 import해 오는 방식으로 마이그레이션 
 - [x] Java -> Kotlin 변경
-- [x] Library 버전 최신화
-- [x] 멀티 모듈로 전환
+- [x] Library 버전 최신화 (to Spring Boot 3.x)
+- [x] 멀티 모듈 프로젝트로 전환 (`itme`, `order`)
 - [x] Eureka Module 개발
 - [x] API Gateway Module 개발
-- [x] 공통 Module 추출
+- [x] 공통 Module 추출 (`common`)
 - [x] RabbitMQ 연동 후 주문 상품 이벤트 pub-sub 개발
 - [x] H2 -> MySQL로 DB 변경
 - [ ] RabbitMQ -> Kafka로 전환
-- [x] [User Module](https://github.com/progress0407/intergrated-study/tree/main/0.%20study/1.%20alone/%5BMSA%5D%20Spring%20Cloud%20MicroService/leedowon-msa-project/user-service)
-  옮겨오기
+- [x] (마이그레이션) [User Module](https://github.com/progress0407/intergrated-study/tree/main/0.%20study/1.%20alone/%5BMSA%5D%20Spring%20Cloud%20MicroService/leedowon-msa-project/user-service) 가져오기
 - [x] 쿠폰 Module 개발
 - [x] Neflix Passport 구현
-    - 보류 (동기 호출 Blocking 예외)
-    - [x] 토큰 검증 필터 구현
-- [x] Order <-> Item 주문 생성 검증 구현
+    - 보류 (동기 호출시 Blocking 예외 발생)
+    - [x] 대안으로 토큰 검증 필터 구현
+- [x] Order -> Item: 주문 생성 이벤트 검증부 구현
 - [x] 마이크로 서비스 2-depth 멀티 모듈로 그룹화
 - [ ] Coupon 가격 계산 API 구현
     - [ ] Item -> Coupon, 상품 Semi 데이터 이벤트 발송 기능 구현
-
+- [ ] 마이크로 서비스 내 애그리거트 트랜잭션 충돌 방지
+  - 애그리거트 내 구성요소가 바뀔 경우 고려
+  - 애그리거트 수정시 조회 메서드에 LockModeType.OPTIMISTIC_FORCE_INCREMENT 적용
