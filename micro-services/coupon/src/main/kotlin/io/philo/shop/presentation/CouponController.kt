@@ -1,10 +1,15 @@
 package io.philo.shop.presentation
 
+import io.philo.shop.constant.SecurityConstant.Companion.LOGIN_USER_ID
+import io.philo.shop.domain.query.CouponQuery
 import io.philo.shop.domain.repository.CouponRepository
 import io.philo.shop.domain.repository.UserCouponRepository
 import io.philo.shop.domain.service.CouponService
+import io.philo.shop.presentation.dto.CouponAppliedAmountRequestDto
+import io.philo.shop.presentation.dto.CouponAppliedAmountResponseDto
 import io.philo.shop.presentation.dto.CouponListDto
 import io.philo.shop.presentation.dto.UserCouponListDto
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/coupons")
@@ -12,7 +17,8 @@ import org.springframework.web.bind.annotation.*
 class CouponController(
     private val couponService: CouponService,
     private val couponRepository: CouponRepository,
-    private val userCouponRepository: UserCouponRepository
+    private val userCouponRepository: UserCouponRepository,
+    private val couponQuery: CouponQuery,
 ) {
 
     /**
@@ -20,16 +26,19 @@ class CouponController(
      *
      * 고민:
      *
-     * 시스템상 생성할 것인지 아니면,
+     * 오직 시스템으로 생성할 것인지 아니면,
      *
-     * 사람이 생성하게 둘 것인지
+     * 유저도 생성 가능하게 할 것인지
      */
     @PostMapping
-    fun createCoupon(): Unit {
+    fun createCoupon() {
 
         return couponService.createCoupon()
     }
 
+    /**
+     * 쇼핑몰에 존재하는 쿠폰 목록 조회
+     */
     @GetMapping
     fun list(): List<CouponListDto> {
 
@@ -38,6 +47,9 @@ class CouponController(
             .map { CouponListDto(it) }
     }
 
+    /**
+     * 유저가 가지고 있는 쿠폰 목록 조회
+     */
     @GetMapping("/users/{userId}")
     fun listOfUser(@PathVariable userId: Long): List<UserCouponListDto> {
 
@@ -46,10 +58,16 @@ class CouponController(
             .map { UserCouponListDto(it) }
     }
 
+    /**
+     * 할인된 상품 가격 정보를 보여준다
+     */
     @GetMapping("/coupon-applied-amount")
-    fun calculateAmount(): Int {
+    fun calculateAmount(
+        @RequestHeader(name = LOGIN_USER_ID, required = false) userId: String?,
+        @RequestBody requestDto: CouponAppliedAmountRequestDto,
+        httpServletRequest: HttpServletRequest
+    ): CouponAppliedAmountResponseDto {
 
-//        todo return couponService.calculateAmount()
-        return -1
+        return couponQuery.calculateAmount(2L, requestDto.itemId, requestDto.userCouponIds)
     }
 }

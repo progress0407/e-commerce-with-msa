@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface UserCouponRepository : JpaRepository<UserCouponEntity, Long> {
 
     fun findByUserId(userId: Long)
+
     fun findAllByUserIdAndCouponIdIn(userId: Long, couponIds:List<Long>): List<UserCouponEntity>
 
     /**

@@ -11,11 +11,10 @@ import org.springframework.http.HttpMethod.GET
 import org.springframework.http.HttpMethod.POST
 
 @Configuration
-class RouteConfig(
+class GatewayRouteConfig(
     private val routeLocatorBuilder: RouteLocatorBuilder,
     private val authFilter: AuthorizationVerificationFilter,
 ) {
-
     @Bean
     fun routes(): RouteLocator =
         routeLocatorBuilder.routes()
@@ -26,7 +25,13 @@ class RouteConfig(
 
             .route { it.route(serviceName = "ORDER-SERVICE", path = "/orders", httpMethods = arrayOf(POST, GET), authRequired = true) }
 
+            .route { it.route(serviceName = "COUPON-SERVICE", path = "/coupons/users", httpMethods = arrayOf(GET), authRequired = true) }
+            .route { it.route(serviceName = "COUPON-SERVICE", path = "/coupons/coupon-applied-amount", httpMethods = arrayOf(GET), authRequired = true) }
+            .route { it.route(serviceName = "COUPON-SERVICE", path = "/coupons", httpMethods = arrayOf(GET)) }
+            .route { it.route(serviceName = "COUPON-SERVICE", path = "/coupons", httpMethods = arrayOf(POST), authRequired = true) }
+
             .build()
+
 
     private fun PredicateSpec.route(
         serviceName: String,
@@ -57,7 +62,8 @@ class RouteConfig(
 
     private fun GatewayFilterSpec.buildFilter(path: String, authRequired: Boolean = false): GatewayFilterSpec {
 
-        val filterSpec = this.removeRequestHeader("Cookie")
+//        val filterSpec = this.removeRequestHeader("Cookie")
+        val filterSpec = this
 //            .rewritePath("/$path/(?<segment>.*)", "/\${segment}") // ex. /users/test -> /test
 
         if (authRequired.not())

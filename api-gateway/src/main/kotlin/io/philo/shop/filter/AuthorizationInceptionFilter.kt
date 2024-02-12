@@ -1,6 +1,7 @@
 package io.philo.shop.filter
 
 import com.google.gson.Gson
+import io.philo.shop.constant.SecurityConstant.Companion.USER_PASSPORT
 import io.philo.shop.error.UnauthorizedException
 import io.philo.shop.user.UserRestClientFacade
 import io.philo.shop.user.dto.UserPassportResponse
@@ -36,11 +37,10 @@ class AuthorizationInceptionFilter(@Lazy private val userRestClient: UserRestCli
     ): Mono<Void> {
 
         val request = exchange.request
-
 //        if ("/users/login" == request.path.toString())
 //            return proceedNextFilter(chain, exchange)
 
-        val accessToken = validateAndExtractAccessToken(request)
+        val accessToken = validateAndExtractAccessToken(exchange)
         val userPassport = userRestClient.getUserPassport(accessToken)
 
         validatePassport(userPassport)

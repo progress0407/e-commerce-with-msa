@@ -1,6 +1,7 @@
 package io.philo.shop.filter
 
 import io.philo.shop.JwtManager
+import io.philo.shop.constant.SecurityConstant.Companion.LOGIN_USER_ID
 import org.springframework.cloud.gateway.filter.GatewayFilter
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
 import org.springframework.core.Ordered
@@ -18,24 +19,27 @@ class AuthorizationVerificationFilter(private val jwtManager: JwtManager) : Abst
 
     override fun filter(exchange: ServerWebExchange, chain: GatewayFilterChain): Mono<Void> {
 
-        val request = exchange.request
-        val accessToken = validateAndExtractAccessToken(request)
-
-//        if(jwtManager.isValidToken(accessToken).not())
-//            throw UnauthorizedException("인가되지 않은 사용자입니다.")
+        val accessToken = validateAndExtractAccessToken(exchange)
 
         val userId = jwtManager.parse(accessToken)
+//        val modifiedExchange = exchange setLoginUserId userId
+        val modifiedRequest = exchange.request.mutate().header(LOGIN_USER_ID, userId).build()
+        val modifiedExchange = exchange.mutate().request(modifiedRequest).build()
 
-        setLoginUserId(request, userId)
+        return proceedNextFilter(chain, modifiedExchange)
+    }
 
-        return proceedNextFilter(chain, exchange)
+    override fun getOrder(): Int {
+        return 2
+    }
+
+    private infix fun ServerWebExchange.setLoginUserId(userId: String): ServerWebExchange {
+
+        val request = this.request.mutate().header(LOGIN_USER_ID, userId).build()
+        return this.mutate().request(request).build()
     }
 
     private fun setLoginUserId(request: ServerHttpRequest, userId: String) {
         request.mutate().header(LOGIN_USER_ID, userId).build()
-    }
-
-    override fun getOrder(): Int {
-        return Ordered.LOWEST_PRECEDENCE
     }
 }

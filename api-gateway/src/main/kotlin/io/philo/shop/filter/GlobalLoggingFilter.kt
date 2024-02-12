@@ -4,13 +4,12 @@ import mu.KotlinLogging
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
 import org.springframework.cloud.gateway.filter.GlobalFilter
 import org.springframework.core.Ordered
-import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 
 @Component
-@Order(-1)
+//@Order(-1)
 class GlobalLoggingFilter : GlobalFilter, Ordered {
 
     private val log = KotlinLogging.logger { }
@@ -22,7 +21,7 @@ class GlobalLoggingFilter : GlobalFilter, Ordered {
         log.info {
             """
             [ Start ]
-            id: ${request.id}  
+            id: ${request.id}
             path: ${request.path}
             uri: ${request.uri}
             method: ${request.method}
@@ -45,6 +44,6 @@ class GlobalLoggingFilter : GlobalFilter, Ordered {
     }
 
     override fun getOrder(): Int {
-        return Ordered.LOWEST_PRECEDENCE
+        return 1
     }
 }
