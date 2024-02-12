@@ -25,8 +25,8 @@ class FixedDiscountCouponEntity(name: String, val discountAmount: Int) : CouponE
     }
 
     private fun validateDiscount(itemAmount: Int) {
-        check(itemAmount / 2 < discountAmount) {
-            "할인액이 너무 많습니다. (쿠폰 하나로 상품가의 50% 이상의 할인은 불가합니다.)"
+        check(itemAmount / 2 >= discountAmount) {
+            "할인액이 너무 많습니다. (고정 금액 쿠폰 하나로 상품가의 50% 이상의 할인은 불가합니다.)"
         }
     }
 }

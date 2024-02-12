@@ -30,7 +30,7 @@ class CouponDataInitializer(
      */
     private fun initEntities() {
 
-        val userId: Long = 1
+        val userId: Long = 2
 
         val firstRegisterCoupon = FixedDiscountCouponEntity("첫 가입 3,000원 할인 쿠폰", 3_000)
         val birthdayCoupon = RatioDiscountCouponEntity("초신사 생일 15% 할인 쿠폰", 15)
