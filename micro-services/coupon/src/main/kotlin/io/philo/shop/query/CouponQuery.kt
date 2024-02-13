@@ -7,6 +7,7 @@ import io.philo.shop.error.EntityNotFoundException
 import io.philo.shop.presentation.dto.CouponAppliedAmountResponseDto
 import io.philo.shop.service.CouponDiscountCalculator
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
 class CouponQuery(
@@ -15,6 +16,7 @@ class CouponQuery(
     private val itemReplicaRepository: ItemReplicaRepository,
 ) {
 
+    @Transactional(readOnly = false)
     fun calculateAmount(
         userId: Long,
         itemId: Long,
