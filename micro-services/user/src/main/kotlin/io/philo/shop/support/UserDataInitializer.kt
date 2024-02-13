@@ -3,17 +3,10 @@ package io.philo.shop.support
 import io.philo.shop.domain.entity.UserEntity
 import io.philo.shop.domain.repository.UserRepository
 import jakarta.annotation.PostConstruct
-import org.springframework.stereotype.Component
 
-@Component
-class UserDataInit(private val userRepository: UserRepository) {
+//@Component
+class UserDataInitializer(private val userRepository: UserRepository) {
 
-    /**
-     * email: String,
-     * name: String,
-     * address: String,
-     * rawPassword: String
-     */
     @PostConstruct
     fun init() {
 

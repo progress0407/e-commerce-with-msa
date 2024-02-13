@@ -8,16 +8,15 @@ import lombok.extern.slf4j.Slf4j
 import mu.KotlinLogging
 import org.springframework.boot.context.event.ApplicationStartedEvent
 import org.springframework.context.ApplicationListener
-import org.springframework.stereotype.Component
 import java.sql.Connection
 import java.sql.SQLException
 import java.sql.SQLTimeoutException
 import javax.sql.DataSource
 
 /**
- * 상품 샘플 데이터
+ * 상품 샘플 데이터 초기화
  */
-@Component
+//@Component
 @Slf4j
 class ItemDataInitializer(
     private val dataSource: DataSource,

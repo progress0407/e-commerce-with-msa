@@ -22,7 +22,6 @@ abstract class CouponEntity(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id")
     val id: Long? = null
 
     val order : Int

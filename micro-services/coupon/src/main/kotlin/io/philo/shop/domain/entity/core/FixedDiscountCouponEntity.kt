@@ -6,7 +6,7 @@ import jakarta.persistence.Entity
  * 고정 할인
  */
 @Entity
-class FixedDiscountCouponEntity(name: String, val discountAmount: Int) : CouponEntity() {
+class FixedDiscountCouponEntity(name: String, val discountAmount: Int) : CouponEntity(name = name) {
 
     protected constructor() : this(name = "", discountAmount = 0)
 

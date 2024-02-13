@@ -3,14 +3,16 @@ server.port: 8081
 spring:
   application:
     name: ITEM-SERVICE
-
-  jpa.hibernate.ddl-auto: create-drop
+  jpa:
+    hibernate.ddl-auto: create-drop
 
   datasource:
     url: jdbc:mysql://localhost:3306/item-db?useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: item-user
     password: 1234
+
+  config.import: classpath:/data-init-config.yml  # this is highlighted as red, but working normally
 
   rabbitmq:
     host: localhost
@@ -21,7 +23,7 @@ spring:
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-#    leaseRenewalIntervalInSeconds: 1
+#    lease-renewal-interval-in-seconds: 1
   client:
     enabled: true
     service-url:

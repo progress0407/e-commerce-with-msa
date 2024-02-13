@@ -8,10 +8,9 @@ import io.philo.shop.domain.repository.UserCouponRepository
 import mu.KotlinLogging
 import org.springframework.boot.context.event.ApplicationStartedEvent
 import org.springframework.context.event.EventListener
-import org.springframework.stereotype.Component
 import javax.sql.DataSource
 
-@Component
+//@Component
 class CouponDataInitializer(
     private val dataSource: DataSource,
     private val couponRepository: CouponRepository,

@@ -4,7 +4,10 @@ spring:
   application:
     name: USER-SERVICE
 
-  jpa.hibernate.ddl-auto: create-drop
+  jpa:
+    hibernate.ddl-auto: create-drop
+
+  config.import: classpath:/data-init-config.yml  # this is highlighted as red, but working normally
 
   datasource:
     url: jdbc:mysql://localhost:3306/user-db?useSSL=false

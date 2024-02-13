@@ -17,7 +17,6 @@ class UserCouponEntity(
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     val id: Long? = null
 
     protected constructor() : this(-1L, -1L)
