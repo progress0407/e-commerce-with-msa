@@ -17,7 +17,7 @@ class OrderCouponsEntity(
     @OneToOne(mappedBy = "coupons")
     var orderLineItemEntity: OrderLineItemEntity,
 
-    ) : BaseEntity() {
+) : BaseEntity() {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

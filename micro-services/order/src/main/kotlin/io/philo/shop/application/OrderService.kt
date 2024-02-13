@@ -3,12 +3,12 @@ package io.philo.shop.application
 import io.philo.shop.coupon.CouponRestClientFacade
 import io.philo.shop.domain.core.OrderEntity
 import io.philo.shop.domain.core.OrderLineItemEntity
-import io.philo.shop.domain.outbox.OrderOutBox
+import io.philo.shop.domain.outbox.OrderCreatedOutBoxEntity
 import io.philo.shop.dto.web.OrderLineRequestDto
 import io.philo.shop.error.BadRequestException
 import io.philo.shop.item.ItemRestClientFacade
 import io.philo.shop.messagequeue.OrderEventPublisher
-import io.philo.shop.repository.OrderOutBoxRepository
+import io.philo.shop.repository.OrderCreatedOutBoxRepository
 import io.philo.shop.repository.OrderRepository
 import lombok.RequiredArgsConstructor
 import mu.KotlinLogging
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional
 @RequiredArgsConstructor
 class OrderService(
     private val orderRepository: OrderRepository,
-    private val orderOutBoxRepository: OrderOutBoxRepository,
+    private val orderOutBoxRepository: OrderCreatedOutBoxRepository,
     private val itemClient: ItemRestClientFacade,
     private val couponClient: CouponRestClientFacade,
     private val orderEventPublisher: OrderEventPublisher,
@@ -39,10 +39,10 @@ class OrderService(
 
         validateCouponUsable(orderLineDtos)
 
-        val orderEntity = OrderEntity.createOrder(orderLineDtos)
+        val orderEntity = OrderEntity.createOrder(orderLineDtos, requesterId)
         orderRepository.save(orderEntity)
 
-        val outbox = OrderOutBox(orderEntity.id!!, requesterId)
+        val outbox = OrderCreatedOutBoxEntity(orderEntity.id!!, requesterId)
         orderOutBoxRepository.save(outbox)
 
         return orderEntity.id!!
@@ -62,10 +62,10 @@ class OrderService(
         }
     }
 
-    private fun OrderEntity.Companion.createOrder(orderLineDtos: List<OrderLineRequestDto>): OrderEntity {
+    private fun OrderEntity.Companion.createOrder(orderLineDtos: List<OrderLineRequestDto>, requesterId: Long): OrderEntity {
 
         val orderItems = orderLineDtos.toEntities()
-        return OrderEntity(orderItems)
+        return OrderEntity(requesterId, orderItems)
     }
 
     private fun List<OrderLineRequestDto>.toEntities(): MutableList<OrderLineItemEntity> =

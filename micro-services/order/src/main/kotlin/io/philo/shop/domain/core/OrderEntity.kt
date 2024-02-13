@@ -1,36 +1,37 @@
 package io.philo.shop.domain.core
 
 import io.philo.shop.constant.OrderStatus
+import io.philo.shop.constant.OrderStatus.*
+import io.philo.shop.entity.BaseEntity
 import jakarta.persistence.*
+import jakarta.persistence.EnumType.STRING
 import jakarta.persistence.FetchType.EAGER
 import lombok.ToString
 
 @Entity
 @Table(name = "orders")
 @ToString(exclude = ["orderItems"])
-class OrderEntity (orderLineItemEntities: MutableList<OrderLineItemEntity>) {
+class OrderEntity(private val requesterId: Long, orderLineItemEntities: MutableList<OrderLineItemEntity>) : BaseEntity() {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id")
     val id: Long? = null
 
     @Column(nullable = false)
     var totalOrderAmount: Int = 0
 
-    @Enumerated
+    @Enumerated(STRING)
     @Column(nullable = false)
-    var orderStatus: OrderStatus = OrderStatus.PENDING
+    var orderStatus: OrderStatus = PENDING
 
     @OneToMany(mappedBy = "orderEntity", cascade = [CascadeType.ALL], orphanRemoval = true, fetch = EAGER)
     var orderLineItemEntities: MutableList<OrderLineItemEntity> = mutableListOf()
 
-    protected constructor() : this(mutableListOf())
+    protected constructor() : this(0L, mutableListOf())
 
     init {
         this.orderLineItemEntities = orderLineItemEntities
         mapOrder(orderLineItemEntities)
-//        totalOrderAmount = calculateTotalOrderAmount(orderLineItemEntities)
     }
 
     private fun mapOrder(orderLineItemEntities: List<OrderLineItemEntity>) {
@@ -40,13 +41,19 @@ class OrderEntity (orderLineItemEntities: MutableList<OrderLineItemEntity>) {
         }
     }
 
-/*
-    private fun calculateTotalOrderAmount(orderLineItemEntities: List<OrderLineItemEntity>) =
-        orderLineItemEntities
-            .stream()
-            .mapToInt { obj: OrderLineItemEntity -> obj.orderItemAmount() }
-            .sum()
-*/
+    fun completeToSuccess() {
+        this.orderStatus = SUCCESS
+    }
+
+    fun completeToFail() {
+        this.orderStatus = FAIL
+    }
+
+    val isSuccess
+        get() = orderStatus == SUCCESS
+
+    val isFail
+        get() = orderStatus == FAIL
 
     companion object
 }

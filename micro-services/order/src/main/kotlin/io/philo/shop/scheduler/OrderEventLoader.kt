@@ -2,11 +2,11 @@ package io.philo.shop.scheduler
 
 import io.philo.shop.domain.core.OrderEntity
 import io.philo.shop.domain.core.OrderLineItemEntity
-import io.philo.shop.domain.outbox.OrderOutBox
+import io.philo.shop.domain.outbox.OrderCreatedOutBoxEntity
 import io.philo.shop.messagequeue.OrderEventPublisher
 import io.philo.shop.order.OrderCreatedEvent
 import io.philo.shop.order.OrderLineCreatedEvent
-import io.philo.shop.repository.OrderOutBoxRepository
+import io.philo.shop.repository.OrderCreatedOutBoxRepository
 import io.philo.shop.repository.OrderRepository
 import mu.KotlinLogging
 import org.springframework.scheduling.annotation.Scheduled
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component
  */
 @Component
 class OrderEventLoader(
-    private val outBoxRepository: OrderOutBoxRepository,
+    private val outBoxRepository: OrderCreatedOutBoxRepository,
     private val orderRepository: OrderRepository,
     private val orderEventPublisher: OrderEventPublisher,
 ) {
@@ -49,14 +49,14 @@ class OrderEventLoader(
         }
     }
 
-    private fun changeOutBoxStatusToLoad(outboxes: List<OrderOutBox>, event: OrderCreatedEvent) {
+    private fun changeOutBoxStatusToLoad(outboxes: List<OrderCreatedOutBoxEntity>, event: OrderCreatedEvent) {
 
         val matchedOutBox = outboxes.find { it.id == event.orderId }!!
         matchedOutBox.load()
         outBoxRepository.save(matchedOutBox)
     }
 
-    private fun List<OrderOutBox>.extractIds() =
+    private fun List<OrderCreatedOutBoxEntity>.extractIds() =
         this.map { it.orderId }.toList()
 
     private fun convertToEvents(orderEntities: List<OrderEntity>, orderIdToRequesterIdMap: Map<Long, Long>): List<OrderCreatedEvent> {

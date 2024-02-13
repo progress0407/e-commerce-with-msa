@@ -4,6 +4,7 @@ import jakarta.persistence.*
 import lombok.ToString
 
 @Entity
+@Table(name = "order_line_item")
 @ToString(exclude = ["order"])
 class OrderLineItemEntity(
     @field:Column(nullable = false, length = 100)
@@ -19,8 +20,6 @@ class OrderLineItemEntity(
     val orderedQuantity: Int, // 주문 수량
 ) {
 
-    protected constructor() : this(0L, 0, 0, 0)
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_item_id")
@@ -34,12 +33,10 @@ class OrderLineItemEntity(
     @OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
     var coupons: OrderCouponsEntity? = null
 
+    protected constructor() : this(0L, 0, 0, 0)
+
     fun mapOrder(orderEntity: OrderEntity) {
         this.orderEntity = orderEntity
-    }
-
-    fun orderItemAmount(): Int {
-        return itemDiscountedAmount * orderedQuantity
     }
 
     val useCoupon: Boolean

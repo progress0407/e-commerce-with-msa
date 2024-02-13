@@ -112,6 +112,10 @@ project(':eureka') {
 
 project(':api-gateway') {
     dependencies {
+        implementation project(':common:rest-client')
+        implementation project(':common:general')
+        implementation project(':common:security')
+
         // Router
         implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
 
@@ -125,9 +129,6 @@ project(':api-gateway') {
 
         testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
 
-        implementation project(':common:rest-client')
-        implementation project(':common:general')
-        implementation project(':common:security')
 
         // E2E test
         testImplementation 'io.rest-assured:rest-assured'
@@ -157,6 +158,8 @@ project(':common:event') {
 //    apply from: rootProject.file('module-dependencies/micro-service.gradle')
 
     dependencies {
+        implementation project(':common:general')
+
         // Spring
         implementation 'org.springframework.boot:spring-boot-starter-web'
 
@@ -172,6 +175,8 @@ project(':common:rest-client') {
 //    apply from: rootProject.file('module-dependencies/micro-service.gradle')
 
     dependencies {
+        implementation project(':common:general')
+
         // Spring
         implementation 'org.springframework.boot:spring-boot-starter-web'
 
@@ -185,6 +190,8 @@ project(':common:security') {
     jar.enabled = true
 
     dependencies {
+        implementation project(':common:general')
+
         // Spring Security core for BCrypt
         implementation 'org.springframework.security:spring-security-core'
 
