@@ -5,7 +5,7 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 
 @Entity
-class ItemOutBox(
+class ItemOutBoxEntity(
 
     traceId: Long,
 

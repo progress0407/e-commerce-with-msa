@@ -1,6 +1,7 @@
 package io.philo.shop.entity
 
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.MappedSuperclass
 
 @MappedSuperclass
 abstract class OutBoxBaseEntity(
@@ -12,11 +13,6 @@ abstract class OutBoxBaseEntity(
     val requesterId: Long
 
 ) :BaseEntity() {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    val id: Long? = null
 
     @Column(nullable = false)
     private var loaded: Boolean = false // 발송 여부

@@ -2,8 +2,10 @@ package io.philo.shop.domain.entity
 
 import io.philo.shop.PasswordEncoder
 import io.philo.shop.entity.BaseEntity
-import jakarta.persistence.*
-import jakarta.persistence.GenerationType.IDENTITY
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Table
+import jakarta.persistence.UniqueConstraint
 
 @Entity
 @Table(
@@ -12,12 +14,7 @@ import jakarta.persistence.GenerationType.IDENTITY
         UniqueConstraint(name = "unique__users__email", columnNames = ["email"])
     ]
 )
-class UserEntity protected constructor(
-
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column
-    val id: Long? = null,
+class UserEntity private constructor(
 
     @Column(nullable = false)
     var email: String = "",
@@ -31,22 +28,9 @@ class UserEntity protected constructor(
     @Column(nullable = false)
     var encodedPassword: String = "",
 
-) : BaseEntity() {
+    ) : BaseEntity() {
 
-    protected constructor() : this(email = "")
-
-    constructor(
-        email: String,
-        name: String,
-        address: String,
-        rawPassword: String,
-    ) :
-            this(
-                email = email,
-                name = name,
-                address = address,
-                encodedPassword = PasswordEncoder.encodePassword(rawPassword)
-            )
+    protected constructor() : this("", ", ", "")
 
     fun isSamePassword(rawPassword: String?): Boolean {
         return PasswordEncoder.isSamePassword(rawPassword, encodedPassword)
@@ -56,5 +40,15 @@ class UserEntity protected constructor(
         return "UserEntity(id=$id, email='$email', name='$name', address='$address')"
     }
 
-    companion object
+    companion object {
+
+        @JvmStatic
+        fun of(email: String, name: String, address: String, rawPassword: String) =
+            UserEntity(
+                email = email,
+                name = name,
+                address = address,
+                encodedPassword = PasswordEncoder.encodePassword(rawPassword)
+            )
+    }
 }

@@ -1,6 +1,6 @@
 package io.philo.shop.messagequeue.consumer
 
-import io.philo.shop.domain.outbox.ItemOutBox
+import io.philo.shop.domain.outbox.ItemOutBoxEntity
 import io.philo.shop.domain.service.ItemService
 import io.philo.shop.order.OrderCreatedEvent
 import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_QUEUE_NAME
@@ -32,7 +32,7 @@ class ItemEventListener(
             itemService.decreaseItems(itemMap)
         }
 
-        val outbox = ItemOutBox(event.orderId, event.requesterId, itemVerification)
+        val outbox = ItemOutBoxEntity(event.orderId, event.requesterId, itemVerification)
         itemOutBoxRepository.save(outbox)
     }
 }

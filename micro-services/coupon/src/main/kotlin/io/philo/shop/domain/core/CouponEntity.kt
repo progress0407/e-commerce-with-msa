@@ -20,10 +20,6 @@ abstract class CouponEntity(
 
 ): BaseEntity() {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null
-
     val order : Int
         get() = order()
 

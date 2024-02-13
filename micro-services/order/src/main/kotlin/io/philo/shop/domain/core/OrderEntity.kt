@@ -11,11 +11,14 @@ import lombok.ToString
 @Entity
 @Table(name = "orders")
 @ToString(exclude = ["orderItems"])
-class OrderEntity(private val requesterId: Long, orderLineItemEntities: MutableList<OrderLineItemEntity>) : BaseEntity() {
+class OrderEntity(
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null
+    val requesterId: Long,
+
+    @OneToMany(mappedBy = "orderEntity", cascade = [CascadeType.ALL], orphanRemoval = true, fetch = EAGER)
+    var orderLineItemEntities: MutableList<OrderLineItemEntity> = mutableListOf()
+
+) : BaseEntity() {
 
     @Column(nullable = false)
     var totalOrderAmount: Int = 0
@@ -24,13 +27,9 @@ class OrderEntity(private val requesterId: Long, orderLineItemEntities: MutableL
     @Column(nullable = false)
     var orderStatus: OrderStatus = PENDING
 
-    @OneToMany(mappedBy = "orderEntity", cascade = [CascadeType.ALL], orphanRemoval = true, fetch = EAGER)
-    var orderLineItemEntities: MutableList<OrderLineItemEntity> = mutableListOf()
-
     protected constructor() : this(0L, mutableListOf())
 
     init {
-        this.orderLineItemEntities = orderLineItemEntities
         mapOrder(orderLineItemEntities)
     }
 

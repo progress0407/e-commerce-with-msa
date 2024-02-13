@@ -1,9 +1,9 @@
 package io.philo.shop.repository
 
-import io.philo.shop.domain.outbox.ItemOutBox
+import io.philo.shop.domain.outbox.ItemOutBoxEntity
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface ItemOutBoxRepository : JpaRepository<ItemOutBox, Long> {
+interface ItemOutBoxRepository : JpaRepository<ItemOutBoxEntity, Long> {
 
-    fun findAllByLoadedIsFalse(): List<ItemOutBox>
+    fun findAllByLoadedIsFalse(): List<ItemOutBoxEntity>
 }

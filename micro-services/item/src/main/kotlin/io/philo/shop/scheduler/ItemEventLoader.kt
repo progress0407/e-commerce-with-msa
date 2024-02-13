@@ -1,7 +1,7 @@
 package io.philo.shop.scheduler
 
 import io.philo.shop.common.OrderCreatedVerifiedEvent
-import io.philo.shop.domain.outbox.ItemOutBox
+import io.philo.shop.domain.outbox.ItemOutBoxEntity
 import io.philo.shop.messagequeue.producer.ItemEventPublisher
 import io.philo.shop.repository.ItemOutBoxRepository
 import io.philo.shop.repository.ItemRepository
@@ -30,7 +30,7 @@ class ItemEventLoader(
 
         val itemIds = outboxes.extractIds()
         val events:List<OrderCreatedVerifiedEvent> = outboxes.convertToEvents()
-        val outboxMap: Map<Long, ItemOutBox> = outboxes.associateBy { it.traceId }
+        val outboxMap: Map<Long, ItemOutBoxEntity> = outboxes.associateBy { it.traceId }
 
         for (event in events) {
             itemEventPublisher.publishEvent(event)
@@ -38,13 +38,13 @@ class ItemEventLoader(
         }
     }
 
-    private fun List<ItemOutBox>.extractIds() =
+    private fun List<ItemOutBoxEntity>.extractIds() =
         this.map { it.traceId }.toList()
 
-    private fun List<ItemOutBox>.convertToEvents(): List<OrderCreatedVerifiedEvent> =
+    private fun List<ItemOutBoxEntity>.convertToEvents(): List<OrderCreatedVerifiedEvent> =
         this.map { OrderCreatedVerifiedEvent(it.traceId, it.verification) }
 
-    private fun changeOutBoxStatusToLoad(outboxMap: Map<Long, ItemOutBox>, event: OrderCreatedVerifiedEvent) {
+    private fun changeOutBoxStatusToLoad(outboxMap: Map<Long, ItemOutBoxEntity>, event: OrderCreatedVerifiedEvent) {
 
         val matchedOutBox = outboxMap[event.orderId]!!
         matchedOutBox.load()

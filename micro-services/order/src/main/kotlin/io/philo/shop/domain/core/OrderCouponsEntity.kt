@@ -2,7 +2,10 @@ package io.philo.shop.domain.core
 
 import io.philo.shop.constant.ITEM_COUPON_SIZE_APPLY_VALIDATION_MESSAGE
 import io.philo.shop.entity.BaseEntity
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.OneToOne
+import jakarta.persistence.Table
 
 @Entity
 @Table(name = "order_coupons")
@@ -18,11 +21,6 @@ class OrderCouponsEntity(
     var orderLineItemEntity: OrderLineItemEntity,
 
 ) : BaseEntity() {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    val id: Long? = null
 
     protected constructor() : this(null, null, OrderLineItemEntity.empty)
 

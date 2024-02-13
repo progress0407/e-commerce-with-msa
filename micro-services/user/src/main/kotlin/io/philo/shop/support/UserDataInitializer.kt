@@ -10,7 +10,7 @@ class UserDataInitializer(private val userRepository: UserRepository) {
     @PostConstruct
     fun init() {
 
-        val userEntity = UserEntity(
+        val userEntity = UserEntity.of(
             email = "swcho@naver.com",
             name = "성우",
             address = "노량진",

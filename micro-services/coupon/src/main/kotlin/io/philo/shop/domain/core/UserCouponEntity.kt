@@ -14,9 +14,6 @@ class UserCouponEntity(
     var isUse: Boolean = false // 사용 여부
 
 ):BaseEntity() {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null
 
     @JoinColumn(name = "coupon_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)

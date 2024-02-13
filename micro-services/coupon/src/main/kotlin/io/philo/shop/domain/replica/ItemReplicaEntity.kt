@@ -1,7 +1,9 @@
 package io.philo.shop.domain.replica
 
 import io.philo.shop.entity.BaseEntity
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Table
 
 @Entity
 @Table(name = "item_replica")
@@ -14,10 +16,6 @@ class ItemReplicaEntity(
     val itemAmount: Int
 
 ) : BaseEntity() {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null
 
     constructor() : this(0L, 0)
 }

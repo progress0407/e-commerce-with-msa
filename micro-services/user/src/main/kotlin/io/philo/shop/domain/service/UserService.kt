@@ -9,11 +9,7 @@ import io.philo.shop.user.dto.UserPassportResponse
 import org.springframework.stereotype.Service
 
 @Service
-class UserService(
-    private val jwtManager: JwtManager,
-    private val repository: UserRepository
-) {
-
+class UserService(private val jwtManager: JwtManager, private val repository: UserRepository) {
 
     fun createUser(
         email: String,
@@ -22,7 +18,7 @@ class UserService(
         password: String
     ): Long {
 
-        val userEntity = UserEntity(email, name, address, password)
+        val userEntity = UserEntity.of(email, name, address, password)
 
         repository.save(userEntity)
 
