@@ -1,5 +1,6 @@
 package io.philo.shop.messagequeue.producer
 
+import io.philo.shop.common.InAppEventPublisher
 import io.philo.shop.common.OrderCreatedVerifiedEvent
 import io.philo.shop.domain.entity.ItemEntity
 import io.philo.shop.item.ItemCreatedEvent
@@ -8,9 +9,8 @@ import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_REPLICA_FOR_COUPON_R
 import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_VERIFY_REQ_EXCHANGE_NAME
 import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_VERIFY_REQ_ROUTING_KEY
 import org.springframework.amqp.rabbit.core.RabbitTemplate
-import org.springframework.stereotype.Component
 
-@Component
+@InAppEventPublisher
 class ItemEventPublisher(private val rabbitTemplate: RabbitTemplate) {
 
     /**

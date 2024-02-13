@@ -1,5 +1,6 @@
 package io.philo.shop.messagequeue
 
+import io.philo.shop.common.InAppEventPublisher
 import io.philo.shop.domain.core.OrderEntity
 import io.philo.shop.domain.core.OrderLineItemEntity
 import io.philo.shop.order.OrderCreatedEvent
@@ -7,9 +8,8 @@ import io.philo.shop.order.OrderCreatedEventDeprecated
 import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_EXCHANGE_NAME
 import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_ROUTING_KEY
 import org.springframework.amqp.rabbit.core.RabbitTemplate
-import org.springframework.stereotype.Component
 
-@Component
+@InAppEventPublisher
 class OrderEventPublisher(private val rabbitTemplate: RabbitTemplate) {
 
     /**

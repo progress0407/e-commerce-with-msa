@@ -1,5 +1,6 @@
 package io.philo.shop.messagequeue.consumer
 
+import io.philo.shop.common.InAppEventListener
 import io.philo.shop.domain.outbox.CouponOutBox
 import io.philo.shop.domain.outbox.CouponOutBoxRepository
 import io.philo.shop.domain.replica.ItemReplicaEntity
@@ -11,9 +12,8 @@ import io.philo.shop.order.OrderRabbitProperty
 import io.philo.shop.service.CouponService
 import mu.KotlinLogging
 import org.springframework.amqp.rabbit.annotation.RabbitListener
-import org.springframework.stereotype.Component
 
-@Component
+@InAppEventListener
 class CouponEventListener(
     private val couponService: CouponService,
     private val itemReplicaRepository: ItemReplicaRepository,

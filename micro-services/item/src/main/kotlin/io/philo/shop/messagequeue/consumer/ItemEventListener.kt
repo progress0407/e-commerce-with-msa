@@ -1,5 +1,6 @@
 package io.philo.shop.messagequeue.consumer
 
+import io.philo.shop.common.InAppEventListener
 import io.philo.shop.domain.outbox.ItemOutBoxEntity
 import io.philo.shop.domain.service.ItemService
 import io.philo.shop.order.OrderCreatedEvent
@@ -7,9 +8,8 @@ import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_QUEUE_NAM
 import io.philo.shop.repository.ItemOutBoxRepository
 import mu.KotlinLogging
 import org.springframework.amqp.rabbit.annotation.RabbitListener
-import org.springframework.stereotype.Component
 
-@Component
+@InAppEventListener
 class ItemEventListener(
     private val itemService: ItemService,
     private val itemOutBoxRepository: ItemOutBoxRepository,
