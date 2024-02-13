@@ -1,5 +1,5 @@
 dependencies {
-// Spring
+    // Spring
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
@@ -24,6 +24,6 @@ dependencies {
     // E2E test
     testImplementation 'io.rest-assured:rest-assured'
 
-    // prettier binding parameter
-    // implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter'
+    // p6spy, prettier binding parameter
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
 }

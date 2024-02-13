@@ -93,8 +93,9 @@
     - [x] 대안으로 토큰 검증 필터 구현
 - [x] Order -> Item: 주문 생성 이벤트 검증부 구현
 - [x] 마이크로 서비스 2-depth 멀티 모듈로 그룹화
-- [ ] Coupon 가격 계산 API 구현
-    - [ ] Item -> Coupon, 상품 Semi 데이터 이벤트 발송 기능 구현
+- [x] p6spy 로그 포맷터 적용
+- [x] Coupon 가격 계산 API 구현
+- [ ] Item -> Coupon, 상품 Semi 데이터 이벤트 발송 기능 구현
 - [ ] 마이크로 서비스 내 애그리거트 트랜잭션 충돌 방지
     - 애그리거트 내 구성요소가 바뀔 경우 고려
     - 애그리거트 수정시 조회 메서드에 LockModeType.OPTIMISTIC_FORCE_INCREMENT 적용
