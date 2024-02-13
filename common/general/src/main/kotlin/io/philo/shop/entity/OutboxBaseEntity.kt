@@ -4,15 +4,15 @@ import jakarta.persistence.Column
 import jakarta.persistence.MappedSuperclass
 
 @MappedSuperclass
-abstract class OutBoxBaseEntity(
+abstract class OutboxBaseEntity(
 
     @Column(nullable = false)
     val traceId: Long, // 분산 트랜잭션에서의 고유 ID (이 프로젝트에서는 주로 orderId이다)
 
     @Column(nullable = false)
-    val requesterId: Long
+    val requesterId: Long,
 
-) :BaseEntity() {
+    ) : BaseEntity() {
 
     @Column(nullable = false)
     private var loaded: Boolean = false // 발송 여부
@@ -21,3 +21,9 @@ abstract class OutBoxBaseEntity(
         this.loaded = true
     }
 }
+
+/**
+ * ID -> Entity 에 대응하는 Map을 만든다
+ */
+fun List<OutboxBaseEntity>.toMap(): Map<Long, OutboxBaseEntity> =
+    this.associateBy { it.traceId }

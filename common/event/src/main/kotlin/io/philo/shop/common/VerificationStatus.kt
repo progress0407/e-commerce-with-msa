@@ -2,7 +2,10 @@ package io.philo.shop.common
 
 import io.philo.shop.error.InAppException
 
-enum class VerificationStatus(val description: String) {
+/**
+ * 마이크로 서비스 간 유효성 검증 상태
+ */
+enum class VerificationStatus(private val description: String) {
 
     PENDING("대기 중"),
     SUCCESS("검증 결과 정상"),
@@ -18,6 +21,8 @@ enum class VerificationStatus(val description: String) {
     companion object {
 
         @JvmStatic
-        fun of(verification: Boolean) = if (verification) SUCCESS else FAIL
+        fun of(verification: Boolean) =
+            if (verification) SUCCESS
+            else FAIL
     }
 }

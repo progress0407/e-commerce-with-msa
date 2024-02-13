@@ -3,7 +3,7 @@ package io.philo.shop.application
 import io.philo.shop.coupon.CouponRestClientFacade
 import io.philo.shop.domain.core.OrderEntity
 import io.philo.shop.domain.core.OrderLineItemEntity
-import io.philo.shop.domain.outbox.OrderCreatedOutBoxEntity
+import io.philo.shop.domain.outbox.OrderCreatedOutboxEntity
 import io.philo.shop.dto.web.OrderLineRequestDto
 import io.philo.shop.error.BadRequestException
 import io.philo.shop.item.ItemRestClientFacade
@@ -42,7 +42,7 @@ class OrderService(
         val orderEntity = OrderEntity.createOrder(orderLineDtos, requesterId)
         orderRepository.save(orderEntity)
 
-        val outbox = OrderCreatedOutBoxEntity(orderEntity.id!!, requesterId)
+        val outbox = OrderCreatedOutboxEntity(orderEntity.id!!, requesterId)
         orderOutBoxRepository.save(outbox)
 
         return orderEntity.id!!

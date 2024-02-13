@@ -2,7 +2,7 @@ package io.philo.shop.scheduler
 
 import io.philo.shop.domain.core.OrderEntity
 import io.philo.shop.domain.core.OrderLineItemEntity
-import io.philo.shop.domain.outbox.OrderCreatedOutBoxEntity
+import io.philo.shop.domain.outbox.OrderCreatedOutboxEntity
 import io.philo.shop.messagequeue.OrderEventPublisher
 import io.philo.shop.order.OrderCreatedEvent
 import io.philo.shop.order.OrderLineCreatedEvent
@@ -49,14 +49,14 @@ class OrderEventLoader(
         }
     }
 
-    private fun changeOutBoxStatusToLoad(outboxes: List<OrderCreatedOutBoxEntity>, event: OrderCreatedEvent) {
+    private fun changeOutBoxStatusToLoad(outboxes: List<OrderCreatedOutboxEntity>, event: OrderCreatedEvent) {
 
         val matchedOutBox = outboxes.find { it.id == event.orderId }!!
         matchedOutBox.load()
         outBoxRepository.save(matchedOutBox)
     }
 
-    private fun List<OrderCreatedOutBoxEntity>.extractIds() =
+    private fun List<OrderCreatedOutboxEntity>.extractIds() =
         this.map { it.traceId }.toList()
 
     private fun convertToEvents(orderEntities: List<OrderEntity>, orderIdToRequesterIdMap: Map<Long, Long>): List<OrderCreatedEvent> {

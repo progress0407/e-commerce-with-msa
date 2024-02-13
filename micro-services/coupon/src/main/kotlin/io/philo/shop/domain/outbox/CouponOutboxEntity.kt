@@ -1,11 +1,13 @@
 package io.philo.shop.domain.outbox
 
-import io.philo.shop.entity.OutBoxBaseEntity
+import io.philo.shop.entity.OutboxBaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.Table
 
 @Entity
-class ItemOutBoxEntity(
+@Table(name = "coupon_outbox")
+class CouponOutboxEntity(
 
     traceId: Long,
 
@@ -14,7 +16,7 @@ class ItemOutBoxEntity(
     @Column(nullable = false)
     val verification: Boolean
 
-) : OutBoxBaseEntity(traceId, requesterId) {
+): OutboxBaseEntity(traceId, requesterId) {
 
     protected constructor() : this(0L, 0L, false)
 }

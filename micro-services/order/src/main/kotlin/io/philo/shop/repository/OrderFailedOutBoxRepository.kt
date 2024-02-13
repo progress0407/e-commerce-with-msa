@@ -1,7 +1,7 @@
 package io.philo.shop.repository
 
-import io.philo.shop.domain.outbox.OrderFailedOutBoxEntity
+import io.philo.shop.domain.outbox.OrderFailedOutboxEntity
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface OrderFailedOutBoxRepository : JpaRepository<OrderFailedOutBoxEntity, Long> {
+interface OrderFailedOutBoxRepository : JpaRepository<OrderFailedOutboxEntity, Long> {
 }

@@ -5,7 +5,7 @@ VALUES (1, 'FixedDiscountCouponEntity', '첫 가입 3,000원 할인 쿠폰', 300
 INSERT INTO user_coupon (id, user_id, coupon_id, is_use, created_at, updated_at)
 VALUES (1, 1, 1, false, now(), now()),
        (2, 1, 2, false, now(), now()),
-       (3, 2, 2, false, now(), now()),
+       (3, 2, 1, false, now(), now()),
        (4, 2, 2, false, now(), now());
 
 insert into item_replica (id, item_id, item_amount, created_at, updated_at)

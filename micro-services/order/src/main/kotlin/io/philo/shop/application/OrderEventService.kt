@@ -1,8 +1,8 @@
 package io.philo.shop.application
 
 import io.philo.shop.domain.core.OrderEntity
-import io.philo.shop.domain.outbox.OrderCreatedOutBoxEntity
-import io.philo.shop.domain.outbox.OrderFailedOutBoxEntity
+import io.philo.shop.domain.outbox.OrderCreatedOutboxEntity
+import io.philo.shop.domain.outbox.OrderFailedOutboxEntity
 import io.philo.shop.error.EntityNotFoundException
 import io.philo.shop.repository.OrderCreatedOutBoxRepository
 import io.philo.shop.repository.OrderFailedOutBoxRepository
@@ -76,19 +76,19 @@ class OrderEventService(
 
     private fun toFailedOutBoxes(
         orderEntities: List<OrderEntity>,
-        outBoxMap: Map<Long, OrderCreatedOutBoxEntity>,
-    ): List<OrderFailedOutBoxEntity> =
+        outBoxMap: Map<Long, OrderCreatedOutboxEntity>,
+    ): List<OrderFailedOutboxEntity> =
         orderEntities
             .map { failedOrder -> toFailedOutBox(failedOrder, outBoxMap) }
             .toList()
 
-    private fun toFailedOutBox(failedOrder: OrderEntity, outBoxMap: Map<Long, OrderCreatedOutBoxEntity>): OrderFailedOutBoxEntity {
+    private fun toFailedOutBox(failedOrder: OrderEntity, outBoxMap: Map<Long, OrderCreatedOutboxEntity>): OrderFailedOutboxEntity {
 
         val outbox = outBoxMap[failedOrder.id]!!
         val orderId = outbox.traceId
         val requesterId = outbox.requesterId
 
-        return OrderFailedOutBoxEntity(
+        return OrderFailedOutboxEntity(
             traceId = orderId,
             requesterId = requesterId,
             isCompensatingItem = outbox.itemValidated.toBool,

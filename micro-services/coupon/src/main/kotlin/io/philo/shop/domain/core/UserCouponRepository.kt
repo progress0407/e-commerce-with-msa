@@ -20,9 +20,10 @@ interface UserCouponRepository : JpaRepository<UserCouponEntity, Long> {
     @Query("""
         select uc 
         from UserCouponEntity as uc
-        join fetch uc.coupon c
+            join fetch uc.coupon c
         where uc.userId = :userId
         and uc.id in :userCouponIds
+        and uc.isUse = false 
     """)
     fun findAllUsable(@Param("userId") userId: Long, @Param("userCouponIds") userCouponIds:List<Long>): List<UserCouponEntity>
 }
