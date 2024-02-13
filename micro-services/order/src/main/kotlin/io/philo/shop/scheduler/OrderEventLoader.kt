@@ -35,8 +35,9 @@ class OrderEventLoader(
         log.info { "브로커에 적재할 이벤트가 존재합니다." }
 
         val orderIds = outboxes.extractIds()
+        val orderIdToRequesterIdMap = outboxes.associateBy({ it.orderId }, { it.requesterId })
         val orderEntities = orderRepository.findAllByIdIn(orderIds)
-        val events = orderEntities.convertToEvents()
+        val events = convertToEvents(orderEntities, orderIdToRequesterIdMap)
 
         for (event in events) {
             orderEventPublisher.publishEvent(event)
@@ -58,16 +59,19 @@ class OrderEventLoader(
     private fun List<OrderOutBox>.extractIds() =
         this.map { it.orderId }.toList()
 
-    private fun List<OrderEntity>.convertToEvents(): List<OrderCreatedEvent> =
-        this.map { OrderCreatedEvent.from(it) }.toList()
+    private fun convertToEvents(orderEntities: List<OrderEntity>, orderIdToRequesterIdMap: Map<Long, Long>): List<OrderCreatedEvent> {
+        return orderEntities.map { OrderCreatedEvent.from(it, orderIdToRequesterIdMap) }.toList()
+    }
 
-    private fun OrderCreatedEvent.Companion.from(orderEntity: OrderEntity): OrderCreatedEvent {
+    private fun OrderCreatedEvent.Companion.from(orderEntity: OrderEntity, orderIdToRequesterIdMap: Map<Long, Long>): OrderCreatedEvent {
 
         val orderLineEntities = orderEntity.orderLineItemEntities
         val orderLineEvents = orderLineEntities.map { OrderLineCreatedEvent.from(it) }.toList()
+        val requesterId = orderIdToRequesterIdMap[orderEntity.id!!]!!
 
         return OrderCreatedEvent(
             orderId = orderEntity.id!!,
+            requesterId = requesterId,
             orderLineCreatedEvents = orderLineEvents
         )
     }

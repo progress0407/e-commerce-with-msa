@@ -1,6 +1,6 @@
-package io.philo.shop.domain.service
+package io.philo.shop.service
 
-import io.philo.shop.domain.entity.core.CouponEntity
+import io.philo.shop.domain.core.CouponEntity
 
 class CouponDiscountCalculator {
 
@@ -31,9 +31,11 @@ class CouponDiscountCalculator {
          */
         fun calculateDiscountAmount(itemAmount: Int, couponEntities: List<CouponEntity>): Int {
 
-            val discountedAmount = couponEntities.toList()
-                .sortedBy { it.order }
-                .fold(itemAmount) { nextAmount, coupon -> coupon.discount(nextAmount) }
+            val discountedAmount =
+                couponEntities
+                    .toList()
+                    .sortedBy { it.order }
+                    .fold(itemAmount) { nextAmount, coupon -> coupon.discount(nextAmount) }
 
             require(discountedAmount >= 0) {
                 "상품 가격은 음수가 될 수 없습니다 (${discountedAmount})"

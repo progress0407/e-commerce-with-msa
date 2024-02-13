@@ -17,6 +17,6 @@ class ItemEventListenerDeprecated(private val itemService: ItemService) {
 
         val itemIdToDecreaseQuantity = event.values()
 
-        itemService.decreaseItems(itemIdToDecreaseQuantity)
+        itemService.decreaseItemsDeprecated(itemIdToDecreaseQuantity)
     }
 }

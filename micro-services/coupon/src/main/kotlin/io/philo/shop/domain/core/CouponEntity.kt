@@ -1,4 +1,4 @@
-package io.philo.shop.domain.entity.core
+package io.philo.shop.domain.core
 
 import io.philo.shop.entity.BaseEntity
 import jakarta.persistence.*

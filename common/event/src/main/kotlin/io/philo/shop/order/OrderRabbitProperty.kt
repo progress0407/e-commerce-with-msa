@@ -4,12 +4,12 @@ class OrderRabbitProperty {
 
 
     companion object {
-        private const val TOPIC_PREFIX = "order.create"
+        private const val ORDER_CREATED_TOPIC_PREFIX = "order.created"
 
-        const val QUEUE_NAME = "$TOPIC_PREFIX.queue"
+        const val ORDER_CREATED_QUEUE_NAME = "$ORDER_CREATED_TOPIC_PREFIX.queue"
 
-        const val EXCHANGE_NAME = "$TOPIC_PREFIX.exchange"
+        const val ORDER_CREATED_EXCHANGE_NAME = "$ORDER_CREATED_TOPIC_PREFIX.exchange"
 
-        const val ROUTING_KEY = "$TOPIC_PREFIX.routing.#"
+        const val ORDER_CREATED_ROUTING_KEY = "$ORDER_CREATED_TOPIC_PREFIX.routing.#"
     }
 }

@@ -10,7 +10,10 @@ import jakarta.persistence.*
 class OrderOutBox(
 
     @Column(nullable = false)
-    val orderId: Long,
+    val orderId: Long, // trace id 로서의 기능도 역할 가능하다 (혹은 transcation id)
+
+    @Column(nullable = false)
+    val requesterId: Long
 
 ) : BaseEntity() {
 
@@ -30,7 +33,7 @@ class OrderOutBox(
     @Column(nullable = false)
     var paymentValidated: Boolean = false // 결제 서비스 유효성 체크
 
-    protected constructor () : this(0L)
+    protected constructor () : this(0L, 0L)
 
     fun load() {
         this.loaded = true

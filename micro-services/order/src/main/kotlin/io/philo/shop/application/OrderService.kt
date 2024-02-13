@@ -35,14 +35,14 @@ class OrderService(
      * out box pattern 으로 요청
      */
     @Transactional
-    fun order(orderLineDtos: List<OrderLineRequestDto>): Long {
+    fun order(orderLineDtos: List<OrderLineRequestDto>, requesterId: Long): Long {
 
         validateCouponUsable(orderLineDtos)
 
         val orderEntity = OrderEntity.createOrder(orderLineDtos)
         orderRepository.save(orderEntity)
 
-        val outbox = OrderOutBox(orderEntity.id!!)
+        val outbox = OrderOutBox(orderEntity.id!!, requesterId)
         orderOutBoxRepository.save(outbox)
 
         return orderEntity.id!!

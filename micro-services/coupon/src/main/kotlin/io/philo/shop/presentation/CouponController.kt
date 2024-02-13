@@ -1,15 +1,14 @@
 package io.philo.shop.presentation
 
 import io.philo.shop.constant.SecurityConstant.Companion.LOGIN_USER_ID
-import io.philo.shop.domain.query.CouponQuery
-import io.philo.shop.domain.repository.CouponRepository
-import io.philo.shop.domain.repository.UserCouponRepository
-import io.philo.shop.domain.service.CouponService
+import io.philo.shop.domain.core.CouponRepository
+import io.philo.shop.domain.core.UserCouponRepository
 import io.philo.shop.presentation.dto.CouponAppliedAmountRequestDto
 import io.philo.shop.presentation.dto.CouponAppliedAmountResponseDto
 import io.philo.shop.presentation.dto.CouponListDto
 import io.philo.shop.presentation.dto.UserCouponListDto
-import jakarta.servlet.http.HttpServletRequest
+import io.philo.shop.query.CouponQuery
+import io.philo.shop.service.CouponService
 import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/coupons")
@@ -63,9 +62,8 @@ class CouponController(
      */
     @GetMapping("/coupon-applied-amount")
     fun calculateAmount(
-        @RequestHeader(name = LOGIN_USER_ID, required = false) userId: String?,
-        @RequestBody requestDto: CouponAppliedAmountRequestDto,
-        httpServletRequest: HttpServletRequest
+        @RequestHeader(name = LOGIN_USER_ID) userId: String,
+        @RequestBody requestDto: CouponAppliedAmountRequestDto
     ): CouponAppliedAmountResponseDto {
 
         return couponQuery.calculateAmount(2L, requestDto.itemId, requestDto.userCouponIds)

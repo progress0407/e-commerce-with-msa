@@ -63,13 +63,31 @@ class ItemService(
         return dtos
     }
 
+    /**
+     * 수신 받은 이벤트 정보를 기준으로 상품들의 재고 수량을 감소시킨다
+     *
+     * @param itemMap <itemId, decrease quantity>
+     */
     @Transactional
-    fun decreaseItems(itemIdToDecreaseQuantity: Map<Long, Int>) {
+    fun decreaseItems(itemMap: Map<Long, Int>) {
+
+        val itemIds = itemMap.keys
+        val findItems = itemRepository.findAllByIdIn(itemIds) // problem !
+        for (findItem in findItems) {
+            val decreaseQuantity = itemMap[findItem.id!!]!!
+            findItem.decreaseStockQuantity(decreaseQuantity)
+        }
+    }
+
+    @Transactional
+    @Deprecated("미 사용")
+    fun decreaseItemsDeprecated(itemIdToDecreaseQuantity: Map<Long, Int>) {
 
         val itemIds = itemIdToDecreaseQuantity.keys
         val findItems = itemRepository.findAllByIdIn(itemIds) // problem !
         validateAndDecreaseItemQuantity(itemIdToDecreaseQuantity, findItems)
     }
+
 
     /**
      * 주문 전에 상품 가격이 맞는지, 현재 재고가 충분하지를 검증

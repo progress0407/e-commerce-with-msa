@@ -1,6 +1,6 @@
 package io.philo.shop.presentation
 
-import io.philo.shop.domain.service.CouponService
+import io.philo.shop.service.CouponService
 import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/coupon/internal")

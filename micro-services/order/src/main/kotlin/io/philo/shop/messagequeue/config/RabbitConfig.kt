@@ -1,8 +1,8 @@
 package io.philo.shop.messagequeue.config
 
-import io.philo.shop.order.OrderRabbitProperty.Companion.EXCHANGE_NAME
-import io.philo.shop.order.OrderRabbitProperty.Companion.QUEUE_NAME
-import io.philo.shop.order.OrderRabbitProperty.Companion.ROUTING_KEY
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_EXCHANGE_NAME
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_QUEUE_NAME
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_ROUTING_KEY
 import org.springframework.amqp.core.Binding
 import org.springframework.amqp.core.BindingBuilder
 import org.springframework.amqp.core.DirectExchange
@@ -30,10 +30,10 @@ class RabbitConfig(
 ) {
 
     @Bean
-    fun queue() = Queue(QUEUE_NAME)
+    fun queue() = Queue(ORDER_CREATED_QUEUE_NAME)
 
     @Bean
-    fun exchange() = DirectExchange(EXCHANGE_NAME)
+    fun exchange() = DirectExchange(ORDER_CREATED_EXCHANGE_NAME)
 
     @Bean
     fun binding(
@@ -43,7 +43,7 @@ class RabbitConfig(
         BindingBuilder
             .bind(queue)
             .to(exchange)
-            .with(ROUTING_KEY)
+            .with(ORDER_CREATED_ROUTING_KEY)
 
     @Bean
     fun rabbitTemplate(

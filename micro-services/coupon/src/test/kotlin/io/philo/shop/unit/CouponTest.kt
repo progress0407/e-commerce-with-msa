@@ -2,9 +2,9 @@ package io.philo.shop.unit
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import io.philo.shop.domain.entity.core.FixedDiscountCouponEntity
-import io.philo.shop.domain.entity.core.RatioDiscountCouponEntity
-import io.philo.shop.domain.service.CouponDiscountCalculator.Companion.calculateDiscountAmount
+import io.philo.shop.domain.core.FixedDiscountCouponEntity
+import io.philo.shop.domain.core.RatioDiscountCouponEntity
+import io.philo.shop.service.CouponDiscountCalculator.Companion.calculateDiscountAmount
 
 class CouponTest : StringSpec({
 

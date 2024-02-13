@@ -1,4 +1,4 @@
-package io.philo.shop.domain.entity.item
+package io.philo.shop.domain.replica
 
 import io.philo.shop.entity.BaseEntity
 import jakarta.persistence.*
