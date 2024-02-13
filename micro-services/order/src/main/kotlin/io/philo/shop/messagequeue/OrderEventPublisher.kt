@@ -5,8 +5,10 @@ import io.philo.shop.domain.core.OrderEntity
 import io.philo.shop.domain.core.OrderLineItemEntity
 import io.philo.shop.order.OrderCreatedEvent
 import io.philo.shop.order.OrderCreatedEventDeprecated
-import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_EXCHANGE_NAME
-import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_ROUTING_KEY
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_COUPON_EXCHANGE_NAME
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_COUPON_ROUTING_KEY
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_ITEM_EXCHANGE_NAME
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_ITEM_ROUTING_KEY
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 
 @InAppEventPublisher
@@ -28,8 +30,10 @@ class OrderEventPublisher(private val rabbitTemplate: RabbitTemplate) {
         publishEventToBroker(event)
     }
 
-    private fun publishEventToBroker(message: Any) =
-        rabbitTemplate.convertAndSend(ORDER_CREATED_EXCHANGE_NAME, ORDER_CREATED_ROUTING_KEY, message)
+    private fun publishEventToBroker(message: Any) {
+        rabbitTemplate.convertAndSend(ORDER_CREATED_TO_ITEM_EXCHANGE_NAME, ORDER_CREATED_TO_ITEM_ROUTING_KEY, message)
+        rabbitTemplate.convertAndSend(ORDER_CREATED_TO_COUPON_EXCHANGE_NAME, ORDER_CREATED_TO_COUPON_ROUTING_KEY, message)
+    }
 
     private fun OrderCreatedEventDeprecated.Companion.from(orderEntity: OrderEntity): OrderCreatedEventDeprecated {
 

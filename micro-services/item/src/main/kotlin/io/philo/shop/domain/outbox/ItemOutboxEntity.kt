@@ -18,5 +18,5 @@ class ItemOutboxEntity(
 
 ) : OutboxBaseEntity(traceId, requesterId) {
 
-    protected constructor() : this(0L, 0L, false)
+    protected constructor() : this(traceId = 0L, requesterId = 0L, verification = false)
 }

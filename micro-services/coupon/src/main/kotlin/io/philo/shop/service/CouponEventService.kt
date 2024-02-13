@@ -6,6 +6,7 @@ import io.philo.shop.domain.core.UserCouponRepository
 import io.philo.shop.domain.outbox.CouponOutBoxRepository
 import io.philo.shop.domain.outbox.CouponOutboxEntity
 import io.philo.shop.domain.replica.ItemReplicaEntity
+import io.philo.shop.domain.replica.ItemReplicaRepository
 import io.philo.shop.entity.toMap
 import io.philo.shop.item.ItemCreatedEvent
 import io.philo.shop.messagequeue.producer.CouponEventPublisher
@@ -18,8 +19,9 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class CouponEventService(private val couponOutBoxRepository: CouponOutBoxRepository,
                          private val couponRepository: CouponRepository,
+                         private val itemReplRepository: ItemReplicaRepository,
                          private val userCouponRepository: UserCouponRepository,
-                         private val couponEventPublisher: CouponEventPublisher,) {
+                         private val couponEventPublisher: CouponEventPublisher) {
 
 
     private val log = KotlinLogging.logger { }

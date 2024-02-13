@@ -54,15 +54,15 @@ class OrderEventService(
         val orderIds = outboxes.map { it.traceId }.toList()
         val orders = orderRepository.findAllByIdIn(orderIds)
 
-        // 이벤트 처리
+        // 이벤트 처리 및 outbox 데이터 제거
         for (order in orders) {
             val outBox = outBoxMap[order.id]!!
-            if (outBox.isSuccess) {
+            if (outBox.isSuccess)
                 order.completeToSuccess()
-            } else {
+            else
                 order.completeToFail()
-            }
         }
+        firstEventOutBoxRepository.deleteAll(outboxes)
 
         // 실패한 이벤트 존재시 보상 트랜잭션 발송 준비
         // 유효성 검증을 통과한 마이크로 서비스에 보상 트랜잭션을 보낸다

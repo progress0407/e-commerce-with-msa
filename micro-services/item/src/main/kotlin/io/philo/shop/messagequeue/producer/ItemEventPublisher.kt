@@ -6,8 +6,8 @@ import io.philo.shop.domain.entity.ItemEntity
 import io.philo.shop.item.ItemCreatedEvent
 import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_REPLICA_FOR_COUPON_RES_EXCHANGE_NAME
 import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_REPLICA_FOR_COUPON_RES_ROUTING_KEY
-import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_VERIFY_REQ_EXCHANGE_NAME
-import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_VERIFY_REQ_ROUTING_KEY
+import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_VERIFY_RES_EXCHANGE_NAME
+import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_VERIFY_RES_ROUTING_KEY
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 
 @InAppEventPublisher
@@ -23,12 +23,11 @@ class ItemEventPublisher(private val rabbitTemplate: RabbitTemplate) {
 
     fun publishEvent(event: ItemCreatedEvent) {
 
-//        publishEventToBroker(event, ITEM_REPLICA_FOR_COUPON_RES_ROUTING_KEY)
         rabbitTemplate.convertAndSend(ITEM_REPLICA_FOR_COUPON_RES_EXCHANGE_NAME, ITEM_REPLICA_FOR_COUPON_RES_ROUTING_KEY, event)
     }
 
     private fun publishEventToBroker(message: Any) =
-        rabbitTemplate.convertAndSend(ITEM_VERIFY_REQ_EXCHANGE_NAME, ITEM_VERIFY_REQ_ROUTING_KEY, message)
+        rabbitTemplate.convertAndSend(ITEM_VERIFY_RES_EXCHANGE_NAME, ITEM_VERIFY_RES_ROUTING_KEY, message)
 
 
     private fun publishEventToBroker(message: ItemCreatedEvent, routingKey: String) =

@@ -1,8 +1,11 @@
 package io.philo.shop.messagequeue.config
 
-import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_EXCHANGE_NAME
-import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_QUEUE_NAME
-import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_ROUTING_KEY
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_COUPON_EXCHANGE_NAME
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_COUPON_QUEUE_NAME
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_COUPON_ROUTING_KEY
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_ITEM_EXCHANGE_NAME
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_ITEM_QUEUE_NAME
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_ITEM_ROUTING_KEY
 import org.springframework.amqp.core.Binding
 import org.springframework.amqp.core.BindingBuilder
 import org.springframework.amqp.core.DirectExchange
@@ -17,26 +20,29 @@ import org.springframework.context.annotation.Configuration
 class OrderRabbitConfig {
 
     @Bean
-    fun orderCreatedQueue() = Queue(ORDER_CREATED_QUEUE_NAME)
+    fun orderCreatedToItemQueue() = Queue(ORDER_CREATED_TO_ITEM_QUEUE_NAME)
 
     @Bean
-    fun orderCreatedExchange() = DirectExchange(ORDER_CREATED_EXCHANGE_NAME)
+    fun orderCreatedToItemExchange() = DirectExchange(ORDER_CREATED_TO_ITEM_EXCHANGE_NAME)
 
     @Bean
-    fun orderCreatedBinding(
-        queue: Queue,
-        exchange: DirectExchange
-    ): Binding =
-        BindingBuilder
-            .bind(queue)
-            .to(exchange)
-            .with(ORDER_CREATED_ROUTING_KEY)
+    fun orderCreatedToItemBinding(orderCreatedToItemQueue: Queue, orderCreatedToItemExchange: DirectExchange): Binding =
+        BindingBuilder.bind(orderCreatedToItemQueue).to(orderCreatedToItemExchange).with(ORDER_CREATED_TO_ITEM_ROUTING_KEY)
+
 
     @Bean
-    fun rabbitTemplate(
-        connectionFactory: ConnectionFactory, // 위에서 다 주입된 Caching 구현체로, port, username등 다 포함됨
-        messageConverter: Jackson2JsonMessageConverter
-    ): RabbitTemplate {
+    fun orderCreatedToCouponQueue() = Queue(ORDER_CREATED_TO_COUPON_QUEUE_NAME)
+
+    @Bean
+    fun orderCreatedToCouponExchange() = DirectExchange(ORDER_CREATED_TO_COUPON_EXCHANGE_NAME)
+
+    @Bean
+    fun orderCreatedToCouponBinding(orderCreatedToCouponQueue: Queue, orderCreatedToCouponExchange: DirectExchange): Binding =
+        BindingBuilder.bind(orderCreatedToCouponQueue).to(orderCreatedToCouponExchange).with(ORDER_CREATED_TO_COUPON_ROUTING_KEY)
+
+
+    @Bean
+    fun rabbitTemplate(connectionFactory: ConnectionFactory, messageConverter: Jackson2JsonMessageConverter): RabbitTemplate {
 
         val rabbitTemplate = RabbitTemplate(connectionFactory)
         rabbitTemplate.messageConverter = messageConverter

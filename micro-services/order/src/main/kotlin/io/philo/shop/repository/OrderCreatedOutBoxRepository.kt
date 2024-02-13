@@ -15,8 +15,8 @@ interface OrderCreatedOutBoxRepository : JpaRepository<OrderCreatedOutboxEntity,
         select o 
         from OrderCreatedOutboxEntity o
         where o.loaded = true
-        and o.itemValidated in (io.philo.shop.common.VerificationStatus.SUCCESS, io.philo.shop.common.VerificationStatus.FAIL) 
-        and o.couponValidated in (io.philo.shop.common.VerificationStatus.SUCCESS, io.philo.shop.common.VerificationStatus.FAIL)
+        and o.itemValidated <> io.philo.shop.common.VerificationStatus.PENDING 
+        and o.couponValidated <> io.philo.shop.common.VerificationStatus.PENDING
     """
     )
     fun findAllToCompleteEvent(): List<OrderCreatedOutboxEntity>

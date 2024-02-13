@@ -6,7 +6,7 @@ import io.philo.shop.domain.replica.ItemReplicaRepository
 import io.philo.shop.item.ItemCreatedEvent
 import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_REPLICA_FOR_COUPON_QUEUE_NAME
 import io.philo.shop.order.OrderCreatedEvent
-import io.philo.shop.order.OrderRabbitProperty
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_COUPON_QUEUE_NAME
 import io.philo.shop.service.CouponEventService
 import io.philo.shop.service.CouponService
 import io.philo.shop.service.toEntity
@@ -26,7 +26,7 @@ class CouponEventListener(
     /**
      * 주문 생성 이벤트 수신처
      */
-    @RabbitListener(queues = [OrderRabbitProperty.ORDER_CREATED_QUEUE_NAME])
+    @RabbitListener(queues = [ORDER_CREATED_TO_COUPON_QUEUE_NAME])
     fun listenOrderCreatedEvent(event: OrderCreatedEvent) {
 
         couponEventService.validateAndProcessCoupon(event)

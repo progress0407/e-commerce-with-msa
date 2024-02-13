@@ -28,18 +28,14 @@ class ItemEventLoader(
 
         log.info { "브로커에 적재할 이벤트가 존재합니다." }
 
-        val itemIds = outboxes.extractIds()
-        val events:List<OrderCreatedVerifiedEvent> = outboxes.convertToEvents()
-        val outboxMap: Map<Long, ItemOutboxEntity> = outboxes.associateBy { it.traceId }
+        val events = outboxes.convertToEvents()
+        val outboxMap = outboxes.associateBy { it.traceId }
 
         for (event in events) {
             itemEventPublisher.publishEvent(event)
             changeOutBoxStatusToLoad(outboxMap, event)
         }
     }
-
-    private fun List<ItemOutboxEntity>.extractIds() =
-        this.map { it.traceId }.toList()
 
     private fun List<ItemOutboxEntity>.convertToEvents(): List<OrderCreatedVerifiedEvent> =
         this.map { OrderCreatedVerifiedEvent(it.traceId, it.verification) }
