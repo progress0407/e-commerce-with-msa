@@ -31,15 +31,15 @@
         - human-readable한 코드를 작성하려고 노력했다 (네이밍 컨벤션, 약어 제한 등)
         - Restful API 원칙 중 Uniform interface를 지키고자 노력 (자원, 행위)
         - 통합 테스트를 작성하려 노력 (`진행 중`)
-          - 기본 베이스는 인수테스트로 하되, 이 중 `then`절만 `DB` 조회를 통해서 테스트
+            - 기본 베이스는 인수테스트로 하되, 이 중 `then`절만 `DB` 조회를 통해서 테스트
 - 데이터 정합성
-  - 분산 트랜잭션
-      - SAGA(코레오그래피)를 이용해서 예외 상황에 대한 rollback을 하고자 노력 (`구현 예정`)
-      - Out Box 패턴을 통해 브로커가 장애가 났을 경우 보완하고자 노력
-          - 브로커 복구시 Scheduler가 OutBox테이블에서 미발송된 이벤트를 재 적재한다
-  - 로컬 트랜잭션
-    - 조회시 버전 증가 잠금을 통해 애그리거트의 정합성이 깨질 위험을 방지
-      - 애그리거트 루트가 아닌 구성요소가 바뀌는 경우 고려
+    - 분산 트랜잭션
+        - SAGA(코레오그래피)를 이용해서 예외 상황에 대한 rollback을 하고자 노력 (`구현 예정`)
+        - Out Box 패턴을 통해 브로커가 장애가 났을 경우 보완하고자 노력
+            - 브로커 복구시 Scheduler가 OutBox테이블에서 미발송된 이벤트를 재 적재한다
+    - 로컬 트랜잭션
+        - 조회시 버전 증가 잠금을 통해 애그리거트의 정합성이 깨질 위험을 방지
+            - 애그리거트 루트가 아닌 구성요소가 바뀌는 경우 고려
 - 실제 사용자 use-case를 고려하여 API를 설계
     - 무신사, 쿠팡 등의 e-commerce을 참고하여, 실제 사용자의 API 호출을 가정하여 작성
 
@@ -49,11 +49,11 @@
 
 - 각 마이크로 서비스가 충분히 크지 않다
     - 현업 개발·기획자들이 공감할 수 있을 정도로 충분히 크지 않다
-    - 실제 이용자 수가 많은 서비스와 비교하면 디테일함이 많이 부족하다 
+    - 실제 이용자 수가 많은 서비스와 비교하면 디테일함이 많이 부족하다
 - 각 JVM 인스턴스가 차지하는 성능
     - 로컬에서 6개 이상의 서버가 구동될 때, 성능 부담이 된다 (많게는 8.9Gi의 메모리 사용)
     - 로컬 환경 스펙 (노트북)
-      - CPU: 3.2Ghz 8Core / Memory: 28GB / SSD
+        - CPU: 3.2Ghz 8Core / Memory: 28GB / SSD
 
 ## 하지 못한 것
 
@@ -73,8 +73,8 @@
 
 ## 작업 체크 리스트
 
-- [x] (마이그레이션) [기존 DDD 프로젝트](https://github.com/progress0407/code-review-simple-orders) 
-  - Git Subtree 로 import해 오는 방식으로 마이그레이션 
+- [x] (마이그레이션) [기존 DDD 프로젝트](https://github.com/progress0407/code-review-simple-orders)
+    - Git Subtree 로 import해 오는 방식으로 마이그레이션
 - [x] Java -> Kotlin 변경
 - [x] Library 버전 최신화 (to Spring Boot 3.x)
 - [x] 멀티 모듈 프로젝트로 전환 (`itme`, `order`)
@@ -84,7 +84,9 @@
 - [x] RabbitMQ 연동 후 주문 상품 이벤트 pub-sub 개발
 - [x] H2 -> MySQL로 DB 변경
 - [ ] RabbitMQ -> Kafka로 전환
-- [x] (마이그레이션) [User Module](https://github.com/progress0407/intergrated-study/tree/main/0.%20study/1.%20alone/%5BMSA%5D%20Spring%20Cloud%20MicroService/leedowon-msa-project/user-service) 가져오기
+- [x] (
+  마이그레이션) [User Module](https://github.com/progress0407/intergrated-study/tree/main/0.%20study/1.%20alone/%5BMSA%5D%20Spring%20Cloud%20MicroService/leedowon-msa-project/user-service)
+  가져오기
 - [x] 쿠폰 Module 개발
 - [x] Neflix Passport 구현
     - 보류 (동기 호출시 Blocking 예외 발생)
@@ -94,5 +96,5 @@
 - [ ] Coupon 가격 계산 API 구현
     - [ ] Item -> Coupon, 상품 Semi 데이터 이벤트 발송 기능 구현
 - [ ] 마이크로 서비스 내 애그리거트 트랜잭션 충돌 방지
-  - 애그리거트 내 구성요소가 바뀔 경우 고려
-  - 애그리거트 수정시 조회 메서드에 LockModeType.OPTIMISTIC_FORCE_INCREMENT 적용
+    - 애그리거트 내 구성요소가 바뀔 경우 고려
+    - 애그리거트 수정시 조회 메서드에 LockModeType.OPTIMISTIC_FORCE_INCREMENT 적용

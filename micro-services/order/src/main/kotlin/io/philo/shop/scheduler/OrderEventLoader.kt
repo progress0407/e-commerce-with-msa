@@ -35,11 +35,12 @@ class OrderEventLoader(
         log.info { "브로커에 적재할 이벤트가 존재합니다." }
 
         val orderIds = outboxes.extractIds()
-        val orderEntities: List<OrderEntity> = orderRepository.findAllByIdIn(orderIds)
+        val orderEntities = orderRepository.findAllByIdIn(orderIds)
         val events = orderEntities.convertToEvents()
 
         for (event in events) {
             orderEventPublisher.publishEvent(event)
+
             // todo!
             // kafka의 경우 event에 적재됨을 확인하면, (acks=1 이상) (offset >=0)
             // 이후에 Load 상태로 바꾸게 변경하자
@@ -71,8 +72,17 @@ class OrderEventLoader(
         )
     }
 
-    private fun OrderLineCreatedEvent.Companion.from(orderLineEntity: OrderLineItemEntity): OrderLineCreatedEvent {
+    private fun getCouponIds(orderLineEntity: OrderLineItemEntity): List<Long>? {
 
+        return if (orderLineEntity.useCoupon) {
+            val coupons = orderLineEntity.coupons!!
+            listOfNotNull(coupons.userCouponId1, coupons.userCouponId2)
+        } else {
+            return null
+        }
+    }
+
+    private fun OrderLineCreatedEvent.Companion.from(orderLineEntity: OrderLineItemEntity): OrderLineCreatedEvent {
 
         val couponIds: List<Long>? = getCouponIds(orderLineEntity)
 
@@ -83,15 +93,5 @@ class OrderEventLoader(
             itemQuantity = orderLineEntity.orderedQuantity,
             userCouponIds = couponIds
         )
-    }
-
-    private fun getCouponIds(orderLineEntity: OrderLineItemEntity): List<Long>? {
-
-        return if (orderLineEntity.useCoupon) {
-            val coupons = orderLineEntity.coupons!!
-            listOfNotNull(coupons.userCouponId1, coupons.userCouponId2)
-        } else {
-            return null
-        }
     }
 }

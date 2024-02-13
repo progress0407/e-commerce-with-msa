@@ -73,7 +73,7 @@ subprojects {
         // Validate
         implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-        // Lombok
+        // Lombok, todo remote this dependencies
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
         testCompileOnly 'org.projectlombok:lombok'
@@ -101,38 +101,15 @@ subprojects {
     }
 }
 
-/*
-subprojects { project ->
-    if (project.name in [':user', ':item', ':order']) {
-        apply from: rootProject.file('module-dependencies/micro-service.gradle')
-        dependencies {
-            implementation project(':common')
-        }
-    }
-}
-*/
 
-subprojects { project ->
-
-//    println "## project = $project.name" // for debug
-    if (!(project.name in ['common', 'eureka', 'api-gateway'])) {
-//        println "## (if inner clause) project = $project.name" // for debug
-        apply from: rootProject.file('module-dependencies/micro-service.gradle')
-
-        dependencies {
-//            implementation project(':common')
-//            testImplementation testFixtures(project(':common'))
-        }
-    }
-}
 
 
 project(':eureka') {
     dependencies {
-        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
-
         implementation project(':common:general')
         testImplementation testFixtures(project(':common:general'))
+
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
     }
 }
 
@@ -154,7 +131,6 @@ project(':api-gateway') {
         implementation project(':common:rest-client')
         implementation project(':common:general')
         implementation project(':common:security')
-//        testImplementation testFixtures(project(':common:general'))
 
         // E2E test
         testImplementation 'io.rest-assured:rest-assured'
@@ -190,5 +166,29 @@ project(':common:security') {
         implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
         implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
     }
-
 }
+
+/*
+subprojects { project ->
+    println "## project = $project.name" // for debug
+if (!(project.name in ['common', 'eureka', 'api-gateway'])) {
+        println "## (if inner clause) project = $project.name" // for debug
+        apply from: rootProject.file('module-dependencies/micro-service.gradle')
+        dependencies {
+            implementation project(':common')
+            testImplementation testFixtures(project(':common'))
+        }
+    }
+}
+*/
+
+/*
+subprojects { project ->
+    if (project.name in [':user', ':item', ':order']) {
+        apply from: rootProject.file('module-dependencies/micro-service.gradle')
+        dependencies {
+            implementation project(':common')
+        }
+    }
+}
+*/
