@@ -8,11 +8,12 @@ interface OrderCreatedOutBoxRepository : JpaRepository<OrderCreatedOutBoxEntity,
 
     fun findAllByLoadedIsFalse(): List<OrderCreatedOutBoxEntity>
 
-    fun findByOrderId(orderId: Long): OrderCreatedOutBoxEntity?
+    fun findByTraceId(orderId: Long): OrderCreatedOutBoxEntity?
 
     @Query(
         """
-        select o from OrderCreatedOutBoxEntity o
+        select o 
+        from OrderCreatedOutBoxEntity o
         where o.loaded = true
         and o.itemValidated in (io.philo.shop.common.VerificationStatus.SUCCESS, io.philo.shop.common.VerificationStatus.FAIL) 
         and o.couponValidated in (io.philo.shop.common.VerificationStatus.SUCCESS, io.philo.shop.common.VerificationStatus.FAIL)

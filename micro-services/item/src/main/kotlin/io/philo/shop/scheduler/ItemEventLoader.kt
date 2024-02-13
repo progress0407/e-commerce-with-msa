@@ -30,7 +30,7 @@ class ItemEventLoader(
 
         val itemIds = outboxes.extractIds()
         val events:List<OrderCreatedVerifiedEvent> = outboxes.convertToEvents()
-        val outboxMap: Map<Long, ItemOutBox> = outboxes.associateBy { it.orderId }
+        val outboxMap: Map<Long, ItemOutBox> = outboxes.associateBy { it.traceId }
 
         for (event in events) {
             itemEventPublisher.publishEvent(event)
@@ -39,10 +39,10 @@ class ItemEventLoader(
     }
 
     private fun List<ItemOutBox>.extractIds() =
-        this.map { it.orderId }.toList()
+        this.map { it.traceId }.toList()
 
     private fun List<ItemOutBox>.convertToEvents(): List<OrderCreatedVerifiedEvent> =
-        this.map { OrderCreatedVerifiedEvent(it.orderId, it.verification) }
+        this.map { OrderCreatedVerifiedEvent(it.traceId, it.verification) }
 
     private fun changeOutBoxStatusToLoad(outboxMap: Map<Long, ItemOutBox>, event: OrderCreatedVerifiedEvent) {
 

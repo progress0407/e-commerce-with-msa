@@ -48,7 +48,7 @@ class CouponEventListener(
             couponService.useUserCoupons(requesterId, orderLineEvents)
         }
 
-        val outbox = CouponOutBox(event.orderId, couponVerification)
+        val outbox = CouponOutBox(event.orderId, event.requesterId, couponVerification)
         couponOutBoxRepository.save(outbox)
     }
 }

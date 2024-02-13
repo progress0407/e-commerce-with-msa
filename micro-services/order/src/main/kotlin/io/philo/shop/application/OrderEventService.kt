@@ -26,14 +26,14 @@ class OrderEventService(
     @Transactional
     fun processAfterItemVerification(orderId: Long, verification: Boolean) {
 
-        val outBox = firstEventOutBoxRepository.findByOrderId(orderId) ?: throw EntityNotFoundException(orderId)
+        val outBox = firstEventOutBoxRepository.findByTraceId(orderId) ?: throw EntityNotFoundException(orderId)
         outBox.changeItemValidated(verification)
     }
 
     @Transactional
     fun processAfterCouponVerification(orderId: Long, verification: Boolean) {
 
-        val outBox = firstEventOutBoxRepository.findByOrderId(orderId) ?: throw EntityNotFoundException(orderId)
+        val outBox = firstEventOutBoxRepository.findByTraceId(orderId) ?: throw EntityNotFoundException(orderId)
         outBox.changeCouponValidated(verification)
     }
 
@@ -50,8 +50,8 @@ class OrderEventService(
 
         log.info { "완료할 이벤트가 존재합니다." }
 
-        val outBoxMap = outboxes.associateBy { it.orderId }
-        val orderIds = outboxes.map { it.orderId }.toList()
+        val outBoxMap = outboxes.associateBy { it.traceId }
+        val orderIds = outboxes.map { it.traceId }.toList()
         val orders = orderRepository.findAllByIdIn(orderIds)
 
         // 이벤트 처리
@@ -76,7 +76,7 @@ class OrderEventService(
 
     private fun toFailedOutBoxes(
         orderEntities: List<OrderEntity>,
-        outBoxMap: Map<Long, OrderCreatedOutBoxEntity>
+        outBoxMap: Map<Long, OrderCreatedOutBoxEntity>,
     ): List<OrderFailedOutBoxEntity> =
         orderEntities
             .map { failedOrder -> toFailedOutBox(failedOrder, outBoxMap) }
@@ -85,11 +85,11 @@ class OrderEventService(
     private fun toFailedOutBox(failedOrder: OrderEntity, outBoxMap: Map<Long, OrderCreatedOutBoxEntity>): OrderFailedOutBoxEntity {
 
         val outbox = outBoxMap[failedOrder.id]!!
-        val orderId = outbox.orderId
+        val orderId = outbox.traceId
         val requesterId = outbox.requesterId
 
         return OrderFailedOutBoxEntity(
-            orderId = orderId,
+            traceId = orderId,
             requesterId = requesterId,
             isCompensatingItem = outbox.itemValidated.toBool,
             isCompensatingOrder = outbox.couponValidated.toBool

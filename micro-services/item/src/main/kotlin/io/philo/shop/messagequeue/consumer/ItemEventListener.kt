@@ -32,7 +32,7 @@ class ItemEventListener(
             itemService.decreaseItems(itemMap)
         }
 
-        val outbox = ItemOutBox(event.orderId, itemVerification)
+        val outbox = ItemOutBox(event.orderId, event.requesterId, itemVerification)
         itemOutBoxRepository.save(outbox)
     }
 }

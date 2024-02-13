@@ -1,5 +1,6 @@
 package io.philo.shop.domain.core
 
+import io.philo.shop.entity.BaseEntity
 import jakarta.persistence.*
 
 @Entity
@@ -11,7 +12,8 @@ class UserCouponEntity(
 
     @field:Column(nullable = false)
     var isUse: Boolean = false // 사용 여부
-) {
+
+):BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
