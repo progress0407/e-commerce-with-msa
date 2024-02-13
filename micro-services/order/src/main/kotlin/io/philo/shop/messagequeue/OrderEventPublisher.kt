@@ -11,28 +11,29 @@ import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_ITEM_E
 import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_ITEM_ROUTING_KEY
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 
+/**
+ * RabbitMQ 브로커에 이벤트를 적재하는 역할
+ */
 @InAppEventPublisher
 class OrderEventPublisher(private val rabbitTemplate: RabbitTemplate) {
 
-    /**
-     * out box 에서 브로커로 이벤트 적재
-     */
-    fun publishEvent(event: OrderCreatedEvent) {
+    fun publishEventToItemServer(event: OrderCreatedEvent) {
 
-        publishEventToBroker(event)
+        rabbitTemplate.convertAndSend(ORDER_CREATED_TO_ITEM_EXCHANGE_NAME, ORDER_CREATED_TO_ITEM_ROUTING_KEY, event)
     }
+
+    fun publishEventToCouponServer(event: OrderCreatedEvent) {
+
+        rabbitTemplate.convertAndSend(ORDER_CREATED_TO_COUPON_EXCHANGE_NAME, ORDER_CREATED_TO_COUPON_ROUTING_KEY, event)
+    }
+
 
     @Deprecated("OutBox 패턴 사용으로 인한 사용 중단")
     fun publishEvent(aggregateRoot: OrderEntity) {
 
         val event = OrderCreatedEventDeprecated.from(aggregateRoot)
 
-        publishEventToBroker(event)
-    }
-
-    private fun publishEventToBroker(message: Any) {
-        rabbitTemplate.convertAndSend(ORDER_CREATED_TO_ITEM_EXCHANGE_NAME, ORDER_CREATED_TO_ITEM_ROUTING_KEY, message)
-        rabbitTemplate.convertAndSend(ORDER_CREATED_TO_COUPON_EXCHANGE_NAME, ORDER_CREATED_TO_COUPON_ROUTING_KEY, message)
+        rabbitTemplate.convertAndSend(ORDER_CREATED_TO_ITEM_EXCHANGE_NAME, ORDER_CREATED_TO_ITEM_ROUTING_KEY, event)
     }
 
     private fun OrderCreatedEventDeprecated.Companion.from(orderEntity: OrderEntity): OrderCreatedEventDeprecated {

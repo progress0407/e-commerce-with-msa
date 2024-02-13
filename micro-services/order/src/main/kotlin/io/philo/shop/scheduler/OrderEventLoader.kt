@@ -40,7 +40,8 @@ class OrderEventLoader(
         val events = convertToEvents(orderEntities, orderIdToRequesterIdMap)
 
         for (event in events) {
-            orderEventPublisher.publishEvent(event)
+            orderEventPublisher.publishEventToItemServer(event)
+            orderEventPublisher.publishEventToCouponServer(event)
 
             // todo!
             // kafka의 경우 event에 적재됨을 확인하면, (acks=1 이상) (offset >=0)

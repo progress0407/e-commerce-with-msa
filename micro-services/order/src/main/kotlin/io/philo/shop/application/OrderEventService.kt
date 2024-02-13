@@ -95,5 +95,4 @@ class OrderEventService(
             isCompensatingOrder = outbox.couponValidated.toBool
         )
     }
-
 }
