@@ -6,6 +6,9 @@ import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_COUPON
 import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_ITEM_EXCHANGE_NAME
 import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_ITEM_QUEUE_NAME
 import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_ITEM_ROUTING_KEY
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_FAILED_TO_ITEM_EXCHANGE_NAME
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_FAILED_TO_ITEM_QUEUE_NAME
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_FAILED_TO_ITEM_ROUTING_KEY
 import org.springframework.amqp.core.Binding
 import org.springframework.amqp.core.BindingBuilder
 import org.springframework.amqp.core.DirectExchange
@@ -19,6 +22,9 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class OrderRabbitConfig {
 
+    /**
+     * 주문 생성시 상품 서비스에 발행하는 이벤트
+     */
     @Bean
     fun orderCreatedToItemQueue() = Queue(ORDER_CREATED_TO_ITEM_QUEUE_NAME)
 
@@ -30,6 +36,9 @@ class OrderRabbitConfig {
         BindingBuilder.bind(orderCreatedToItemQueue).to(orderCreatedToItemExchange).with(ORDER_CREATED_TO_ITEM_ROUTING_KEY)
 
 
+    /**
+     * 주문 생성시 쿠폰 서비스에 발행하는 이벤트
+     */
     @Bean
     fun orderCreatedToCouponQueue() = Queue(ORDER_CREATED_TO_COUPON_QUEUE_NAME)
 
@@ -39,6 +48,19 @@ class OrderRabbitConfig {
     @Bean
     fun orderCreatedToCouponBinding(orderCreatedToCouponQueue: Queue, orderCreatedToCouponExchange: DirectExchange): Binding =
         BindingBuilder.bind(orderCreatedToCouponQueue).to(orderCreatedToCouponExchange).with(ORDER_CREATED_TO_COUPON_ROUTING_KEY)
+
+    /**
+     * 주문 실패시 상품 서비스에 발행하는 보상 이벤트
+     */
+    @Bean
+    fun orderFailedToItemQueue() = Queue(ORDER_FAILED_TO_ITEM_QUEUE_NAME)
+
+    @Bean
+    fun orderFailedToItemExchange() = DirectExchange(ORDER_FAILED_TO_ITEM_EXCHANGE_NAME)
+
+    @Bean
+    fun orderFailedToItemBinding(orderFailedToItemQueue: Queue, orderFailedToItemExchange: DirectExchange): Binding =
+        BindingBuilder.bind(orderFailedToItemQueue).to(orderFailedToItemExchange).with(ORDER_FAILED_TO_ITEM_ROUTING_KEY)
 
 
     @Bean

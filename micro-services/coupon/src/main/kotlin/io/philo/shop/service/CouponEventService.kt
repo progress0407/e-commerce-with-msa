@@ -10,7 +10,7 @@ import io.philo.shop.domain.replica.ItemReplicaRepository
 import io.philo.shop.entity.toMap
 import io.philo.shop.item.ItemCreatedEvent
 import io.philo.shop.messagequeue.producer.CouponEventPublisher
-import io.philo.shop.order.OrderCreatedEvent
+import io.philo.shop.order.OrderChangedEvent
 import io.philo.shop.order.OrderLineCreatedEvent
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
@@ -31,7 +31,7 @@ class CouponEventService(private val couponOutBoxRepository: CouponOutBoxReposit
      * 쿠폰에 대한 유효성 검증을 하고 이상이 없을 경우 쿠폰을 사용합니다.
      */
     @Transactional
-    fun validateAndProcessCoupon(event: OrderCreatedEvent) {
+    fun validateAndProcessCoupon(event: OrderChangedEvent) {
 
         log.info { "$event" }
 

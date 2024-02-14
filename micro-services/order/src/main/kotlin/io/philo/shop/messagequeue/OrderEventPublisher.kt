@@ -3,12 +3,16 @@ package io.philo.shop.messagequeue
 import io.philo.shop.common.InAppEventPublisher
 import io.philo.shop.domain.core.OrderEntity
 import io.philo.shop.domain.core.OrderLineItemEntity
-import io.philo.shop.order.OrderCreatedEvent
+import io.philo.shop.order.OrderChangedEvent
 import io.philo.shop.order.OrderCreatedEventDeprecated
 import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_COUPON_EXCHANGE_NAME
 import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_COUPON_ROUTING_KEY
 import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_ITEM_EXCHANGE_NAME
 import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_ITEM_ROUTING_KEY
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_FAILED_TO_COUPON_EXCHANGE_NAME
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_FAILED_TO_COUPON_ROUTING_KEY
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_FAILED_TO_ITEM_EXCHANGE_NAME
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_FAILED_TO_ITEM_ROUTING_KEY
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 
 /**
@@ -17,16 +21,25 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate
 @InAppEventPublisher
 class OrderEventPublisher(private val rabbitTemplate: RabbitTemplate) {
 
-    fun publishEventToItemServer(event: OrderCreatedEvent) {
+    fun publishEventToItemServer(event: OrderChangedEvent) {
 
         rabbitTemplate.convertAndSend(ORDER_CREATED_TO_ITEM_EXCHANGE_NAME, ORDER_CREATED_TO_ITEM_ROUTING_KEY, event)
     }
 
-    fun publishEventToCouponServer(event: OrderCreatedEvent) {
+    fun publishEventToCouponServer(event: OrderChangedEvent) {
 
         rabbitTemplate.convertAndSend(ORDER_CREATED_TO_COUPON_EXCHANGE_NAME, ORDER_CREATED_TO_COUPON_ROUTING_KEY, event)
     }
 
+    fun publishReverseEventToItemServer(event: OrderChangedEvent) {
+
+        rabbitTemplate.convertAndSend(ORDER_FAILED_TO_ITEM_EXCHANGE_NAME, ORDER_FAILED_TO_ITEM_ROUTING_KEY, event)
+    }
+
+    fun publishReverseEventToCouponServer(event: OrderChangedEvent) {
+
+        rabbitTemplate.convertAndSend(ORDER_FAILED_TO_COUPON_EXCHANGE_NAME, ORDER_FAILED_TO_COUPON_ROUTING_KEY, event)
+    }
 
     @Deprecated("OutBox 패턴 사용으로 인한 사용 중단")
     fun publishEvent(aggregateRoot: OrderEntity) {

@@ -19,5 +19,21 @@ class OrderRabbitProperty {
         const val ORDER_CREATED_TO_COUPON_QUEUE_NAME = "$ORDER_CREATED_TO_COUPON_TOPIC_PREFIX.queue"
         const val ORDER_CREATED_TO_COUPON_EXCHANGE_NAME = "$ORDER_CREATED_TO_COUPON_TOPIC_PREFIX.exchange"
         const val ORDER_CREATED_TO_COUPON_ROUTING_KEY = "$ORDER_CREATED_TO_COUPON_TOPIC_PREFIX.routing.#"
+
+        /**
+         * 주문 실패시 상품 서비스에 발행하는 보상 이벤트
+         */
+        private const val ORDER_FAILED_TO_ITEM_TOPIC_PREFIX = "order.failed.to.item"
+        const val ORDER_FAILED_TO_ITEM_QUEUE_NAME = "$ORDER_FAILED_TO_ITEM_TOPIC_PREFIX.queue"
+        const val ORDER_FAILED_TO_ITEM_EXCHANGE_NAME = "$ORDER_FAILED_TO_ITEM_TOPIC_PREFIX.exchange"
+        const val ORDER_FAILED_TO_ITEM_ROUTING_KEY = "$ORDER_FAILED_TO_ITEM_TOPIC_PREFIX.routing.#"
+
+        /**
+         * 주문 실패시 쿠폰 서비스에 발행하는 보상 이벤트
+         */
+        private const val ORDER_FAILED_TO_COUPON_TOPIC_PREFIX = "order.failed.to.coupon"
+        const val ORDER_FAILED_TO_COUPON_QUEUE_NAME = "$ORDER_FAILED_TO_COUPON_TOPIC_PREFIX.queue"
+        const val ORDER_FAILED_TO_COUPON_EXCHANGE_NAME = "$ORDER_FAILED_TO_COUPON_TOPIC_PREFIX.exchange"
+        const val ORDER_FAILED_TO_COUPON_ROUTING_KEY = "$ORDER_FAILED_TO_COUPON_TOPIC_PREFIX.routing.#"
     }
 }

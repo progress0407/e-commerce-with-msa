@@ -8,7 +8,7 @@ import io.philo.shop.dto.web.OrderLineRequestDto
 import io.philo.shop.error.BadRequestException
 import io.philo.shop.item.ItemRestClientFacade
 import io.philo.shop.messagequeue.OrderEventPublisher
-import io.philo.shop.repository.OrderCreatedOutBoxRepository
+import io.philo.shop.repository.OrderCreatedOutboxRepository
 import io.philo.shop.repository.OrderRepository
 import lombok.RequiredArgsConstructor
 import mu.KotlinLogging
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional
 @RequiredArgsConstructor
 class OrderService(
     private val orderRepository: OrderRepository,
-    private val orderOutBoxRepository: OrderCreatedOutBoxRepository,
+    private val orderOutBoxRepository: OrderCreatedOutboxRepository,
     private val itemClient: ItemRestClientFacade,
     private val couponClient: CouponRestClientFacade,
     private val orderEventPublisher: OrderEventPublisher,

@@ -1,8 +1,9 @@
 package io.philo.shop.domain.service
 
+import io.philo.shop.domain.entity.ItemEntity
 import io.philo.shop.domain.outbox.ItemOutboxEntity
 import io.philo.shop.error.InAppException
-import io.philo.shop.order.OrderCreatedEvent
+import io.philo.shop.order.OrderChangedEvent
 import io.philo.shop.order.OrderLineCreatedEvent
 import io.philo.shop.repository.ItemOutBoxRepository
 import io.philo.shop.repository.ItemRepository
@@ -19,17 +20,24 @@ class ItemEventService(private val itemOutBoxRepository: ItemOutBoxRepository, p
      * 상품에 대한 유효성 검증을 하고 Outbox 데이터를 넣습니다.
      */
     @Transactional
-    fun listenOrderCreatedEvent(event: OrderCreatedEvent) {
+    fun listenOrderCreatedEvent(event: OrderChangedEvent) {
 
         val orderLineEvents = event.orderLineCreatedEvents
         val itemVerification = checkItemBeforeOrder(orderLineEvents)
         if (itemVerification) {
-            val itemMap = event.orderLineCreatedEvents.associateBy({ it.itemId }, { it.itemQuantity })
+            val itemMap = orderLineEvents.associateBy({ it.itemId }, { it.itemQuantity })
             decreaseItems(itemMap)
         }
 
         val outbox = ItemOutboxEntity(event.orderId, event.requesterId, itemVerification)
         itemOutBoxRepository.save(outbox)
+    }
+
+    @Transactional
+    fun listenOrderFailedEvent(event: OrderChangedEvent) {
+
+        val itemMap = event.orderLineCreatedEvents.associateBy({ it.itemId }, { it.itemQuantity })
+        increaseItems(itemMap)
     }
 
     /**
@@ -70,11 +78,26 @@ class ItemEventService(private val itemOutBoxRepository: ItemOutBoxRepository, p
      */
     private fun decreaseItems(itemMap: Map<Long, Int>) {
 
+        changeItemQuantity(itemMap) { item, quantity -> item.decreaseStockQuantity(quantity)}
+    }
+
+    /**
+     * 다른 서비스의 실패로 인해 재고 수량을 다시 증가시킨다
+     *
+     * @see decreaseItems
+     */
+    private fun increaseItems(itemMap: Map<Long, Int>) {
+
+        changeItemQuantity(itemMap) { item, quantity -> item.increaseStockQuantity(quantity)}
+    }
+
+    private fun changeItemQuantity(itemMap: Map<Long, Int>, changeQuantity: (ItemEntity, Int) -> Unit) {
+
         val itemIds = itemMap.keys
-        val findItems = itemRepository.findAllByIdIn(itemIds) // problem !
+        val findItems = itemRepository.findAllByIdIn(itemIds)
         for (findItem in findItems) {
             val decreaseQuantity = itemMap[findItem.id!!]!!
-            findItem.decreaseStockQuantity(decreaseQuantity)
+            changeQuantity.invoke(findItem, decreaseQuantity)
         }
     }
 
