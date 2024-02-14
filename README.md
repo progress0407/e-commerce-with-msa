@@ -1,4 +1,6 @@
-# MSA E-Commerce
+# e-commerce with MSA
+
+> MSA에 대한 Best Practice 보다는 탐구 목적에 가깝게 개발하였습니다.
 
 ## 프로젝트 설명
 
@@ -10,7 +12,7 @@
 | item        | 상품            | 상품을 관리하는 서비스<br/> Command 기능의 경우 상품 관리자가 이용하는 서비스                                    |
 | coupon      | 쿠폰            | 상품 할인에 대한 쿠폰 관리하는 서비스 <br/>고정 할인 / 비율 할인이 있다                                         |
 | order       | 주문            | 상품들에 대한 주문을 관리하는 서비스                                                                 |
-| payment     | 결제            | (`구현 예정`) PG사를 통해 결제를 하는 서비스 <br/>(실제로는 PG 연동을 하지 않고 모의 상황을 가정했다)                    |
+| payment     | 결제            | (`검토 예정`) PG사를 통해 결제를 하는 서비스 <br/>(실제로는 PG 연동을 하지 않고 모의 상황을 가정했다)                    |
 | query       | 조회            | (`구현 예정`) BFF, 클라이언트를 위한 조회 서비스 <br/>여러 마이크로 서비스 테이블 정보가 필요한 복잡한 쿼리(통계 등)는 이곳에서 담당한다 |
 
 ## 고민한 점
@@ -73,29 +75,26 @@
 
 ## 작업 체크 리스트
 
-- [x] (마이그레이션) [기존 DDD 프로젝트](https://github.com/progress0407/code-review-simple-orders)
-    - Git Subtree 로 import해 오는 방식으로 마이그레이션
-- [x] Java -> Kotlin 변경
+- [x] (마이그레이션) [기존 DDD 프로젝트](https://github.com/progress0407/code-review-simple-orders) (import by `Git Subtree`)
+- [x] Java -> `Kotlin` 으로 언어 변경
 - [x] Library 버전 최신화 (to Spring Boot 3.x)
 - [x] 멀티 모듈 프로젝트로 전환 (`itme`, `order`)
-- [x] Eureka Module 개발
-- [x] API Gateway Module 개발
-- [x] 공통 Module 추출 (`common`)
+- [x] `Eureka` Module 개발
+- [x] `API Gateway` Module 개발
+- [x] `공통 Module` 추출 (`common`)
 - [x] RabbitMQ 연동 후 주문 상품 이벤트 pub-sub 개발
 - [x] H2 -> MySQL로 DB 변경
 - [ ] RabbitMQ -> Kafka로 전환
-- [x] (
-  마이그레이션) [User Module](https://github.com/progress0407/intergrated-study/tree/main/0.%20study/1.%20alone/%5BMSA%5D%20Spring%20Cloud%20MicroService/leedowon-msa-project/user-service)
-  가져오기
+- [x] (마이그레이션) [User Module](https://github.com/progress0407/intergrated-study/tree/main/0.%20study/1.%20alone/%5BMSA%5D%20Spring%20Cloud%20MicroService/leedowon-msa-project/user-service)가져오기
 - [x] 쿠폰 Module 개발
-- [x] Neflix Passport 구현
+- [x] `Neflix Passport` 구현
     - 보류 (동기 호출시 Blocking 예외 발생)
     - [x] 대안으로 토큰 검증 필터 구현
 - [x] Order -> Item: 주문 생성 이벤트 검증부 구현
-- [x] 마이크로 서비스 2-depth 멀티 모듈로 그룹화
-- [x] p6spy 로그 포맷터 적용
-- [x] Coupon 가격 계산 API 구현
-- [x] data.sql 로 초기화하는 구조로 변경
+- [x] 마이크로 서비스 `2-depth 멀티 모듈`로 그룹화
+- [x] `p6spy 로그 포맷터` 적용
+- [x] `Coupon 가격 계산 API` 구현
+- [x] `repository.saveAll()`에서 `data.sql` 로 초기화하는 구조로 변경
 - [ ] Item -> Coupon, 상품 Semi 데이터 이벤트 발송 기능 구현
 - [ ] 마이크로 서비스 내 애그리거트 트랜잭션 충돌 방지
       - 애그리거트 내 구성요소가 바뀔 경우 고려
