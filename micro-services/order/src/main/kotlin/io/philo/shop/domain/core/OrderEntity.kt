@@ -4,19 +4,20 @@ import io.philo.shop.constant.OrderStatus
 import io.philo.shop.constant.OrderStatus.*
 import io.philo.shop.entity.BaseEntity
 import jakarta.persistence.*
+import jakarta.persistence.CascadeType.ALL
 import jakarta.persistence.EnumType.STRING
 import jakarta.persistence.FetchType.EAGER
+import jakarta.persistence.FetchType.LAZY
 import lombok.ToString
 
 @Entity
 @Table(name = "orders")
-@ToString(exclude = ["orderItems"])
-class OrderEntity(
+class OrderEntity (
 
     val requesterId: Long,
 
-    @OneToMany(mappedBy = "orderEntity", cascade = [CascadeType.ALL], orphanRemoval = true, fetch = EAGER)
-    var orderLineItemEntities: MutableList<OrderLineItemEntity> = mutableListOf()
+    @OneToMany(mappedBy = "orderEntity", cascade = [ALL], orphanRemoval = true, fetch = LAZY)
+    val orderLineItemEntities: MutableList<OrderLineItemEntity> = mutableListOf()
 
 ) : BaseEntity() {
 
@@ -26,6 +27,9 @@ class OrderEntity(
     @Enumerated(STRING)
     @Column(nullable = false)
     var orderStatus: OrderStatus = PENDING
+
+    @OneToMany(mappedBy = "orderEntity", cascade = [ALL], orphanRemoval = true, fetch = LAZY)
+    val orderHistories: MutableList<OrderHistoryEntity> = mutableListOf(OrderHistoryEntity(orderEntity = this))
 
     protected constructor() : this(0L, mutableListOf())
 
@@ -42,10 +46,12 @@ class OrderEntity(
 
     fun completeToSuccess() {
         this.orderStatus = SUCCESS
+        orderHistories.add(OrderHistoryEntity(this, SUCCESS))
     }
 
     fun completeToFail() {
         this.orderStatus = FAIL
+        orderHistories.add(OrderHistoryEntity(this, FAIL))
     }
 
     val isSuccess
@@ -54,5 +60,20 @@ class OrderEntity(
     val isFail
         get() = orderStatus == FAIL
 
-    companion object
+    override fun toString(): String {
+        return "OrderEntity(requesterId=$requesterId, totalOrderAmount=$totalOrderAmount, orderStatus=$orderStatus, isSuccess=$isSuccess, isFail=$isFail)"
+    }
+
+    companion object {
+
+        @JvmStatic
+        fun empty() = OrderEntity()
+
+/*
+        @JvmStatic
+        fun of(requesterId: Long, orderLineItemEntities: MutableList<OrderLineItemEntity>): OrderEntity {
+            return OrderEntity(requesterId, orderLineItemEntities)
+        }
+*/
+    }
 }

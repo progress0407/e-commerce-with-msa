@@ -1,12 +1,13 @@
 package io.philo.shop.domain.core
 
+import io.philo.shop.entity.BaseEntity
 import jakarta.persistence.*
 import lombok.ToString
 
 @Entity
 @Table(name = "order_line_item")
-@ToString(exclude = ["order"])
 class OrderLineItemEntity(
+
     @field:Column(nullable = false, length = 100)
     val itemId: Long,
 
@@ -18,12 +19,8 @@ class OrderLineItemEntity(
 
     @field:Column(nullable = false)
     val orderedQuantity: Int, // 주문 수량
-) {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_item_id")
-    val id: Long? = null
+): BaseEntity() {
 
     @JoinColumn(name = "order_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -46,8 +43,11 @@ class OrderLineItemEntity(
      * null인 경우도 고려되었다. (null-safe)
      */
     fun initUserCoupon(userCouponIds: List<Long>?) {
-
         this.coupons = OrderCouponsEntity.of(this, userCouponIds)
+    }
+
+    override fun toString(): String {
+        return "OrderLineItemEntity(itemId=$itemId, itemRawAmount=$itemRawAmount, itemDiscountedAmount=$itemDiscountedAmount, orderedQuantity=$orderedQuantity, id=$id, useCoupon=$useCoupon)"
     }
 
     companion object {
