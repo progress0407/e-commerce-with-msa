@@ -7,6 +7,7 @@ import io.philo.shop.item.ItemCreatedEvent
 import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_REPLICA_FOR_COUPON_QUEUE_NAME
 import io.philo.shop.order.OrderChangedEvent
 import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_COUPON_QUEUE_NAME
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_FAILED_TO_COUPON_QUEUE_NAME
 import io.philo.shop.service.CouponEventService
 import io.philo.shop.service.CouponService
 import io.philo.shop.service.toEntity
@@ -29,8 +30,20 @@ class CouponEventListener(
     @RabbitListener(queues = [ORDER_CREATED_TO_COUPON_QUEUE_NAME])
     fun listenOrderCreatedEvent(event: OrderChangedEvent) {
 
-        couponEventService.validateAndProcessCoupon(event)
+        couponEventService.validateAndProcessOrderCreatedEvent(event)
     }
+
+    /**
+     * 주문 실패 이벤트 수신처
+     */
+    @RabbitListener(queues = [ORDER_FAILED_TO_COUPON_QUEUE_NAME])
+    fun listenOrderFailedEvent(event: OrderChangedEvent) {
+
+        log.info { "$event" }
+
+        couponEventService.processOrderFailedEvent(event)
+    }
+
 
     /**
      * 상품의 복제본 동기화

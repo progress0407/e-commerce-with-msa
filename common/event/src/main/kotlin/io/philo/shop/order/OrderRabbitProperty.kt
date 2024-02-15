@@ -4,6 +4,7 @@ class OrderRabbitProperty {
 
 
     companion object {
+
         /**
          * 주문 생성시 상품 서비스에 발행하는 이벤트
          */

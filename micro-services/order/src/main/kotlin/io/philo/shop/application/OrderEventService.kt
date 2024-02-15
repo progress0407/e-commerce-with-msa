@@ -45,6 +45,9 @@ class OrderEventService(
 
     /**
      * 주문 대기(PENDING) 상태를 처리한다
+     *
+     * - 성공할 경우: 성공(SUCCESS) 상태로 변경한다
+     * - 실패한 경우: 실패(FAIL) 상태로 변경하고 보상 트랜잭션 발송을 위해 outbox에 record를 적재한다
      */
     @Transactional
     fun completeOrderEvent() {
@@ -75,9 +78,9 @@ class OrderEventService(
         val failedOrders = orders.filter { it.isFail }.toList()
         if (failedOrders.isEmpty())
             return
-        val compensatingOutBoxes = toFailedOutBoxes(failedOrders, outBoxMap)
+        val failedOutboxes = toFailedOutBoxes(failedOrders, outBoxMap)
 
-        orderFailedOutBoxRepository.saveAll(compensatingOutBoxes)
+        orderFailedOutBoxRepository.saveAll(failedOutboxes)
     }
 
     /**

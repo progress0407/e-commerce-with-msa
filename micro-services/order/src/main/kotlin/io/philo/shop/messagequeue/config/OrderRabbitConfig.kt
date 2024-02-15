@@ -6,6 +6,9 @@ import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_COUPON
 import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_ITEM_EXCHANGE_NAME
 import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_ITEM_QUEUE_NAME
 import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_CREATED_TO_ITEM_ROUTING_KEY
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_FAILED_TO_COUPON_EXCHANGE_NAME
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_FAILED_TO_COUPON_QUEUE_NAME
+import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_FAILED_TO_COUPON_ROUTING_KEY
 import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_FAILED_TO_ITEM_EXCHANGE_NAME
 import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_FAILED_TO_ITEM_QUEUE_NAME
 import io.philo.shop.order.OrderRabbitProperty.Companion.ORDER_FAILED_TO_ITEM_ROUTING_KEY
@@ -61,6 +64,19 @@ class OrderRabbitConfig {
     @Bean
     fun orderFailedToItemBinding(orderFailedToItemQueue: Queue, orderFailedToItemExchange: DirectExchange): Binding =
         BindingBuilder.bind(orderFailedToItemQueue).to(orderFailedToItemExchange).with(ORDER_FAILED_TO_ITEM_ROUTING_KEY)
+
+    /**
+     * 주문 실패시 쿠폰 서비스에 발행하는 보상 이벤트
+     */
+    @Bean
+    fun orderFailedToCouponQueue() = Queue(ORDER_FAILED_TO_COUPON_QUEUE_NAME)
+
+    @Bean
+    fun orderFailedToCouponExchange() = DirectExchange(ORDER_FAILED_TO_COUPON_EXCHANGE_NAME)
+
+    @Bean
+    fun orderFailedToCouponBinding(orderFailedToCouponQueue: Queue, orderFailedToCouponExchange: DirectExchange): Binding =
+        BindingBuilder.bind(orderFailedToCouponQueue).to(orderFailedToCouponExchange).with(ORDER_FAILED_TO_COUPON_ROUTING_KEY)
 
 
     @Bean

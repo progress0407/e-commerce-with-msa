@@ -24,5 +24,9 @@ class UserCouponEntity(
     fun useCoupon() {
         this.isUse = true
     }
+
+    fun changeToUsable() {
+        this.isUse = false
+    }
 }
 

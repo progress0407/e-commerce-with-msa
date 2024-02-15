@@ -2,6 +2,7 @@ package io.philo.shop.service
 
 import io.philo.shop.common.OrderCreatedVerifiedEvent
 import io.philo.shop.domain.core.CouponRepository
+import io.philo.shop.domain.core.UserCouponEntity
 import io.philo.shop.domain.core.UserCouponRepository
 import io.philo.shop.domain.outbox.CouponOutBoxRepository
 import io.philo.shop.domain.outbox.CouponOutboxEntity
@@ -17,11 +18,13 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class CouponEventService(private val couponOutBoxRepository: CouponOutBoxRepository,
-                         private val couponRepository: CouponRepository,
-                         private val itemReplRepository: ItemReplicaRepository,
-                         private val userCouponRepository: UserCouponRepository,
-                         private val couponEventPublisher: CouponEventPublisher) {
+class CouponEventService(
+    private val couponOutBoxRepository: CouponOutBoxRepository,
+    private val couponRepository: CouponRepository,
+    private val itemReplRepository: ItemReplicaRepository,
+    private val userCouponRepository: UserCouponRepository,
+    private val couponEventPublisher: CouponEventPublisher,
+) {
 
 
     private val log = KotlinLogging.logger { }
@@ -31,20 +34,30 @@ class CouponEventService(private val couponOutBoxRepository: CouponOutBoxReposit
      * 쿠폰에 대한 유효성 검증을 하고 이상이 없을 경우 쿠폰을 사용합니다.
      */
     @Transactional
-    fun validateAndProcessCoupon(event: OrderChangedEvent) {
-
-        log.info { "$event" }
+    fun validateAndProcessOrderCreatedEvent(event: OrderChangedEvent) {
 
         val orderLineEvents = event.orderLineCreatedEvents
         val requesterId = event.requesterId
 
         val couponVerification = checkCouponForOrder(requesterId, orderLineEvents)
         if (couponVerification) {
-            useUserCoupons(requesterId, orderLineEvents)
+            changeUserCoupons(requesterId, orderLineEvents) { userCoupon -> userCoupon.useCoupon() }
         }
 
         val outbox = CouponOutboxEntity(event.orderId, event.requesterId, couponVerification)
         couponOutBoxRepository.save(outbox)
+    }
+
+    /**
+     * 실패할 이벤트에 대해 쿠폰을 다시 사용 가능 상태로 되돌립니다.
+     */
+    @Transactional
+    fun processOrderFailedEvent(event: OrderChangedEvent) {
+
+        val orderLineEvents = event.orderLineCreatedEvents
+        val requesterId = event.requesterId
+
+        changeUserCoupons(requesterId, orderLineEvents) { userCoupon -> userCoupon.changeToUsable() }
     }
 
     @Transactional
@@ -79,7 +92,7 @@ class CouponEventService(private val couponOutBoxRepository: CouponOutBoxReposit
         for (orderLineDto in orderLineDtos) {
 
             val midVerification = iterCheckCouponForOrder(orderLineDto, requesterId)
-            if(midVerification.not()) return false
+            if (midVerification.not()) return false
         }
 
         return true
@@ -112,12 +125,17 @@ class CouponEventService(private val couponOutBoxRepository: CouponOutBoxReposit
         return true
     }
 
-    private fun useUserCoupons(requesterId: Long, orderLineEvents: List<OrderLineCreatedEvent>) {
+    private fun changeUserCoupons(
+        requesterId: Long,
+        orderLineEvents: List<OrderLineCreatedEvent>,
+        couponStatusChanger: (UserCouponEntity) -> Unit,
+    ) {
 
         val userCouponIds = orderLineEvents.flatMap { it.userCouponIds!! }.toList()
         val userCoupons = userCouponRepository.findAllUsable(requesterId, userCouponIds)
         for (userCoupon in userCoupons) {
-            userCoupon.useCoupon()
+
+            couponStatusChanger.invoke(userCoupon)
         }
     }
 
