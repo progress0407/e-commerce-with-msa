@@ -50,7 +50,6 @@ class JwtManager(
                 is ExpiredJwtException,
                 is UnsupportedJwtException,
                 is DecodingException -> {
-                    log.info { e }
                     false
                 }
                 else -> {

@@ -2,6 +2,7 @@ package io.philo.shop.filter
 
 import io.philo.shop.JwtManager
 import io.philo.shop.constant.SecurityConstant.Companion.LOGIN_USER_ID
+import io.philo.shop.error.UnauthorizedException
 import org.springframework.cloud.gateway.filter.GatewayFilter
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
 import org.springframework.core.Ordered
@@ -21,7 +22,7 @@ class AuthorizationVerificationFilter(private val jwtManager: JwtManager) : Abst
 
         val accessToken = validateAndExtractAccessToken(exchange)
 
-        val userId = jwtManager.parse(accessToken)
+        val userId = accessToken.validateAndParse()
 //        val modifiedExchange = exchange setLoginUserId userId
         val modifiedRequest = exchange.request.mutate().header(LOGIN_USER_ID, userId).build()
         val modifiedExchange = exchange.mutate().request(modifiedRequest).build()
@@ -42,4 +43,11 @@ class AuthorizationVerificationFilter(private val jwtManager: JwtManager) : Abst
     private fun setLoginUserId(request: ServerHttpRequest, userId: String) {
         request.mutate().header(LOGIN_USER_ID, userId).build()
     }
+
+    private fun String.validateAndParse(): String =
+        try {
+            jwtManager.parse(this)
+        } catch (e: Exception) {
+            throw UnauthorizedException("유효하지 않은 토큰입니다.", e)
+        }
 }
