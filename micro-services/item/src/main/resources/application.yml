@@ -3,23 +3,19 @@ server.port: 8081
 spring:
   application:
     name: ITEM-SERVICE
+
   jpa:
     hibernate.ddl-auto: create-drop
+
+  config.import: # this is highlighted as red, but working normally
+    - classpath:/data-init-config.yml
+    - classpath:/rabbitmq.yml
 
   datasource:
     url: jdbc:mysql://localhost:3306/item-db?useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: item-user
     password: 1234
-
-  config.import: classpath:/data-init-config.yml  # this is highlighted as red, but working normally
-
-  rabbitmq:
-    host: localhost
-    port: 5672
-    virtual-host: /
-    username: guest
-    password: guest
 
 eureka:
   instance:
