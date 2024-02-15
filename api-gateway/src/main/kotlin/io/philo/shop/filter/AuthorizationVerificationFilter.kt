@@ -23,9 +23,7 @@ class AuthorizationVerificationFilter(private val jwtManager: JwtManager) : Abst
         val accessToken = validateAndExtractAccessToken(exchange)
 
         val userId = accessToken.validateAndParse()
-//        val modifiedExchange = exchange setLoginUserId userId
-        val modifiedRequest = exchange.request.mutate().header(LOGIN_USER_ID, userId).build()
-        val modifiedExchange = exchange.mutate().request(modifiedRequest).build()
+        val modifiedExchange = exchange setLoginUserId userId
 
         return proceedNextFilter(chain, modifiedExchange)
     }
