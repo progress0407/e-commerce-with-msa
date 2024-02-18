@@ -1,6 +1,6 @@
 package io.philo.shop.service
 
-import io.philo.shop.common.OrderCreatedVerifiedEvent
+import io.philo.shop.common.OrderChangedVerifiedEvent
 import io.philo.shop.domain.core.CouponRepository
 import io.philo.shop.domain.core.UserCouponEntity
 import io.philo.shop.domain.core.UserCouponRepository
@@ -44,7 +44,7 @@ class CouponEventService(
             changeUserCoupons(requesterId, orderLineEvents) { userCoupon -> userCoupon.useCoupon() }
         }
 
-        val outbox = CouponOutboxEntity(event.orderId, event.requesterId, couponVerification)
+        val outbox = CouponOutboxEntity(event.orderId, event.requesterId, false, couponVerification)
         couponOutBoxRepository.save(outbox)
     }
 
@@ -71,7 +71,7 @@ class CouponEventService(
         log.info { "브로커에 적재할 이벤트가 존재합니다." }
 
         val outBoxMap = outboxes.toMap()
-        val events = outboxes.map { OrderCreatedVerifiedEvent(it.traceId, it.verification) }.toList()
+        val events = outboxes.map { OrderChangedVerifiedEvent(it.traceId, it.verification) }.toList()
 
         for (event in events) {
             couponEventPublisher.publishEvent(event)

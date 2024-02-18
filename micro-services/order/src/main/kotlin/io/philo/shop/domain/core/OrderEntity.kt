@@ -54,6 +54,12 @@ class OrderEntity (
         orderHistories.add(OrderHistoryEntity(this, FAIL))
     }
 
+    fun completeToCanceled() {
+        this.orderStatus = CANCEL
+        orderHistories.add(OrderHistoryEntity(this, CANCEL))
+    }
+
+
     val isSuccess
         get() = orderStatus == SUCCESS
 

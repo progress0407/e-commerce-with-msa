@@ -14,7 +14,10 @@ class ItemOutboxEntity(
     requesterId: Long,
 
     @Column(nullable = false)
-    val verification: Boolean
+    val verification: Boolean,
+
+    @Column(nullable = false)
+    val isCompensatingTx: Boolean = false, // 보상 트랜잭션 여부
 
 ) : OutboxBaseEntity(traceId, requesterId) {
 

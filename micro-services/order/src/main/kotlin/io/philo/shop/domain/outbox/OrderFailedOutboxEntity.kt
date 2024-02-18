@@ -9,23 +9,23 @@ import jakarta.persistence.Entity
 import jakarta.persistence.Table
 
 /**
- * 주문 생성 후 이벤트 발행을 하기 위한 이벤트 저장 테이블
+ * 주문 실패 후 이벤트 발행을 하기 위한 이벤트 저장 테이블
  */
 @Entity
 @Table(name = "order_failed_outbox")
 class OrderFailedOutboxEntity(
 
-    traceId:Long,
+    traceId: Long,
 
-    requesterId:Long,
-
-    @Column(nullable = false)
-    val isCompensatingItem:Boolean,
+    requesterId: Long,
 
     @Column(nullable = false)
-    val isCompensatingOrder:Boolean
+    val isCompensatingItem: Boolean,
 
-) : OutboxBaseEntity(traceId, requesterId) {
+    @Column(nullable = false)
+    val isCompensatingOrder: Boolean,
+
+    ) : OutboxBaseEntity(traceId, requesterId) {
 
     @Column(nullable = false)
     var itemValidated: VerificationStatus = PENDING // 상품 서비스 유효성 체크
@@ -33,7 +33,7 @@ class OrderFailedOutboxEntity(
     @Column(nullable = false)
     var couponValidated: VerificationStatus = PENDING // 쿠폰 서비스 유효성 체크
 
-    protected constructor () : this(0L, 0L, false, true)
+    protected constructor () : this(traceId = 0L, requesterId = 0L, isCompensatingItem = false, isCompensatingOrder = false)
 
     fun changeItemValidated(verification: Boolean) {
         this.itemValidated = VerificationStatus.of(verification)

@@ -1,8 +1,7 @@
 package io.philo.shop.domain.outbox
 
 import io.philo.shop.common.VerificationStatus
-import io.philo.shop.common.VerificationStatus.PENDING
-import io.philo.shop.common.VerificationStatus.SUCCESS
+import io.philo.shop.common.VerificationStatus.*
 import io.philo.shop.entity.OutboxBaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -25,6 +24,7 @@ class OrderCreatedOutboxEntity(traceId:Long, requesterId:Long) : OutboxBaseEntit
     @Column(nullable = false)
     var couponValidated: VerificationStatus = PENDING // 쿠폰 서비스 유효성 체크
 
+
     protected constructor () : this(0L, 0L)
 
     fun changeItemValidated(verification: Boolean) {
@@ -37,4 +37,10 @@ class OrderCreatedOutboxEntity(traceId:Long, requesterId:Long) : OutboxBaseEntit
 
     val isSuccess: Boolean
         get() = itemValidated == SUCCESS && couponValidated == SUCCESS
+
+    val isCanceled: Boolean
+        get() = itemValidated == FAIL && couponValidated == FAIL
+
+    val isDone: Boolean
+        get() = itemValidated != PENDING && couponValidated != PENDING
 }

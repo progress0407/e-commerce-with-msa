@@ -1,12 +1,15 @@
 package io.philo.shop.domain.service
 
+import io.philo.shop.common.OrderChangedVerifiedEvent
 import io.philo.shop.domain.entity.ItemEntity
 import io.philo.shop.domain.outbox.ItemOutboxEntity
 import io.philo.shop.error.InAppException
+import io.philo.shop.messagequeue.producer.ItemEventPublisher
 import io.philo.shop.order.OrderChangedEvent
 import io.philo.shop.order.OrderLineCreatedEvent
 import io.philo.shop.repository.ItemOutBoxRepository
 import io.philo.shop.repository.ItemRepository
+import mu.KotlinLogging
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -14,7 +17,15 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class ItemEventService(private val itemOutBoxRepository: ItemOutBoxRepository, private val itemRepository: ItemRepository) {
+class ItemEventService(
+    private val itemOutBoxRepository: ItemOutBoxRepository,
+    private val itemRepository: ItemRepository,
+    private val itemEventPublisher: ItemEventPublisher,
+) {
+
+
+    private val log = KotlinLogging.logger { }
+
 
     /**
      * 상품에 대한 유효성 검증을 하고 Outbox 데이터를 넣습니다.
@@ -38,12 +49,45 @@ class ItemEventService(private val itemOutBoxRepository: ItemOutBoxRepository, p
 
         val itemMap = event.orderLineCreatedEvents.associateBy({ it.itemId }, { it.itemQuantity })
         increaseItems(itemMap)
+
+        val outbox = ItemOutboxEntity(event.orderId, event.requesterId, true, true)
+        itemOutBoxRepository.save(outbox)
+    }
+
+    @Transactional
+    fun loadEventToBroker() {
+
+        val outboxes = itemOutBoxRepository.findAllToNormalTx()
+        loadEventToBrokerInternal(outboxes) { event -> itemEventPublisher.publishEvent(event) }
+    }
+
+    @Transactional
+    fun loadCompensatingEventToBroker() {
+
+        val outboxes = itemOutBoxRepository.findAllToCompensatingTx()
+        loadEventToBrokerInternal(outboxes) { event -> itemEventPublisher.publishEventForFail(event) }
+    }
+
+    private fun loadEventToBrokerInternal(outboxes: List<ItemOutboxEntity>, publishEventLambda: (OrderChangedVerifiedEvent) -> Unit) {
+
+        if (outboxes.isNullOrEmpty())
+            return
+
+        log.info { "브로커에 적재할 이벤트가 존재합니다." }
+
+        val events = outboxes.convertToEvents()
+        val outboxMap = outboxes.associateBy { it.traceId }
+
+        for (event in events) {
+            publishEventLambda.invoke(event)
+            changeOutBoxStatusToLoad(outboxMap, event)
+        }
     }
 
     /**
      * 주문 전에 상품 가격이 맞는지, 현재 재고가 충분하지를 검증
      */
-    fun checkItemBeforeOrder(events: List<OrderLineCreatedEvent>): Boolean {
+    private fun checkItemBeforeOrder(events: List<OrderLineCreatedEvent>): Boolean {
 
         val itemIds = events.map { it.itemId }.toList()
         val items = itemRepository.findAllByIdIn(itemIds)
@@ -64,7 +108,7 @@ class ItemEventService(private val itemOutBoxRepository: ItemOutBoxRepository, p
                 return false
 
             // 재고 수량이 0 이하로 내려갈 수 없다
-            if(item.stockQuantity - request.itemQuantity < 0)
+            if (item.stockQuantity - request.itemQuantity < 0)
                 return false
         }
 
@@ -78,7 +122,7 @@ class ItemEventService(private val itemOutBoxRepository: ItemOutBoxRepository, p
      */
     private fun decreaseItems(itemMap: Map<Long, Int>) {
 
-        changeItemQuantity(itemMap) { item, quantity -> item.decreaseStockQuantity(quantity)}
+        changeItemQuantity(itemMap) { item, quantity -> item.decreaseStockQuantity(quantity) }
     }
 
     /**
@@ -88,7 +132,7 @@ class ItemEventService(private val itemOutBoxRepository: ItemOutBoxRepository, p
      */
     private fun increaseItems(itemMap: Map<Long, Int>) {
 
-        changeItemQuantity(itemMap) { item, quantity -> item.increaseStockQuantity(quantity)}
+        changeItemQuantity(itemMap) { item, quantity -> item.increaseStockQuantity(quantity) }
     }
 
     private fun changeItemQuantity(itemMap: Map<Long, Int>, changeQuantity: (ItemEntity, Int) -> Unit) {
@@ -118,5 +162,14 @@ class ItemEventService(private val itemOutBoxRepository: ItemOutBoxRepository, p
 
         // 그 이외의 경우는 허용하지 않습니다
         throw InAppException(HttpStatus.INTERNAL_SERVER_ERROR, "데이터 형태가 올바르지 않습니다.")
+    }
+
+    private fun List<ItemOutboxEntity>.convertToEvents(): List<OrderChangedVerifiedEvent> =
+        this.map { OrderChangedVerifiedEvent(it.traceId, it.verification) }
+
+    private fun changeOutBoxStatusToLoad(outboxMap: Map<Long, ItemOutboxEntity>, event: OrderChangedVerifiedEvent) {
+
+        val matchedOutBox = outboxMap[event.orderId]!!
+        matchedOutBox.load()
     }
 }

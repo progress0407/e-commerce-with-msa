@@ -14,9 +14,12 @@ class CouponOutboxEntity(
     requesterId: Long,
 
     @Column(nullable = false)
-    val verification: Boolean
+    val isCompensatingTx: Boolean = false, // 보상 트랜잭션 여부
 
-): OutboxBaseEntity(traceId, requesterId) {
+    @Column(nullable = false)
+    val verification: Boolean,
 
-    protected constructor() : this(0L, 0L, false)
+    ) : OutboxBaseEntity(traceId, requesterId) {
+
+    protected constructor() : this(traceId = 0L, requesterId = 0L, verification = false)
 }

@@ -13,6 +13,7 @@ import io.philo.shop.repository.OrderCreatedOutboxRepository
 import io.philo.shop.repository.OrderFailedOutboxRepository
 import io.philo.shop.repository.OrderRepository
 import mu.KotlinLogging
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -34,6 +35,9 @@ class OrderEventService(
 
         val outBox = orderCreatedOutBoxRepository.findByTraceId(orderId) ?: throw EntityNotFoundException(orderId)
         outBox.changeItemValidated(verification)
+        if (outBox.isDone) {
+            completeOrderEvent(outBox)
+        }
     }
 
     @Transactional
@@ -82,6 +86,38 @@ class OrderEventService(
 
         orderFailedOutBoxRepository.saveAll(failedOutboxes)
     }
+
+    @Transactional
+    fun completeOrderEvent(outbox: OrderCreatedOutboxEntity) {
+
+        val orderId = outbox.traceId
+        val order = orderRepository.findByIdOrNull(orderId) ?: throw EntityNotFoundException(orderId)
+
+        // 이벤트 처리 및 outbox 데이터 제거
+        if (outbox.isSuccess)
+            order.completeToSuccess()
+        else if(outbox.isCanceled)
+            order.completeToFail()
+        orderCreatedOutBoxRepository.delete(outbox)
+
+        // 실패한 이벤트 존재시 보상 트랜잭션 발송 준비
+        // 유효성 검증을 통과한 마이크로 서비스에 보상 트랜잭션을 보낸다
+        val failedOutbox = OrderFailedOutboxEntity(
+            traceId = orderId,
+            requesterId = outbox.requesterId,
+            isCompensatingItem = outbox.itemValidated.toBool,
+            isCompensatingOrder = outbox.couponValidated.toBool
+        )
+        orderFailedOutBoxRepository.save(failedOutbox)
+    }
+
+    @Transactional
+    fun processAfterItemVerificationForFail(orderId: Long, verification: Boolean) {
+
+        val outBox = orderCreatedOutBoxRepository.findByTraceId(orderId) ?: throw EntityNotFoundException(orderId)
+        outBox.changeItemValidated(verification)
+    }
+
 
     /**
      * 주문 생성 이벤트를 브로커에 적재한다
