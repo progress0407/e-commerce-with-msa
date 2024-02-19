@@ -1,3 +1,7 @@
+allprojects {
+    jar.enabled = false
+}
+
 subprojects {
     apply from: rootProject.file('module-dependencies/micro-service.gradle')
 

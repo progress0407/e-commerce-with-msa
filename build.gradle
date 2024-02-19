@@ -14,6 +14,8 @@ allprojects {
     version = '0.0.1-SNAPSHOT'
     sourceCompatibility = '17'
 
+    jar.enabled = false
+
     repositories {
         mavenCentral()
     }
@@ -43,7 +45,7 @@ subprojects {
     apply plugin: 'org.jetbrains.kotlin.plugin.allopen'
 
     bootJar.enabled = true
-    jar.enabled = true
+    jar.enabled = false
 
     dependencies {
         // Kotlin
@@ -139,7 +141,6 @@ project(':api-gateway') {
 
 project(':common:general') {
     bootJar.enabled = false
-    jar.enabled = true
 
     apply from: rootProject.file('module-dependencies/micro-service.gradle')
 
@@ -153,7 +154,6 @@ project(':common:general') {
 
 project(':common:event') {
     bootJar.enabled = false
-    jar.enabled = true
 
 //    apply from: rootProject.file('module-dependencies/micro-service.gradle')
 
@@ -170,7 +170,6 @@ project(':common:event') {
 
 project(':common:rest-client') {
     bootJar.enabled = false
-    jar.enabled = true
 
 //    apply from: rootProject.file('module-dependencies/micro-service.gradle')
 
@@ -187,7 +186,6 @@ project(':common:rest-client') {
 
 project(':common:security') {
     bootJar.enabled = false
-    jar.enabled = true
 
     dependencies {
         implementation project(':common:general')
