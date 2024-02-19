@@ -44,7 +44,7 @@ class CouponEventService(
             changeUserCoupons(requesterId, orderLineEvents) { userCoupon -> userCoupon.useCoupon() }
         }
 
-        val outbox = CouponOutboxEntity(event.orderId, event.requesterId, false, couponVerification)
+        val outbox = CouponOutboxEntity(event.orderId, event.requesterId, isCompensatingTx = false, couponVerification)
         couponOutBoxRepository.save(outbox)
     }
 
@@ -58,12 +58,25 @@ class CouponEventService(
         val requesterId = event.requesterId
 
         changeUserCoupons(requesterId, orderLineEvents) { userCoupon -> userCoupon.changeToUsable() }
+        val outbox = CouponOutboxEntity(event.orderId, event.requesterId, isCompensatingTx = true, verification = true)
+        couponOutBoxRepository.save(outbox)
     }
 
     @Transactional
     fun loadEventToBroker() {
 
-        val outboxes = couponOutBoxRepository.findAllByLoadedIsFalse()
+        val outboxes = couponOutBoxRepository.findAllToNormalTx()
+        loadEventToBrokerInternal(outboxes) { event -> couponEventPublisher.publishEvent(event) }
+    }
+
+    @Transactional
+    fun loadCompensatingEventToBroker() {
+
+        val outboxes = couponOutBoxRepository.findAllToCompensatingTx()
+        loadEventToBrokerInternal(outboxes) { event -> couponEventPublisher.publishEventForFail(event) }
+    }
+
+    private fun loadEventToBrokerInternal(outboxes: List<CouponOutboxEntity>, publishEventLambda: (OrderChangedVerifiedEvent) -> Unit) {
 
         if (outboxes.isNullOrEmpty())
             return
@@ -74,7 +87,7 @@ class CouponEventService(
         val events = outboxes.map { OrderChangedVerifiedEvent(it.traceId, it.verification) }.toList()
 
         for (event in events) {
-            couponEventPublisher.publishEvent(event)
+            publishEventLambda.invoke(event)
 
             val matchedOutBox = outBoxMap[event.orderId]!!
             matchedOutBox.load()

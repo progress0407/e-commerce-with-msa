@@ -14,4 +14,10 @@ class CouponEventLoader(private val couponEventService: CouponEventService) {
     fun loadEventToBroker() {
         couponEventService.loadEventToBroker()
     }
+
+    @Scheduled(fixedDelay = 1_000)
+    fun loadCompensatingEventToBroker() {
+        couponEventService.loadCompensatingEventToBroker()
+    }
+
 }

@@ -1,5 +1,6 @@
 package io.philo.shop.messagequeue
 
+import io.philo.shop.CouponRabbitProperty.Companion.COUPON_VERIFY_FAIL_RES_QUEUE_NAME
 import io.philo.shop.CouponRabbitProperty.Companion.COUPON_VERIFY_RES_QUEUE_NAME
 import io.philo.shop.application.OrderEventService
 import io.philo.shop.common.OrderChangedVerifiedEvent
@@ -20,7 +21,11 @@ class OrderEventListener(private val orderEventService: OrderEventService) {
     @RabbitListener(queues = [ITEM_VERIFY_RES_QUEUE_NAME])
     fun listenItemVerification(event: OrderChangedVerifiedEvent) {
 
-        orderEventService.processAfterItemVerification(event.orderId, event.verification)
+        try {
+            orderEventService.processAfterItemVerification(event.orderId, event.verification)
+        } catch (e: Exception) {
+            log.error { e }
+        }
     }
 
     /**
@@ -29,13 +34,37 @@ class OrderEventListener(private val orderEventService: OrderEventService) {
     @RabbitListener(queues = [COUPON_VERIFY_RES_QUEUE_NAME])
     fun listenCouponVerification(event: OrderChangedVerifiedEvent) {
 
-        orderEventService.processAfterCouponVerification(event.orderId, event.verification)
+        try {
+            orderEventService.processAfterCouponVerification(event.orderId, event.verification)
+        } catch (e: Exception) {
+            log.error { e }
+        }
     }
 
+    /**
+     * 상품 검증 이벤트 수신처 (보상 트랜잭션)
+     */
     @RabbitListener(queues = [ITEM_VERIFY_FAIL_RES_QUEUE_NAME])
-    fun listenItemFailVerification(event: OrderChangedVerifiedEvent) {
+    fun listenItemVerificationForFail(event: OrderChangedVerifiedEvent) {
 
-        orderEventService.processAfterItemVerification(event.orderId, event.verification)
+        try {
+            orderEventService.processAfterItemVerificationForFail(event.orderId)
+        } catch (e: Exception) {
+            log.error { e }
+        }
+    }
+
+    /**
+     * 쿠폰 검증 이벤트 수신처 (보상 트랜잭션)
+     */
+    @RabbitListener(queues = [COUPON_VERIFY_FAIL_RES_QUEUE_NAME])
+    fun listenCouponVerificationForFail(event: OrderChangedVerifiedEvent) {
+
+        try {
+            orderEventService.processAfterCouponVerificationForFail(event.orderId)
+        } catch (e: Exception) {
+            log.error { e }
+        }
     }
 
 }

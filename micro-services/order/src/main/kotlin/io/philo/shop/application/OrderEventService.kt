@@ -35,9 +35,11 @@ class OrderEventService(
 
         val outBox = orderCreatedOutBoxRepository.findByTraceId(orderId) ?: throw EntityNotFoundException(orderId)
         outBox.changeItemValidated(verification)
+/*
         if (outBox.isDone) {
-            completeOrderEvent(outBox)
+            processOrderCreatedVerified(outBox)
         }
+*/
     }
 
     @Transactional
@@ -45,6 +47,35 @@ class OrderEventService(
 
         val outBox = orderCreatedOutBoxRepository.findByTraceId(orderId) ?: throw EntityNotFoundException(orderId)
         outBox.changeCouponValidated(verification)
+/*
+        if (outBox.isDone) {
+            processOrderCreatedVerified(outBox)
+        }
+*/
+    }
+
+    @Transactional
+    fun processAfterItemVerificationForFail(orderId: Long) {
+
+        val outBox = orderFailedOutBoxRepository.findByTraceId(orderId) ?: throw EntityNotFoundException(orderId)
+        outBox.changeItemValidated(true)
+/*
+        if (outBox.isDone) {
+            processOrderFailedEvent(outBox)
+        }
+*/
+    }
+
+    @Transactional
+    fun processAfterCouponVerificationForFail(orderId: Long) {
+
+        val outBox = orderFailedOutBoxRepository.findByTraceId(orderId) ?: throw EntityNotFoundException(orderId)
+        outBox.changeCouponValidated(true)
+/*
+        if (outBox.isDone) {
+            processOrderFailedEvent(outBox)
+        }
+*/
     }
 
     /**
@@ -54,11 +85,11 @@ class OrderEventService(
      * - 실패한 경우: 실패(FAIL) 상태로 변경하고 보상 트랜잭션 발송을 위해 outbox에 record를 적재한다
      */
     @Transactional
-    fun completeOrderEvent() {
+    fun processOrderCreatedVerified() {
 
         val outboxes = orderCreatedOutBoxRepository.findAllToCompleteEvent()
 
-        if (outboxes.isNullOrEmpty())
+        if (outboxes.isEmpty())
             return
 
         log.info { "완료할 이벤트가 존재합니다." }
@@ -77,18 +108,39 @@ class OrderEventService(
         }
         orderCreatedOutBoxRepository.deleteAll(outboxes)
 
-        // 실패한 이벤트 존재시 보상 트랜잭션 발송 준비
-        // 유효성 검증을 통과한 마이크로 서비스에 보상 트랜잭션을 보낸다
         val failedOrders = orders.filter { it.isFail }.toList()
         if (failedOrders.isEmpty())
             return
+        // 실패한 이벤트 존재시 보상 트랜잭션 발송 준비. verification이 true인 마이크로 서비스에 보상 트랜잭션을 보낸다
         val failedOutboxes = toFailedOutBoxes(failedOrders, outBoxMap)
 
         orderFailedOutBoxRepository.saveAll(failedOutboxes)
     }
 
     @Transactional
-    fun completeOrderEvent(outbox: OrderCreatedOutboxEntity) {
+    fun processOrderFailedEvent() {
+
+        val outboxes = orderFailedOutBoxRepository.findAllToCompleteEvent()
+
+        if (outboxes.isEmpty())
+            return
+
+        log.info { "완료할 이벤트가 존재합니다." }
+
+        val outBoxMap = outboxes.associateBy { it.traceId }
+        val orderIds = outboxes.map { it.traceId }.toList()
+        val orders = orderRepository.findAllByIdIn(orderIds)
+
+        // 이벤트 처리 및 outbox 데이터 제거
+        for (order in orders) {
+            order.completeToCanceled()
+        }
+        orderFailedOutBoxRepository.deleteAll(outboxes)
+    }
+
+
+    @Transactional
+    fun processOrderCreatedVerified(outbox: OrderCreatedOutboxEntity) {
 
         val orderId = outbox.traceId
         val order = orderRepository.findByIdOrNull(orderId) ?: throw EntityNotFoundException(orderId)
@@ -96,28 +148,28 @@ class OrderEventService(
         // 이벤트 처리 및 outbox 데이터 제거
         if (outbox.isSuccess)
             order.completeToSuccess()
-        else if(outbox.isCanceled)
+        else
             order.completeToFail()
         orderCreatedOutBoxRepository.delete(outbox)
 
-        // 실패한 이벤트 존재시 보상 트랜잭션 발송 준비
-        // 유효성 검증을 통과한 마이크로 서비스에 보상 트랜잭션을 보낸다
-        val failedOutbox = OrderFailedOutboxEntity(
-            traceId = orderId,
-            requesterId = outbox.requesterId,
-            isCompensatingItem = outbox.itemValidated.toBool,
-            isCompensatingOrder = outbox.couponValidated.toBool
-        )
-        orderFailedOutBoxRepository.save(failedOutbox)
+        // 실패한 이벤트 존재시 보상 트랜잭션 발송 준비. verification이 true인 마이크로 서비스에 보상 트랜잭션을 보낸다
+        if (outbox.isSuccess.not()) {
+            val failedOutbox = OrderFailedOutboxEntity.of(orderId, outbox)
+            orderFailedOutBoxRepository.save(failedOutbox)
+        }
     }
 
-    @Transactional
-    fun processAfterItemVerificationForFail(orderId: Long, verification: Boolean) {
+    private fun processOrderFailedEvent(outbox: OrderFailedOutboxEntity) {
 
-        val outBox = orderCreatedOutBoxRepository.findByTraceId(orderId) ?: throw EntityNotFoundException(orderId)
-        outBox.changeItemValidated(verification)
+        val orderId = outbox.traceId
+        val order = orderRepository.findByIdOrNull(orderId) ?: throw EntityNotFoundException(orderId)
+
+        // 이벤트 처리 및 outbox 데이터 제거
+        if (outbox.isCanceled) {
+            order.completeToCanceled()
+        }
+        orderFailedOutBoxRepository.delete(outbox)
     }
-
 
     /**
      * 주문 생성 이벤트를 브로커에 적재한다
@@ -139,9 +191,34 @@ class OrderEventService(
     fun loadCompensatingEventToBroker() {
 
         val orderFailedOutboxes = orderFailedOutBoxRepository.findAllByLoadedIsFalse()
-        loadEventToBrokerInternal(orderFailedOutboxes) { event ->
-            orderEventPublisher.publishReverseEventToItemServer(event)
-            orderEventPublisher.publishReverseEventToCouponServer(event)
+        /*
+                loadEventToBrokerInternal(orderFailedOutboxes) { event ->
+                    orderEventPublisher.publishReverseEventToItemServer(event)
+                    orderEventPublisher.publishReverseEventToCouponServer(event)
+                }
+        */
+
+        if (orderFailedOutboxes.isNullOrEmpty())
+            return
+
+        log.info { "브로커에 적재할 이벤트가 존재합니다." }
+
+        val orderIds = orderFailedOutboxes.extractIds()
+        val orderIdToRequesterIdMap = orderFailedOutboxes.orderIdToRequesterIdMap()
+        val orderEntities = orderRepository.findAllByIdIn(orderIds)
+        val events = convertToEvents(orderEntities, orderIdToRequesterIdMap)
+
+        for (event in events) {
+            val outbox = orderFailedOutboxes.find { it.traceId == event.orderId } ?: throw RuntimeException()
+
+            if (outbox.isCompensatingItem) {
+                orderEventPublisher.publishReverseEventToItemServer(event)
+            }
+            if (outbox.isCompensatingCoupon) {
+                orderEventPublisher.publishReverseEventToCouponServer(event)
+            }
+
+            outbox.load()
         }
     }
 
@@ -186,7 +263,7 @@ class OrderEventService(
             traceId = orderId,
             requesterId = requesterId,
             isCompensatingItem = outbox.itemValidated.toBool,
-            isCompensatingOrder = outbox.couponValidated.toBool
+            isCompensatingCoupon = outbox.couponValidated.toBool
         )
     }
 
@@ -198,8 +275,8 @@ class OrderEventService(
      */
     private fun changeOutboxStatusToLoad(outboxes: List<OutboxBaseEntity>, event: OrderChangedEvent) {
 
-        val matchedOutBox = outboxes.find { it.id == event.orderId }!!
-        matchedOutBox.load()
+        val matchedOutbox = outboxes.find { it.id == event.orderId }!!
+        matchedOutbox.load()
     }
 
     private fun List<OutboxBaseEntity>.extractIds() =
@@ -247,4 +324,15 @@ class OrderEventService(
             userCouponIds = couponIds
         )
     }
+
+    private fun OrderFailedOutboxEntity.Companion.of(
+        orderId: Long,
+        outbox: OrderCreatedOutboxEntity,
+    ) = OrderFailedOutboxEntity(
+        traceId = orderId,
+        requesterId = outbox.requesterId,
+        isCompensatingItem = outbox.itemValidated.toBool,
+        isCompensatingCoupon = outbox.couponValidated.toBool
+    )
+
 }

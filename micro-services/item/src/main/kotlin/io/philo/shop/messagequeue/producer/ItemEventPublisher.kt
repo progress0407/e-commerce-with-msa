@@ -6,6 +6,8 @@ import io.philo.shop.domain.entity.ItemEntity
 import io.philo.shop.item.ItemCreatedEvent
 import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_REPLICA_FOR_COUPON_RES_EXCHANGE_NAME
 import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_REPLICA_FOR_COUPON_RES_ROUTING_KEY
+import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_VERIFY_FAIL_RES_EXCHANGE_NAME
+import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_VERIFY_FAIL_RES_ROUTING_KEY
 import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_VERIFY_RES_EXCHANGE_NAME
 import io.philo.shop.item.ItemRabbitProperty.Companion.ITEM_VERIFY_RES_ROUTING_KEY
 import org.springframework.amqp.rabbit.core.RabbitTemplate
@@ -16,29 +18,17 @@ class ItemEventPublisher(private val rabbitTemplate: RabbitTemplate) {
     /**
      * 주문 성공시 검증 요청한 값 전송
      */
-    fun publishEvent(event: OrderChangedVerifiedEvent) {
-
-        publishEventToBroker(event)
-    }
+    fun publishEvent(event: OrderChangedVerifiedEvent) =
+        rabbitTemplate.convertAndSend(ITEM_VERIFY_RES_EXCHANGE_NAME, ITEM_VERIFY_RES_ROUTING_KEY, event)
 
     /**
      * 주문 실패시 검증 요청한 값 전송
      */
-    fun publishEventForFail(event: OrderChangedVerifiedEvent) {
-
-        publishEventToBrokerForFail(event)
-    }
+    fun publishEventForFail(event: OrderChangedVerifiedEvent) =
+        rabbitTemplate.convertAndSend(ITEM_VERIFY_FAIL_RES_EXCHANGE_NAME, ITEM_VERIFY_FAIL_RES_ROUTING_KEY, event)
 
     fun publishEvent(event: ItemCreatedEvent) =
         rabbitTemplate.convertAndSend(ITEM_REPLICA_FOR_COUPON_RES_EXCHANGE_NAME, ITEM_REPLICA_FOR_COUPON_RES_ROUTING_KEY, event)
-
-
-    private fun publishEventToBroker(event: OrderChangedVerifiedEvent) =
-        rabbitTemplate.convertAndSend(ITEM_VERIFY_RES_EXCHANGE_NAME, ITEM_VERIFY_RES_ROUTING_KEY, event)
-
-    private fun publishEventToBrokerForFail(event: OrderChangedVerifiedEvent) {
-        rabbitTemplate.convertAndSend(ITEM_VERIFY_RES_EXCHANGE_NAME, ITEM_VERIFY_RES_ROUTING_KEY, event)
-    }
 
 
     private fun publishEventToBroker(message: ItemCreatedEvent, routingKey: String) =

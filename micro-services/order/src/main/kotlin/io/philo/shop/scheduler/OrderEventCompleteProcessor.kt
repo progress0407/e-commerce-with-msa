@@ -14,8 +14,15 @@ class OrderEventCompleteProcessor(private val orderEventService: OrderEventServi
     private val log = KotlinLogging.logger { }
 
     @Scheduled(fixedDelay = 1_000)
-    fun completeOrderEvent() {
+    fun processOrderCreatedEvent() {
 
-        orderEventService.completeOrderEvent()
+        orderEventService.processOrderCreatedVerified()
     }
+
+    @Scheduled(fixedDelay = 1_000)
+    fun processOrderFailedEvent() {
+
+        orderEventService.processOrderFailedEvent()
+    }
+
 }

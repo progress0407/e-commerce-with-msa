@@ -50,7 +50,7 @@ class ItemEventService(
         val itemMap = event.orderLineCreatedEvents.associateBy({ it.itemId }, { it.itemQuantity })
         increaseItems(itemMap)
 
-        val outbox = ItemOutboxEntity(event.orderId, event.requesterId, true, true)
+        val outbox = ItemOutboxEntity(event.orderId, event.requesterId, verification = true, isCompensatingTx = true)
         itemOutBoxRepository.save(outbox)
     }
 
