@@ -1,19 +1,48 @@
 # e-commerce with MSA
 
-> MSA에 대한 Best Practice 보다는 탐구 목적에 가깝게 개발하였습니다.
+> MSA에 대한 Best Practice 보다는 탐구 목적에 가깝게 개발하였습니다    
+> 성공적인, 훌륭한 프로젝트는 아님을 말씀드립니다. 해당 프로젝트를 Good Practice로 삼으면 안됩니다  
+> [Chris Richardson의 Microservices Patterns](https://www.amazon.com/Microservices-Patterns-examples-Chris-Richardson/dp/1617294543)에서 나오는
+> 가상의 Food 서비스의 내용을 생각하며 되짚어본 프로젝트입니다
 
 ## 프로젝트 설명
 
-| 모듈 명        | 한글 뜻          | 설명                                                                                   |
-|-------------|---------------|--------------------------------------------------------------------------------------|
-| eureka      | 서비스<br/>디스커버리 | 마이크로 서비스를 이름을 통해 실제 IP, Port를 찾을 수 있게 한다                                             |
-| api-gateway | 게이트웨이         | 각 마이크로 서비스를 라우팅하고<br/>인가/로깅 등의 부가 기능을 수행한다 (reverse-proxy)                           |
-| user        | 사용자·인증        | 사용자에 대한 정보를 담당하고 인증에 대한 역할을 가지는 서비스                                                  |
-| item        | 상품            | 상품을 관리하는 서비스<br/> Command 기능의 경우 상품 관리자가 이용하는 서비스                                    |
-| coupon      | 쿠폰            | 상품 할인에 대한 쿠폰 관리하는 서비스 <br/>고정 할인 / 비율 할인이 있다                                         |
-| order       | 주문            | 상품들에 대한 주문을 관리하는 서비스                                                                 |
-| payment     | 결제            | (`검토 예정`) PG사를 통해 결제를 하는 서비스 <br/>(실제로는 PG 연동을 하지 않고 모의 상황을 가정했다)                    |
-| query       | 조회            | (`구현 예정`) BFF, 클라이언트를 위한 조회 서비스 <br/>여러 마이크로 서비스 테이블 정보가 필요한 복잡한 쿼리(통계 등)는 이곳에서 담당한다 |
+| 모듈 명        | 한글 뜻          | 쉬운 설명                                                                                                    |
+|-------------|---------------|----------------------------------------------------------------------------------------------------------|
+| eureka      | 서비스<br/>디스커버리 | 마이크로 서비스를 이름을 통해 실제 IP, Port를 찾을 수 있게 한다 (DNS의 개념)<br/>마이크로서비스 간의 약한 결합을 가능하게 해준다                        |
+| api-gateway | 게이트웨이         | 각 마이크로 서비스를 라우팅(`길찾기`)하고<br/>인가/로깅 등의 부가 기능(`edge`)을 수행한다 (reverse-proxy)                                |
+| user        | 사용자·인증        | `사용자 정보`를 관리하고 인증을 담당(`접근 권한 발급`)하는 서비스                                                                  |
+| item        | 상품            | `상품`을 관리하는 서비스<br/> Command(등록, 수정, 삭제)의 경우 상품 관리자가 이용한다고 가정했다                                           |
+| coupon      | 쿠폰            | 상품 `할인 쿠폰` 관리하는 서비스 <br/>`고정` 할인 / `비율` 할인이 있다                                                           |
+| order       | 주문            | 상품들에 대한 `주문`을 관리하는 서비스                                                                                   |
+| payment     | 결제            | (`검토 예정 -> 현재 보류`) PG사를 통해 `결제`를 하는 서비스 <br/>(실제로는 PG 연동을 하지 않고 모의 상황을 가정했다)                             |
+| query       | 조회            | (`구현 예정`) BFF, 클라이언트를 위한 조회 서비스 <br/>여러 마이크로서비스의 Datasource가 필요한 Read(통계 등)는 이곳에서 담당한다 <br/>이벤트 소싱 방식 채택 |
+
+## 하위 도메인 관계도 (Context Map)
+
+<img width="505" alt="image" src="https://github.com/progress0407/progress0407/assets/66164361/19f8b017-2f10-4abd-a5f7-937139e0e497">
+
+- 본디 이루어졌어야 할 논리적인 도표이며 실제 프로젝트 내부는 메세지큐에 상호 의존성이 존재
+  - 자세한 내용은 아래에 기술
+- user는 모든 도메인의 Upstream이다
+
+## 요청 흐름
+
+### 주문 요청이 성공한 경우
+
+<details>
+    <summary>도표</summary>
+    <img width="600" alt="image" src="https://github.com/progress0407/progress0407/assets/66164361/80dd421e-cf98-4e93-a0cb-52ca4f61b73e">
+</details>
+
+<br>
+
+### 주문 요청이 실패한 경우
+
+<details>
+    <summary>도표</summary>
+    <img width="600" alt="image" src="https://github.com/progress0407/progress0407/assets/66164361/54cc8595-e284-41b2-9646-4b48334fc725">
+</details>
 
 ## 고민한 점
 
@@ -42,7 +71,9 @@
     - 로컬 트랜잭션
         - 조회시 버전 증가 잠금을 통해 애그리거트의 정합성이 깨질 위험을 방지
             - 애그리거트 루트가 아닌 구성요소가 바뀌는 경우 고려
-- 실제 사용자 use-case를 고려하여 API를 설계
+- 조회 모델 분리 (`구현 예정`)
+    - 조회 담당 서버를 분리하여 각 마이크로서비스에서 발생한 변경분을 replay하여 데이터를 구성 (이벤트 소싱)
+- 사용자 use-case를 고려하여 API를 설계
     - 무신사, 쿠팡 등의 e-commerce을 참고하여, 실제 사용자의 API 호출을 가정하여 작성
 
 ## 이 프로젝트의 한계
@@ -75,6 +106,11 @@
 
 ## 작업 체크 리스트
 
+<details>
+    <summary>
+        자세히
+    </summary>
+
 - [x] (마이그레이션) [기존 DDD 프로젝트](https://github.com/progress0407/code-review-simple-orders) (import by `Git Subtree`)
 - [x] Java -> `Kotlin` 으로 언어 변경
 - [x] Library 버전 최신화 (to Spring Boot 3.x)
@@ -85,7 +121,9 @@
 - [x] RabbitMQ 연동 후 주문 상품 이벤트 pub-sub 개발
 - [x] H2 -> MySQL로 DB 변경
 - [ ] RabbitMQ -> Kafka로 전환
-- [x] (마이그레이션) [User Module](https://github.com/progress0407/intergrated-study/tree/main/0.%20study/1.%20alone/%5BMSA%5D%20Spring%20Cloud%20MicroService/leedowon-msa-project/user-service)가져오기
+- [x] (
+  마이그레이션) [User Module](https://github.com/progress0407/intergrated-study/tree/main/0.%20study/1.%20alone/%5BMSA%5D%20Spring%20Cloud%20MicroService/leedowon-msa-project/user-service)
+  가져오기
 - [x] 쿠폰 Module 개발
 - [x] `Neflix Passport` 구현
     - 보류 (동기 호출시 Blocking 예외 발생)
@@ -97,9 +135,12 @@
 - [x] `repository.saveAll()`에서 `data.sql` 로 초기화하는 구조로 변경
 - [x] Item -> Coupon, 상품 Semi 데이터 이벤트 발송 기능 구현
 - [ ] 마이크로 서비스 내 애그리거트 트랜잭션 충돌 방지
-      - 애그리거트 내 구성요소가 바뀔 경우 고려
-      - 애그리거트 수정시 조회 메서드에 LockModeType.OPTIMISTIC_FORCE_INCREMENT 적용
+    - 애그리거트 내 구성요소가 바뀔 경우 고려
+    - 애그리거트 수정시 조회 메서드에 LockModeType.OPTIMISTIC_FORCE_INCREMENT 적용
 - [x] Order <-> Coupon, Item 보상 트랜잭션 발신, 송신 구현
 - [x] Canceled 상태 추가 및 로직 구현
 - [ ] Order 바운디드 컨텍스트에 Orderer 추가
 - [ ] k8s 배포 스크립트 작성
+
+</details>
+
