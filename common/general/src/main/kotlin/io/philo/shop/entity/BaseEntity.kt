@@ -11,7 +11,11 @@ abstract class BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null
+    @Column(name = "id")
+    private var _id: Long? = null
+    val id: Long
+        get() = _id!!
+
 
     @field:CreatedDate
     @field:Column(nullable = false)

@@ -22,7 +22,7 @@ class UserService(private val jwtManager: JwtManager, private val repository: Us
 
         repository.save(userEntity)
 
-        return userEntity.id!!
+        return userEntity.id
     }
 
     fun login(inputEmail: String, inputPassword: String): String {
@@ -50,7 +50,7 @@ class UserService(private val jwtManager: JwtManager, private val repository: Us
             if (userEntity == null) {
                 UserPassportResponse.OfInvalid()
             } else {
-                UserPassportResponse.OfValid(userEntity.id!!, userEntity.name, userEntity.email)
+                UserPassportResponse.OfValid(userEntity.id, userEntity.name, userEntity.email)
             }
         } else {
             UserPassportResponse.OfInvalid()
